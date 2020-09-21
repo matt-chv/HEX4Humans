@@ -15,7 +15,7 @@ csv format
 
 | Register Long Name|Register Short Name|Register Page|Register Address|Bit Field Number|Bit Field Name|Bit Field Reset Value|Bit Field Description|Bit Field Enumerations|
 |-------------------|-------------------|-------------|----------------|----------------|----------|---------------------|---------------------|----------------------|
-| Control|CTRL|0|0x0000|15|Reset|1b0|"PHY Software Reset: Writing a 1 to this bit resets the PHY PCS registers. When the reset operation is completed, this bit is cleared to 0 automatically. PHY Vendor Specific registers will not be cleared. 1h = Initiate software Reset / Reset in Progress 0h = Normal Operation"|
+| Control|CTRL|0|0x0000|15|Reset|1b0|"PHY Software Reset: Writing a 1 to this bit resets the PHY PCS registers. When the reset operation is completed, this bit is cleared to 0 automatically. PHY Vendor Specific registers will not be cleared." | 1h = "Initiate software Reset / Reset in Progress" 0h = "Normal Operation"|
 
 ### Example #2 - ADS1220
 Coming
