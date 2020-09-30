@@ -1,4 +1,4 @@
-# HEXRegisters2Text
+# Hex4Humans
 Convert register dumps in hex format to html including bitfield values and meanings.
 
 Relies on:
