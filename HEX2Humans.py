@@ -8,7 +8,12 @@ v0.0.1a (2020-09-17): generates fixed address reports in csv and htm
             int: the bit position of the given bit-field
             str: two int separated by a '-' minus sign to indicate a range of bit positions e.g. 6-4 is bit 6 to bit 4 included
         BF_NAME: str (the name of the bit field)
-        BF_MEANING: str (the different values of the bit-field and their respective meaning)
+        BF_MEANINGS: str (the different values of the bit-field and their respective meaning)
+            format options
+             0h = description
+                start with hex number then h then = then description - one in many values of enumeration
+             xh = description
+                starts with 'x' : meaning data not bitfield meaning
         BF_RESET_VAL: str (reset value(s))
     2) a text dump file with mutiple lines with following format
         Register 0016 is: 0100
@@ -26,17 +31,18 @@ python HEX2Human.py --test=Y
 #STANDARD MODULES
 import argparse
 import logging
-from os.path import abspath,join,pardir
+from os.path import abspath,basename,exists,join,pardir
 from os import environ
 
 #PIP INSTALLED
 import pandas as pd
+from numpy import isnan, nan
 
 REG_ADD = "Register Address"
 REG_NAME = "Register Long Name"
 BF_NUMBER = "Bit Field Number"
 BF_NAME = "Bit Field Name"
-BF_MEANING = "Bit Field Enumerations"
+BF_MEANINGS = "Bit Field Enumerations"
 BF_RESET_VAL = "Bit Field Reset Value"
 #
 REG_VALUE = "Register Value"
@@ -45,14 +51,14 @@ REG_VALUE = "Register Value"
 def load_regmap(fp):
     """ Returns a panda DataFrame with the register and bitfield definition """
     df = pd.read_csv(fp)
-    df[REG_ADD] = df[REG_ADD].str.upper() 
-    df[BF_MEANING]=df[BF_MEANING].fillna("")
-    return df[[REG_ADD,REG_NAME,BF_NUMBER,BF_NAME,BF_MEANING,BF_RESET_VAL]]
+    df[REG_ADD] = df[REG_ADD].str.lower() 
+    df[BF_MEANINGS]=df[BF_MEANINGS].fillna("")
+    return df[[REG_ADD,REG_NAME,BF_NUMBER,BF_NAME,BF_MEANINGS,BF_RESET_VAL]]
 
 def load_regdump(fp):
     """ load register dump from csv file formatted in 2 columns REG_ADD | REG_VAL """
     df = pd.read_csv(fp)
-    df[REG_ADD] = df[REG_ADD].str.upper() 
+    df[REG_ADD] = df[REG_ADD].str.lower() 
     return df[[REG_ADD,REG_VALUE]]
 
 
@@ -66,7 +72,13 @@ def bf(x):
     res: str
         the bit field value from within the register
     """
-    reg_val = int(x[REG_VALUE][2:],16)  
+    try:
+        reg_val = int(x[REG_VALUE][2:],16)  
+    except:
+        if isnan(x[REG_VALUE]):
+            return nan
+        else:
+            raise
 
     if str(x[BF_NUMBER]).find("..")>0:
         min = int(x[BF_NUMBER].split("..")[1])
@@ -78,39 +90,85 @@ def bf(x):
         mask = (1<<int(x[BF_NUMBER])) 
         res = mask & reg_val
         res = res >> int(x[BF_NUMBER])
-
     return res
+
+def hex_bf_to_text(regmap_line,):
+    """ return the text description associated with the BitField value"""
+    bf_values = regmap_line[BF_MEANINGS].split("\n")
+    bf_dict = {}
+    if len(bf_values)>1 and not isnan(regmap_line["DUMP"]):
+        bf_hex_value = int(regmap_line["DUMP"])
+
+        for v in bf_values:
+            key, val = v.split(" = ")
+            key = key.split("h")[0]
+            if key =="x":
+                return val
+            else:
+                bf_dict[int(key.split("h")[0],16)]=val
+        return bf_dict[bf_hex_value]
+    else:
+        return ""
 
 def deobfuscate_dumps(**args):
     registers = {}
-    df_regdump = load_regdump(args["regdump"])
     df = load_regmap(args["regmap"])
+    reg_val_columns = []
+    bf_val_columns = []
+    for dump_file in args["regdump"]:
+        if exists(dump_file):
+            print(89,dump_file)
+            fn = basename(dump_file)
+            df_regdump = load_regdump(dump_file)
 
-    df=pd.merge(df,df_regdump,on=[REG_ADD],how="left")
+            df=pd.merge(df,df_regdump,on=[REG_ADD],how="left")
+
+            df["DUMP"]=""
+            df["DUMPb"]=""
+            df["BF_Meaning"]=""
+            """for reg_add in registers:
+                df.loc[df[REG_ADD]==reg_add,["DUMP"]]=df[df[REG_ADD]==reg_add].apply(lambda x: bf(x,registers[reg_add]) ,axis=1)
+                df.loc[df[REG_ADD]==reg_add,["DUMPb"]]=df[df[REG_ADD]==reg_add].apply(lambda x: bin(bf(x,registers[reg_add])) ,axis=1)
+            """
+            df["DUMP"]=df.apply(lambda x: bf(x),axis=1)
+            df["BF_Meaning"]=df.apply(lambda x: hex_bf_to_text(x),axis=1)
+            df.rename(columns={REG_VALUE: f'{REG_VALUE}_{fn}', 
+                            "DUMP": f"DUMP_{fn}",
+                            "BF_Meaning": f"BF_Meaning{fn}"}, inplace=True)
+
+            #add the name of the column to filter at the end
+            reg_val_columns.append(f'{REG_VALUE}_{fn}')
+            bf_val_columns.append(f"BF_Meaning{fn}")
+        else:
+            print(f"file does not exists: {dump_file}")
+
     #remove registers for which no value was dumped
-    df.dropna(subset=[REG_VALUE],inplace=True)
+    df.dropna(subset=reg_val_columns,inplace=True)
 
-    df["DUMP"]=""
-    df["DUMPb"]=""
-    """for reg_add in registers:
-        df.loc[df[REG_ADD]==reg_add,["DUMP"]]=df[df[REG_ADD]==reg_add].apply(lambda x: bf(x,registers[reg_add]) ,axis=1)
-        df.loc[df[REG_ADD]==reg_add,["DUMPb"]]=df[df[REG_ADD]==reg_add].apply(lambda x: bin(bf(x,registers[reg_add])) ,axis=1)
-    """
-    df["DUMP"]=df.apply(lambda x: bf(x),axis=1)
+    #now save the DataFrame to HDD for human eye's pleasures :)
     try:
-        if args["reghuman"].find(".html")>=0:
-                df.to_html(args["reghuman"],index=False)
-        elif args["reghuman"].find(".html")>=0:
-            df.to_excel(args["reghuman"])
+        if args["output"].find(".htm")>=0:
+                df.to_html(args["output"],index=False)
+                df = df[df[reg_val_columns[0]] != df[reg_val_columns[1]] ]
+                fpn = args["output"].replace(".htm","_reg_deltas.htm")
+                print(126,fpn)
+                df.to_html(fpn,index=False)
+                print(f"saved in {fpn}")
+                df = df[df[bf_val_columns[0]] != df[bf_val_columns[1]] ]
+                fpn = args["output"].replace(".htm","_bf_deltas.htm")
+                print(126,fpn)
+                df.to_html(fpn,index=False)
+        elif args["output"].find(".html")>=0:
+            df.to_excel(args["output"])
     except:
         print("failed to save")
         raise
     else:
-        print("Human friendly registers dump saved under: %s"%(args["reghuman"]))
+        print("Human friendly registers dump saved under: %s"%(args["output"]))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-r", "--regdump", type=str, default="regdump.txt",
+    parser.add_argument("-d", "--regdump",  default="regdump.txt",type=str, nargs='+',
                     help="filename of the register dump")
     parser.add_argument("-m", "--regmap", type=str, default="regmap.csv",
                     help="filename of the register dump")
@@ -127,6 +185,6 @@ if __name__ == "__main__":
         args["regdump"]=abspath(join(__file__,pardir,"802.3_claus22_dump.csv"))
         args["regdump"]=abspath(join(__file__,pardir,"loopback_dump.csv"))
         args["regmap"]=abspath(join(__file__,pardir,"802.3_clause_22.csv"))
-        args["reghuman"]=join(join(environ['USERPROFILE']), 'Desktop',"RegisterDumps4Humans.html")
+        args["output"]=join(join(environ['USERPROFILE']), 'Desktop',"RegisterDumps4Humans.html")
     logging.basicConfig(level=(4-args["verbosity"])*10)
     deobfuscate_dumps(**args)
