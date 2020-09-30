@@ -115,16 +115,15 @@ def deobfuscate_dumps(**args):
     df = load_regmap(args["regmap"])
     reg_val_columns = []
     bf_val_columns = []
+    bf_dump_columns =[]
     for dump_file in args["regdump"]:
         if exists(dump_file):
-            print(89,dump_file)
             fn = basename(dump_file)
             df_regdump = load_regdump(dump_file)
 
             df=pd.merge(df,df_regdump,on=[REG_ADD],how="left")
 
             df["DUMP"]=""
-            df["DUMPb"]=""
             df["BF_Meaning"]=""
             """for reg_add in registers:
                 df.loc[df[REG_ADD]==reg_add,["DUMP"]]=df[df[REG_ADD]==reg_add].apply(lambda x: bf(x,registers[reg_add]) ,axis=1)
@@ -137,13 +136,20 @@ def deobfuscate_dumps(**args):
                             "BF_Meaning": f"BF_Meaning{fn}"}, inplace=True)
 
             #add the name of the column to filter at the end
-            reg_val_columns.append(f'{REG_VALUE}_{fn}')
-            bf_val_columns.append(f"BF_Meaning{fn}")
+            if len(args["regdump"])>1:
+                reg_val_columns.append(f'{REG_VALUE}_{fn}')
+                bf_dump_columns.append(f"DUMP_{fn}")
+                bf_val_columns.append(f"BF_Meaning{fn}")
+            else:
+                reg_val_columns.append(REG_VALUE)
+                bf_dump_columns.append("DUMP")
+                bf_val_columns.append("BF_Meaning")
         else:
             print(f"file does not exists: {dump_file}")
 
     #remove registers for which no value was dumped
     df.dropna(subset=reg_val_columns,inplace=True)
+    df = df[[REG_ADD,REG_NAME,BF_NUMBER,BF_NAME, BF_MEANINGS, BF_RESET_VAL]+reg_val_columns+bf_dump_columns+bf_val_columns]
 
     #now save the DataFrame to HDD for human eye's pleasures :)
     try:
@@ -151,12 +157,11 @@ def deobfuscate_dumps(**args):
                 df.to_html(args["output"],index=False)
                 df = df[df[reg_val_columns[0]] != df[reg_val_columns[1]] ]
                 fpn = args["output"].replace(".htm","_reg_deltas.htm")
-                print(126,fpn)
+                print("version with only register deltas: ",fpn)
                 df.to_html(fpn,index=False)
-                print(f"saved in {fpn}")
                 df = df[df[bf_val_columns[0]] != df[bf_val_columns[1]] ]
                 fpn = args["output"].replace(".htm","_bf_deltas.htm")
-                print(126,fpn)
+                print("version with only bitfield deltas: ",fpn)
                 df.to_html(fpn,index=False)
         elif args["output"].find(".html")>=0:
             df.to_excel(args["output"])
