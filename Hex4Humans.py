@@ -111,13 +111,17 @@ page_css = """ /* multiple formatting for the rest of the page */
 
 def load_regmap(fp):
     """ Returns a panda DataFrame with the register and bitfield definition """
-    df = pd.read_csv(fp)
+    if exists(fp):
+        df = pd.read_csv(fp)
+    else:
+        logging.error("regmap path does not exist")
     df[REG_ADD] = df[REG_ADD].str.lower() 
     df[BF_MEANINGS]=df[BF_MEANINGS].fillna("")
     return df[[REG_ADD,REG_NAME,BF_NUMBER,BF_NAME,BF_MEANINGS,BF_RESET_VAL]]
 
 def load_regdump(fp):
     """ load register dump from csv file formatted in 2 columns REG_ADD | REG_VAL """
+    print("regdump fp",fp)
     df = pd.read_csv(fp)
     df[REG_ADD] = df[REG_ADD].str.lower() 
     return df[[REG_ADD,REG_VALUE]]
@@ -161,13 +165,19 @@ def hex_bf_to_text(regmap_line,):
         bf_hex_value = int(regmap_line["DUMP"])
 
         for v in bf_values:
-            key, val = v.split(" = ")
+            try:
+                key, val = v.split(" = ")
+            except:
+                print("error in REGMAP formatting in line : ",bf_values)
             key = key.split("h")[0]
             if key =="x":
                 return val
             else:
                 bf_dict[int(key.split("h")[0],16)]=val
-        return bf_dict[bf_hex_value]
+        if bf_hex_value in bf_dict:
+            return bf_dict[bf_hex_value]
+        else:
+            return "Value not enumerated"
     else:
         return ""
 
