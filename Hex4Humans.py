@@ -114,15 +114,35 @@ def load_regmap(fp):
     if exists(fp):
         df = pd.read_csv(fp)
     else:
-        logging.error("regmap path does not exist")
+        log_msg = f"regmap path {fp} does not exist"
+        logging.error(log_msg)
+        raise Exception(log_msg)
+
     df[REG_ADD] = df[REG_ADD].str.lower() 
     df[BF_MEANINGS]=df[BF_MEANINGS].fillna("")
-    return df[[REG_ADD,REG_NAME,BF_NUMBER,BF_NAME,BF_MEANINGS,BF_RESET_VAL]]
+    hmtl_br = "\n"
+    df[BF_MEANINGS]=df[BF_MEANINGS].str.replace("\r\n",hmtl_br).replace("\r\n",hmtl_br).replace("\n",hmtl_br).replace("\r",hmtl_br)
+    cols = [REG_ADD,REG_NAME,BF_NUMBER,BF_NAME,BF_MEANINGS,BF_RESET_VAL]
+    for col in cols:
+        err = False
+        if col not in df.columns:
+            logging.error(f"Expected column {col} which was not found")
+            err = True
+        if err:
+            raise Exception("Register Mapping file column header names not as expected")
+    return df[cols]
 
 def load_regdump(fp):
     """ load register dump from csv file formatted in 2 columns REG_ADD | REG_VAL """
-    print("regdump fp",fp)
     df = pd.read_csv(fp)
+    if not REG_ADD in df.columns:
+        log_msg = f"{REG_ADD} needded for processing and not found in columns"
+        logging.error(log_msg)
+        raise Expception(log_msg)
+    if not REG_VALUE in df.columns:
+        log_msg = f"{REG_VALUE} needded for processing and not found in columns"
+        logging.error(log_msg)
+        raise Expception(log_msg)
     df[REG_ADD] = df[REG_ADD].str.lower() 
     return df[[REG_ADD,REG_VALUE]]
 
@@ -151,34 +171,51 @@ def bf(x):
         mask = (1<<max) -(1<<min)
         res= mask & reg_val
         res = res>>min
+        res = "{:04x}".format(res).upper()
+        res = "0x"+res
     else:
         mask = (1<<int(x[BF_NUMBER])) 
         res = mask & reg_val
         res = res >> int(x[BF_NUMBER])
+        res = "{:04x}".format(res).upper()
+        res = "0x"+res
     return res
 
-def hex_bf_to_text(regmap_line,):
+def hex_bf_to_text(regmap_line):
     """ return the text description associated with the BitField value"""
+    #bf_values: list of bitfield values starting with hexvalues and description
     bf_values = regmap_line[BF_MEANINGS].split("\n")
     bf_dict = {}
-    if len(bf_values)>1 and not isnan(regmap_line["DUMP"]):
-        bf_hex_value = int(regmap_line["DUMP"])
+    
+    if len(bf_values)>1: # and not isnan(regmap_line["DUMP"]):
+        #if we have multiple values then look for the good one
+        
+        bf_hex_value = regmap_line["DUMP"]
 
         for v in bf_values:
             try:
-                key, val = v.split(" = ")
+                #the expected formatting of the bit field description is to be
+                #0x000A: description
+                #namely 4 digit hex value preceeded by 0x and followed by semicolumn and SPACE
+                key = v.split(": ")[0]
             except:
-                print("error in REGMAP formatting in line : ",bf_values)
-            key = key.split("h")[0]
-            if key =="x":
-                return val
-            else:
-                bf_dict[int(key.split("h")[0],16)]=val
+                log_msg=f"error in REGMAP formatting in line : {v}"
+                logging.error(log_msg)
+                raise
+            # key = key.split("h")[0] #old formatting where keys where Ah = 
+            #if key =="x":
+            #    return val
+            #else:
+            #we need to handle the case where there is a semicolumn in the BF description
+            vals = v.split(": ")[1:]
+            val = ": ".join(vals).replace("\r\n","<br>").replace("\r\n","<br>").replace("\n","<br>").replace("\r","<br>")
+            bf_dict[key]=val
         if bf_hex_value in bf_dict:
             return bf_dict[bf_hex_value]
         else:
             return "Value not enumerated"
     else:
+        #if we do not have multiple values return a blank
         return ""
 
 def deobfuscate_dumps(**args):
@@ -202,19 +239,18 @@ def deobfuscate_dumps(**args):
             """
             df["DUMP"]=df.apply(lambda x: bf(x),axis=1)
             df["BF_Meaning"]=df.apply(lambda x: hex_bf_to_text(x),axis=1)
-            df.rename(columns={REG_VALUE: f'{REG_VALUE}_{fn}', 
-                            "DUMP": f"DUMP_{fn}",
-                            "BF_Meaning": f"BF_Meaning{fn}"}, inplace=True)
+            reg_val_new_name =f'REGISTER from: {fn}'
+            bf_new_name = f"BIT FIELD from: {fn}"
+            bf_meaning = f"Meaning in: {fn}"
+            
+            df.rename(columns={REG_VALUE: reg_val_new_name, 
+                            "DUMP": bf_new_name,
+                            "BF_Meaning": bf_meaning}, inplace=True)
 
             #add the name of the column to filter at the end
-            if len(args["regdump"])>1:
-                reg_val_columns.append(f'{REG_VALUE}_{fn}')
-                bf_dump_columns.append(f"DUMP_{fn}")
-                bf_val_columns.append(f"BF_Meaning{fn}")
-            else:
-                reg_val_columns.append(REG_VALUE)
-                bf_dump_columns.append("DUMP")
-                bf_val_columns.append("BF_Meaning")
+            reg_val_columns.append(reg_val_new_name)
+            bf_dump_columns.append(bf_new_name)
+            bf_val_columns.append(bf_meaning)
         else:
             print(f"file does not exists: {dump_file}")
 
@@ -223,17 +259,36 @@ def deobfuscate_dumps(**args):
     df = df[[REG_ADD,REG_NAME,BF_NUMBER,BF_NAME, BF_MEANINGS, BF_RESET_VAL]+reg_val_columns+bf_dump_columns+bf_val_columns]
 
     #now save the DataFrame to HDD for human eye's pleasures :)
+    hmtl_br = "<br>"
+    df[BF_MEANINGS]=df[BF_MEANINGS].str.replace("\n",hmtl_br) #.replace("\r\n",hmtl_br).replace("\n",hmtl_br).replace("\r",hmtl_br)
+    print(264,df[[BF_MEANINGS]].head())
     try:
         if args["output"].find(".htm")>=0:
-                df.to_html(args["output"],index=False)
-                df = df[df[reg_val_columns[0]] != df[reg_val_columns[1]] ]
-                fpn = args["output"].replace(".htm","_reg_deltas.htm")
-                print("version with only register deltas: ",fpn)
-                df.to_html(fpn,index=False)
-                df = df[df[bf_val_columns[0]] != df[bf_val_columns[1]] ]
-                fpn = args["output"].replace(".htm","_bf_deltas.htm")
-                print("version with only bitfield deltas: ",fpn)
-                df_to_css_js_html(df,fpn) #.to_html(fpn,index=False)
+                #df.to_html(args["output"],index=False,escape=False)
+                df_to_css_js_html(df, args["output"])
+                if len(reg_val_columns)==1:
+                    #if we have only one dump compare to reset values
+                    df = df[df[bf_dump_columns[0]] != df[BF_RESET_VAL] ]
+                    print("*********")
+                    print(df.columns)
+                    print(bf_val_columns[0])
+                    print("&&&&&&&&&")
+                    print(df[[bf_dump_columns[0],BF_RESET_VAL]].head())
+                    print("&&&&&&&&&")
+                    fpn = args["output"].replace(".htm","_bf_deltas.htm")
+                    print("version with only bitfield deltas: ",fpn)
+                    df_to_css_js_html(df,fpn) #.to_html(fpn,index=False)
+
+                else:
+                    #if we have more than one dump compare them to one another
+                    df = df[df[reg_val_columns[0]] != df[reg_val_columns[1]] ]
+                    fpn = args["output"].replace(".htm","_reg_deltas.htm")
+                    print("version with only register deltas: ",fpn)
+                    df_to_css_js_html(df, fpn)
+                    df = df[df[bf_val_columns[0]] != df[bf_val_columns[1]] ]
+                    fpn = args["output"].replace(".htm","_bf_deltas.htm")
+                    print("version with only bitfield deltas: ",fpn)
+                    df_to_css_js_html(df,fpn) #.to_html(fpn,index=False)
         elif args["output"].find(".html")>=0:
             df.to_excel(args["output"])
     except:
@@ -247,7 +302,7 @@ def df_to_css_js_html(df, html_fp):
     global html_table_css
     html_string = '''
     <html>
-    <head><title>Hex 2 Humans</title></head>
+    <head><title>Hex 4 Humans</title></head>
     <style>{page_css}</style>
     <style>{html_table_css}</style>
     <body>
@@ -263,7 +318,8 @@ def df_to_css_js_html(df, html_fp):
     '''
     # OUTPUT AN HTML FILE
     with open(html_fp, 'w') as f:
-        f.write(html_string.format(html_table_css=html_table_css,page_css=page_css,table=df.to_html(classes='mystyle',index=False)))
+        
+        f.write(html_string.format(html_table_css=html_table_css,page_css=page_css,table=df.to_html(classes='mystyle',index=False,escape=False)))
     print(f"saved {html_fp}")
 
 if __name__ == "__main__":
@@ -276,7 +332,7 @@ if __name__ == "__main__":
                     help="filename of the register dump")
     parser.add_argument("-v", "--verbosity", default=0, choices=[0, 1, 2, 3],
                     help="increase output verbosity")
-    parser.add_argument("-t", "--test", default="Y", choices=["Y","N"],
+    parser.add_argument("-t", "--test", default="N", choices=["Y","N"],
                     help="increase output verbosity")
     args = parser.parse_args()
     args = vars(args)
