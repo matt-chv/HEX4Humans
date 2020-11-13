@@ -37,6 +37,7 @@ from os import environ
 #PIP INSTALLED
 import pandas as pd
 from numpy import isnan, nan
+from lxml import html
 
 REG_ADD = "Register Address"
 REG_NAME = "Register Long Name"
@@ -46,68 +47,6 @@ BF_MEANINGS = "Bit Field Enumerations"
 BF_RESET_VAL = "Bit Field Reset Value"
 #
 REG_VALUE = "Register Value"
-
-#FIXME: move this tos separate file
-html_table_css = """/* includes alternating gray and white with on-hover color */
-
-.mystyle {
-    font-size: 11pt; 
-    font-family: Arial;
-    border-collapse: collapse; 
-    border: 1px solid silver;
-
-}
-
-.mystyle td, th {
-    padding: 5px;
-}
-
-.mystyle tr:nth-child(even) {
-    background: #E0E0E0;
-}
-
-.mystyle tr:hover {
-    background: silver;
-    cursor: pointer;
-}"""
-
-page_css = """ /* multiple formatting for the rest of the page */
-
-#control {
-    position:fixed;
-    top:0px;
-    right:0px;
-    height:50px;
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.5);
-}
-#all {
-    position: absolute;
-    top:0px;
-    lef:50px;
-}
-#reg {
-    position: absolute;
-    top:0px;
-    left:200px;
-}
-#bf {
-    position: absolute;
-    top:0px;
-    left:400px;
-}
-
-.button {
-  transition-duration: 0.4s;
-}
-
-.button:hover {
-  background-color: #4CAF50; /* Green */
-  color: white;
-}
-
-"""
-
 
 def load_regmap(fp):
     """ Returns a panda DataFrame with the register and bitfield definition """
@@ -208,7 +147,7 @@ def hex_bf_to_text(regmap_line):
             #else:
             #we need to handle the case where there is a semicolumn in the BF description
             vals = v.split(": ")[1:]
-            val = ": ".join(vals).replace("\r\n","<br>").replace("\r\n","<br>").replace("\n","<br>").replace("\r","<br>")
+            val = ": ".join(vals).replace("\r\n","<br/>").replace("\r\n","<br/>").replace("\n","<br/>").replace("\r","<br/>")
             bf_dict[key]=val
         if bf_hex_value in bf_dict:
             return bf_dict[bf_hex_value]
@@ -217,6 +156,31 @@ def hex_bf_to_text(regmap_line):
     else:
         #if we do not have multiple values return a blank
         return ""
+
+def bf_status(row, bf_delta_status):
+    """ return a string indicating how the different bit fields are different
+    r if one or more different from reset value
+    b if one or more different between each other (provided 2 or more dumps where processed)
+
+    this is then used by the javascript for hiding or not rows
+    """
+
+    status = ""
+
+    bf_values = []
+    for i in range(len(bf_delta_status)):
+        bf_values.append(row[bf_delta_status[i]])
+
+    bf_values = list(set(bf_values))
+    if len(bf_values)>1:
+        status="b"
+    for bf in bf_values:
+        if not bf == row[BF_RESET_VAL]:
+            status+="r"
+            break
+
+    return status
+
 
 def deobfuscate_dumps(**args):
     registers = {}
@@ -257,11 +221,13 @@ def deobfuscate_dumps(**args):
     #remove registers for which no value was dumped
     df.dropna(subset=reg_val_columns,inplace=True)
     df = df[[REG_ADD,REG_NAME,BF_NUMBER,BF_NAME, BF_MEANINGS, BF_RESET_VAL]+reg_val_columns+bf_dump_columns+bf_val_columns]
+    df["S"]=""
+    #set column S to 'r' where one or more dumps have values different than reset value
+    df["S"]=df.apply(lambda x: bf_status(x,bf_dump_columns),axis=1)
 
     #now save the DataFrame to HDD for human eye's pleasures :)
     hmtl_br = "<br>"
     df[BF_MEANINGS]=df[BF_MEANINGS].str.replace("\n",hmtl_br) #.replace("\r\n",hmtl_br).replace("\n",hmtl_br).replace("\r",hmtl_br)
-    print(264,df[[BF_MEANINGS]].head())
     try:
         if args["output"].find(".htm")>=0:
                 #df.to_html(args["output"],index=False,escape=False)
@@ -269,25 +235,16 @@ def deobfuscate_dumps(**args):
                 if len(reg_val_columns)==1:
                     #if we have only one dump compare to reset values
                     df = df[df[bf_dump_columns[0]] != df[BF_RESET_VAL] ]
-                    print("*********")
-                    print(df.columns)
-                    print(bf_val_columns[0])
-                    print("&&&&&&&&&")
-                    print(df[[bf_dump_columns[0],BF_RESET_VAL]].head())
-                    print("&&&&&&&&&")
                     fpn = args["output"].replace(".htm","_bf_deltas.htm")
-                    print("version with only bitfield deltas: ",fpn)
                     df_to_css_js_html(df,fpn) #.to_html(fpn,index=False)
 
                 else:
                     #if we have more than one dump compare them to one another
                     df = df[df[reg_val_columns[0]] != df[reg_val_columns[1]] ]
                     fpn = args["output"].replace(".htm","_reg_deltas.htm")
-                    print("version with only register deltas: ",fpn)
                     df_to_css_js_html(df, fpn)
                     df = df[df[bf_val_columns[0]] != df[bf_val_columns[1]] ]
                     fpn = args["output"].replace(".htm","_bf_deltas.htm")
-                    print("version with only bitfield deltas: ",fpn)
                     df_to_css_js_html(df,fpn) #.to_html(fpn,index=False)
         elif args["output"].find(".html")>=0:
             df.to_excel(args["output"])
@@ -300,26 +257,72 @@ def deobfuscate_dumps(**args):
 def df_to_css_js_html(df, html_fp):
     pd.set_option('colheader_justify', 'center')   # FOR TABLE <th>
     global html_table_css
-    html_string = '''
-    <html>
+    with open('css/table_fixed_header.css','r') as fi:
+        table_fix_header_css=fi.read()
+    with open('css/page.css','r') as fi:
+        page_css=fi.read()
+    with open('css/html_table.css','r') as fi:
+        html_table_css=fi.read()
+    with open('js/table.js','r') as fi:
+        table_js=fi.read()
+
+    #settling for manual templating
+    #considered using Django/Jinja2 but this would be overkill so far
+    html_string = '''<html>
     <head><title>Hex 4 Humans</title></head>
+    <style>{table_fix_header_css}</style>
     <style>{page_css}</style>
     <style>{html_table_css}</style>
+    <script>{table_js}</script>
     <body>
-        <div id="control">
+        <!--div id="control">
             <div class="button" id="all">view all</div><div class="button"  id="reg">only register differences</div>
             <div class="button" id="bf">only bit field differences</div>
         </div>
-        <div id="blank" style="height: 100px; position:absolute;"/>
-
+        <div id="blank" style="height: 100px; position:absolute;"/-->
+    <div class="header">
+        <div class="button" id="all" onclick="show_all()">view all</div>
+        <div class="button" id="bitfield" onclick="show_bf_delta()">delta across dumps</div>
+        <div class="button" id="reset" onclick="show_reset_delta()">delta vs reset</div>
+    </div>
+    <div class="footer">footer</div>
+    <section class="">
+    <div class="container">
         {table}
     </body>
     </html>.
     '''
     # OUTPUT AN HTML FILE
     with open(html_fp, 'w') as f:
+        #get the html code for the table from pandas
+        html_table = df.to_html(classes='mystyle',index=False,escape=False)
+        #load it for formtting and styling in with lxml
+        xhtml = html.fromstring(html_table)
         
-        f.write(html_string.format(html_table_css=html_table_css,page_css=page_css,table=df.to_html(classes='mystyle',index=False,escape=False)))
+        for th in xhtml.xpath("//th"):
+            #add here a div so the css from table_fixed_header can work
+            # it does a select on .th div
+            es = html.fragments_fromstring(f"<div>{th.text}</div>")
+            #es is a list of fragments, we only want to add the fisrt (and only one) to the th
+            th.append(es[0])
+
+        #add here class information for the rows as a function of the column S (S for show)
+        for td in xhtml.xpath("//tr//td[last()]"):
+            tr = td.getparent()
+            if td.text:
+                for character in td.text:
+                    tr.attrib['class']=character
+            else:
+                tr.attrib['class']="all"
+
+        #transform teh lxml object in a string back
+        html_table = html.tostring(xhtml,encoding="utf-8",pretty_print=True).decode('utf-8')
+
+        #then add the html table to the rest of the html pag and save it to file
+        f.write(html_string.format(html_table_css=html_table_css,page_css=page_css,\
+            table_fix_header_css=table_fix_header_css,\
+            table_js = table_js,\
+            table=html_table))
     print(f"saved {html_fp}")
 
 if __name__ == "__main__":
@@ -333,7 +336,7 @@ if __name__ == "__main__":
     parser.add_argument("-v", "--verbosity", default=0, choices=[0, 1, 2, 3],
                     help="increase output verbosity")
     parser.add_argument("-t", "--test", default="N", choices=["Y","N"],
-                    help="increase output verbosity")
+                    help="manual hack for debugging - only use if you are sure of what you want")
     args = parser.parse_args()
     args = vars(args)
     if args["test"]=="Y":

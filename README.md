@@ -7,6 +7,17 @@ Relies on:
 
 ## Installation and usage
 
+### USAGE
+
+to display help message
+```bash
+python Hex4Humans -h 
+```
+
+to produce a nice html output
+```bash
+python Hex4Humans.py -m map822.csv -d dump822_20201029.csv -o out.htm
+```
 
 ## Register Map 
 csv format 

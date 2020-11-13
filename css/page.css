@@ -1,0 +1,43 @@
+/* multiple formatting for the rest of the page */
+
+#control {
+    position:fixed;
+    top:0px;
+    right:0px;
+    height:50px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+#all {
+    position: absolute;
+    top:0px;
+    lef:50px;
+}
+#all {
+    position: absolute;
+    width: 150px;
+    top:0px;
+    left:25px;
+}
+#bitfield {
+    position: absolute;
+    top:0px;
+    width: 200px;
+    left:200px;
+}
+#reset {
+    position: absolute;
+    top:0px;
+    width: 200px;
+    left:400px;
+    onclick: show_hide_row();
+}
+
+.button {
+  transition-duration: 0.4s;
+}
+
+.button:hover {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}

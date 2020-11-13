@@ -1,0 +1,74 @@
+/* adapated from https://stackoverflow.com/a/32092987/10567771 */
+
+:root {
+   --top_of_section: 25px;
+   --section_height: 50px;
+   /*table_total_height default 160px;*/
+   --table_total_height: calc(100vh - 100px);
+}
+
+.header {
+position: absolute;
+top:0px;
+height:var(--top_of_section);
+}
+
+.footer {
+position: absolute;
+top:calc(var(--top_of_section) + var(--section_height) + var(--table_total_height));
+}
+
+/*this defines the head*/
+section {
+  position: absolute;
+  /*top:50px;*/
+  top:var(--top_of_section);
+  border: 1px solid #000;
+  padding-top: var(--section_height); /* height before container*/
+  /*background: #500;*/
+  background: #333;
+}
+/*this defines the container which shows the table*/
+.container {
+  overflow-y: auto;
+   height: var(--table_total_height);
+}
+
+/*table within the section*/
+table {
+  border-spacing: 0;
+  width:100%;
+}
+
+td, th {
+  border-bottom:1px solid #eee;
+  /*background: #ddd;*/
+  color: #000;
+  padding: 10px 25px;
+}
+/* this hides thefirst row of the table */
+th {
+  height: 0;
+  line-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  color: transparent;
+  border: none;
+  white-space: nowrap;
+}
+
+/* this makes the first row in the background */
+/* div p	Selects all <p> elements inside <div> elements
+th div selects all div element inside <th> element???
+*/
+th div{
+  position: absolute;
+  style:"display: block;"
+  background: transparent;
+  color: #fff; /* color text */
+  padding: 9px 25px;
+  top: 25px;
+  margin-left: -25px;
+  line-height: normal;
+  border-left: 1px solid #800;
+}
