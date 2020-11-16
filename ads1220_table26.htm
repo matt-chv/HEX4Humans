@@ -1,0 +1,412 @@
+<html>
+    <head><title>Hex 4 Humans</title></head>
+    <style>/* adapated from https://stackoverflow.com/a/32092987/10567771 */
+
+:root {
+   --top_of_section: 25px;
+   --section_height: 50px;
+   /*table_total_height default 160px;*/
+   --table_total_height: calc(100vh - 100px);
+}
+
+.header {
+position: absolute;
+top:0px;
+height:var(--top_of_section);
+}
+
+.footer {
+position: absolute;
+top:calc(var(--top_of_section) + var(--section_height) + var(--table_total_height));
+}
+
+/*this defines the head*/
+section {
+  position: absolute;
+  /*top:50px;*/
+  top:var(--top_of_section);
+  border: 1px solid #000;
+  padding-top: var(--section_height); /* height before container*/
+  /*background: #500;*/
+  background: #333;
+}
+/*this defines the container which shows the table*/
+.container {
+  overflow-y: auto;
+   height: var(--table_total_height);
+}
+
+/*table within the section*/
+table {
+  border-spacing: 0;
+  width:100%;
+}
+
+td, th {
+  border-bottom:1px solid #eee;
+  /*background: #ddd;*/
+  color: #000;
+  padding: 10px 25px;
+}
+/* this hides thefirst row of the table */
+th {
+  height: 0;
+  line-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  color: transparent;
+  border: none;
+  white-space: nowrap;
+}
+
+/* this makes the first row in the background */
+/* div p	Selects all <p> elements inside <div> elements
+th div selects all div element inside <th> element???
+*/
+th div{
+  position: absolute;
+  style:"display: block;"
+  background: transparent;
+  color: #fff; /* color text */
+  padding: 9px 25px;
+  top: 25px;
+  margin-left: -25px;
+  line-height: normal;
+  border-left: 1px solid #800;
+}
+</style>
+    <style>/* multiple formatting for the rest of the page */
+
+#control {
+    position:fixed;
+    top:0px;
+    right:0px;
+    height:50px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+#all {
+    position: absolute;
+    top:0px;
+    lef:50px;
+}
+#all {
+    position: absolute;
+    width: 150px;
+    top:0px;
+    left:25px;
+}
+#bitfield {
+    position: absolute;
+    top:0px;
+    width: 200px;
+    left:200px;
+}
+#reset {
+    position: absolute;
+    top:0px;
+    width: 200px;
+    left:400px;
+    onclick: show_hide_row();
+}
+
+.button {
+  transition-duration: 0.4s;
+}
+
+.button:hover {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}</style>
+    <style>/* includes alternating gray and white with on-hover color */
+/*html_table_css */
+
+.mystyle {
+    font-size: 11pt; 
+    font-family: Arial;
+    border-collapse: collapse; 
+    border: 1px solid silver;
+
+}
+
+.mystyle td, th {
+    padding: 5px;
+}
+
+.mystyle tr:nth-child(even) {
+    background: #F0F0F0;
+}
+
+.mystyle tr:nth-child(odd) {
+    background: #FFFFFF;
+}
+
+.mystyle tr:hover {
+    background: silver;
+    cursor: pointer;
+}</style>
+    <script>function show_all(){
+   console.log("show_all");
+   show_hide("all","table-row");
+   show_hide("r","table-row");
+}
+
+function show_bf_delta(){
+   console.log("show_bf_delta");
+}
+
+function show_reset_delta(){
+   console.log("show_reset_delta");
+   show_hide("all","none");
+   show_hide("r","table-row");
+}
+
+
+function show_hide(cls,on) {
+   /* cls = class name */
+   console.log("called show_hide_row",cls,on);
+    var lst = document.getElementsByClassName(cls);
+    for(var i = 0; i < lst.length; ++i) {
+        lst[i].style.display = on; /* ? '' : 'none';*/
+        console.log(i,lst[i].style.display  );
+    }
+}
+</script>
+    <body>
+        <!--div id="control">
+            <div class="button" id="all">view all</div><div class="button"  id="reg">only register differences</div>
+            <div class="button" id="bf">only bit field differences</div>
+        </div>
+        <div id="blank" style="height: 100px; position:absolute;"/-->
+    <div class="header">
+        <div class="button" id="all" onclick="show_all()">view all</div>
+        <div class="button" id="bitfield" onclick="show_bf_delta()">delta across dumps</div>
+        <div class="button" id="reset" onclick="show_reset_delta()">delta vs reset</div>
+    </div>
+    <div class="footer">footer</div>
+    <section class="">
+    <div class="container">
+        <table border="1" class="dataframe mystyle">
+  <thead>
+    <tr style="text-align: center;">
+      <th>Register Address<div>Register Address</div>
+</th>
+      <th>Register Long Name<div>Register Long Name</div>
+</th>
+      <th>Bit Field Number<div>Bit Field Number</div>
+</th>
+      <th>Bit Field Name<div>Bit Field Name</div>
+</th>
+      <th>Bit Field Enumerations<div>Bit Field Enumerations</div>
+</th>
+      <th>Bit Field Reset Value<div>Bit Field Reset Value</div>
+</th>
+      <th>REGISTER from: dump_ads1220_table26.csv<div>REGISTER from: dump_ads1220_table26.csv</div>
+</th>
+      <th>BIT FIELD from: dump_ads1220_table26.csv<div>BIT FIELD from: dump_ads1220_table26.csv</div>
+</th>
+      <th>Meaning in: dump_ads1220_table26.csv<div>Meaning in: dump_ads1220_table26.csv</div>
+</th>
+      <th>S<div>S</div>
+</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="r">
+      <td>0x0000</td>
+      <td>Configuration Register 0</td>
+      <td>7..4</td>
+      <td>MUX[3:0]</td>
+      <td>0x0000:  AINP = AIN0, AINN = AIN1 (default)<br>0x0001:  AINP = AIN0, AINN = AIN2<br>0x0002:  AINP = AIN0, AINN = AIN3<br>0x0003:  AINP = AIN1, AINN = AIN2<br>0x0004:  AINP = AIN1, AINN = AIN3<br>0x0005:  AINP = AIN2, AINN = AIN3<br>0x0006:  AINP = AIN1, AINN = AIN0<br>0x0007:  AINP = AIN3, AINN = AIN2<br>0x0008:  AINP = AIN0, AINN = AVSS<br>0x0009:  AINP = AIN1, AINN = AVSS<br>0x000A:  AINP = AIN2, AINN = AVSS<br>0x000B:  AINP = AIN3, AINN = AVSS<br>0x000C:  (V(REFPx) - V(REFNx)) / 4 monitor (PGA bypassed)<br>0x000D:  (AVDD - AVSS) / 4 monitor (PGA bypassed)<br>0x000E:  AINP and AINN shorted to (AVDD + AVSS) / 2<br>0x000F:  Reserved</td>
+      <td>0x0000</td>
+      <td>0x003E</td>
+      <td>0x0003</td>
+      <td>AINP = AIN1, AINN = AIN2</td>
+      <td>r</td>
+    </tr>
+    <tr class="r">
+      <td>0x0000</td>
+      <td>Configuration Register 0</td>
+      <td>3..1</td>
+      <td>GAIN[2:0]</td>
+      <td>0x0000:  Gain = 1 (default)<br>0x0001:  Gain = 2<br>0x0002:  Gain = 4<br>0x0003:  Gain = 8<br>0x0004:  Gain = 16<br>0x0005:  Gain = 32<br>0x0006:  Gain = 64<br>0x0007:  Gain = 128</td>
+      <td>0x0000</td>
+      <td>0x003E</td>
+      <td>0x0007</td>
+      <td>Gain = 128</td>
+      <td>r</td>
+    </tr>
+    <tr class="all">
+      <td>0x0000</td>
+      <td>Configuration Register 0</td>
+      <td>0</td>
+      <td>PGA_BYPASS</td>
+      <td>0x0000: PGA enabled (default)<br>0x0001: PGA disabled and bypassed</td>
+      <td>0x0000</td>
+      <td>0x003E</td>
+      <td>0x0000</td>
+      <td>PGA enabled (default)</td>
+      <td></td>
+    </tr>
+    <tr class="all">
+      <td>0x0001</td>
+      <td>Configuration Register 1</td>
+      <td>7..5</td>
+      <td>DR[2:0]</td>
+      <td>0x0000: 20 SPS (NORMAL), 5 SPS (DUTY CYCLE), 40 SPS (TURBO)<br>0x0001: 45 SPS (NORMAL), 11.25 SPS (DUTY CYCLE), 90 SPS (TURBO)<br>0x0002: 90 SPS (NORMAL), 22.5 SPS (DUTY CYCLE), 180 SPS (TURBO)<br>0x0003: 175 SPS (NORMAL), 44 SPS (DUTY CYCLE), 350 SPS (TURBO)<br>0x0004: 330 SPS (NORMAL), 82.5 SPS (DUTY CYCLE), 660 SPS (TURBO)<br>0x0005: 600 SPS (NORMAL), 150 SPS (DUTY CYCLE), 1200 SPS (TURBO)<br>0x0006: 1000 SPS (NORMAL), 250 SPS (DUTY CYCLE), 2000 SPS (TURBO)<br>0x0007: RESERVED</td>
+      <td>0x0000</td>
+      <td>0x0004</td>
+      <td>0x0000</td>
+      <td>20 SPS (NORMAL), 5 SPS (DUTY CYCLE), 40 SPS (TURBO)</td>
+      <td></td>
+    </tr>
+    <tr class="all">
+      <td>0x0001</td>
+      <td>Configuration Register 1</td>
+      <td>4..3</td>
+      <td>MODE[1:0]</td>
+      <td>0x0000:  Normal mode (256-kHz modulator clock, default)<br>0x0001:  Duty-cycle mode (internal duty cycle of 1:4)<br>0x0002:  Turbo mode (512-kHz modulator clock)<br>0x0003:  Reserved</td>
+      <td>0x0000</td>
+      <td>0x0004</td>
+      <td>0x0000</td>
+      <td>Normal mode (256-kHz modulator clock, default)</td>
+      <td></td>
+    </tr>
+    <tr class="r">
+      <td>0x0001</td>
+      <td>Configuration Register 1</td>
+      <td>2</td>
+      <td>CM</td>
+      <td>0x0000: Single-shot mode (default)<br>0x0001: Continuous conversion mode</td>
+      <td>0x0000</td>
+      <td>0x0004</td>
+      <td>0x0001</td>
+      <td>Continuous conversion mode</td>
+      <td>r</td>
+    </tr>
+    <tr class="all">
+      <td>0x0001</td>
+      <td>Configuration Register 1</td>
+      <td>1</td>
+      <td>TS</td>
+      <td>0x0000:  Disables temperature sensor (default)<br>0x0001:  Enables temperature sensor</td>
+      <td>0x0000</td>
+      <td>0x0004</td>
+      <td>0x0000</td>
+      <td>Disables temperature sensor (default)</td>
+      <td></td>
+    </tr>
+    <tr class="all">
+      <td>0x0001</td>
+      <td>Configuration Register 1</td>
+      <td>0</td>
+      <td>BCS</td>
+      <td>0x0000: Current sources off (default)<br>0x0001: Current sources on</td>
+      <td>0x0000</td>
+      <td>0x0004</td>
+      <td>0x0000</td>
+      <td>Current sources off (default)</td>
+      <td></td>
+    </tr>
+    <tr class="r">
+      <td>0x0002</td>
+      <td>Configuration Register 2</td>
+      <td>7..6</td>
+      <td>VREF[1:0]</td>
+      <td>0x0000:  Internal 2.048-V reference selected (default)<br>0x0001:  External reference selected using dedicated REFP0 and REFN0 inputs<br>0x0002:  External reference selected using AIN0/REFP1 and AIN3/REFN1 inputs<br>0x0003:  Analog supply (AVDD - AVSS) used as reference</td>
+      <td>0x0000</td>
+      <td>0x0098</td>
+      <td>0x0002</td>
+      <td>External reference selected using AIN0/REFP1 and AIN3/REFN1 inputs</td>
+      <td>r</td>
+    </tr>
+    <tr class="r">
+      <td>0x0002</td>
+      <td>Configuration Register 2</td>
+      <td>5..4</td>
+      <td>50/60[1:0]</td>
+      <td>0x0000:  No 50-Hz or 60-Hz rejection (default)<br>0x0001:  Simultaneous 50-Hz and 60-Hz rejection<br>0x0002:  50-Hz rejection only<br>0x0003:  60-Hz rejection only</td>
+      <td>0x0000</td>
+      <td>0x0098</td>
+      <td>0x0001</td>
+      <td>Simultaneous 50-Hz and 60-Hz rejection</td>
+      <td>r</td>
+    </tr>
+    <tr class="r">
+      <td>0x0002</td>
+      <td>Configuration Register 2</td>
+      <td>3</td>
+      <td>PSW</td>
+      <td>0x0000:  Switch is always open (default)<br>0x0001:  Switch automatically closes when the START/SYNC command is sent and opens when the POWERDOWN command is issued</td>
+      <td>0x0000</td>
+      <td>0x0098</td>
+      <td>0x0001</td>
+      <td>Switch automatically closes when the START/SYNC command is sent and opens when the POWERDOWN command is issued</td>
+      <td>r</td>
+    </tr>
+    <tr class="all">
+      <td>0x0002</td>
+      <td>Configuration Register 2</td>
+      <td>2..0</td>
+      <td>IDAC[2:0]</td>
+      <td>0x0000: Off (default)<br>0x0001: 10 μA<br>0x0002: 50 μA<br>0x0003: 100 μA<br>0x0004: 250 μA<br>0x0005: 500 μA<br>0x0006: 1000 μA<br>0x0007: 1500 μA</td>
+      <td>0x0000</td>
+      <td>0x0098</td>
+      <td>0x0000</td>
+      <td>Off (default)</td>
+      <td></td>
+    </tr>
+    <tr class="all">
+      <td>0x0003</td>
+      <td>Configuration Register 3</td>
+      <td>7..5</td>
+      <td>I1MUX[2:0]</td>
+      <td>0x0000:  IDAC1 disabled (default)<br>0x0001:  IDAC1 connected to AIN0/REFP1<br>0x0002:  IDAC1 connected to AIN1<br>0x0003:  IDAC1 connected to AIN2<br>0x0004:  IDAC1 connected to AIN3/REFN1<br>0x0005:  IDAC1 connected to REFP0<br>0x0006:  IDAC2 connected to REFN0<br>0x0007:  Reserved</td>
+      <td>0x0000</td>
+      <td>0x0000</td>
+      <td>0x0000</td>
+      <td>IDAC1 disabled (default)</td>
+      <td></td>
+    </tr>
+    <tr class="all">
+      <td>0x0003</td>
+      <td>Configuration Register 3</td>
+      <td>4..2</td>
+      <td>I2MUX[2:0]</td>
+      <td>0x0000:  IDAC2 disabled (default)<br>0x0001:  IDAC2 connected to AIN0/REFP1<br>0x0002:  IDAC2 connected to AIN1<br>0x0003:  IDAC2 connected to AIN2<br>0x0004:  IDAC2 connected to AIN3/REFN1<br>0x0005:  IDAC2 connected to REFP0<br>0x0006:  IDAC2 connected to REFN0<br>0x0007:  Reserved</td>
+      <td>0x0000</td>
+      <td>0x0000</td>
+      <td>0x0000</td>
+      <td>IDAC2 disabled (default)</td>
+      <td></td>
+    </tr>
+    <tr class="all">
+      <td>0x0003</td>
+      <td>Configuration Register 3</td>
+      <td>1</td>
+      <td>DRDYM</td>
+      <td>0x0000: Only the dedicated DRDY pin is used to indicate when data are ready (default)<br>0x0001: Data ready is indicated simultaneously on DOUT/DRDY and DRDY</td>
+      <td>0x0000</td>
+      <td>0x0000</td>
+      <td>0x0000</td>
+      <td>Only the dedicated DRDY pin is used to indicate when data are ready (default)</td>
+      <td></td>
+    </tr>
+    <tr class="all">
+      <td>0x0003</td>
+      <td>Configuration Register 3</td>
+      <td>0</td>
+      <td>RESERVED</td>
+      <td>0x0000: MUST BE WRITTEN 0<br>0x0001: ILLEGAL VALUE</td>
+      <td>0x0000</td>
+      <td>0x0000</td>
+      <td>0x0000</td>
+      <td>MUST BE WRITTEN 0</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+    </body>
+    </html>.
+    

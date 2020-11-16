@@ -1,0 +1,100 @@
+Register Long Name,Register Short Name,Register Page,Register Address,Bit Field Number,Bit Field Name,Bit Field Reset Value,Bit Field Access,Bit Field Description,Bit Field Enumerations
+Configuration Register 0,CONF0,0x0000,0x0000,7..4,MUX[3:0],0x0000,R/W,Input multiplexer configuration,"0x0000:  AINP = AIN0, AINN = AIN1 (default)
+0x0001:  AINP = AIN0, AINN = AIN2
+0x0002:  AINP = AIN0, AINN = AIN3
+0x0003:  AINP = AIN1, AINN = AIN2
+0x0004:  AINP = AIN1, AINN = AIN3
+0x0005:  AINP = AIN2, AINN = AIN3
+0x0006:  AINP = AIN1, AINN = AIN0
+0x0007:  AINP = AIN3, AINN = AIN2
+0x0008:  AINP = AIN0, AINN = AVSS
+0x0009:  AINP = AIN1, AINN = AVSS
+0x000A:  AINP = AIN2, AINN = AVSS
+0x000B:  AINP = AIN3, AINN = AVSS
+0x000C:  (V(REFPx) - V(REFNx)) / 4 monitor (PGA bypassed)
+0x000D:  (AVDD - AVSS) / 4 monitor (PGA bypassed)
+0x000E:  AINP and AINN shorted to (AVDD + AVSS) / 2
+0x000F:  Reserved"
+Configuration Register 0,CONF0,0x0000,0x0000,3..1,GAIN[2:0],0x0000,R/W,"Gain configuration
+These bits configure the device gain.
+Gains 1, 2, and 4 can be used without the PGA. In this case, gain is obtained by
+a switched-capacitor structure.","0x0000:  Gain = 1 (default)
+0x0001:  Gain = 2
+0x0002:  Gain = 4
+0x0003:  Gain = 8
+0x0004:  Gain = 16
+0x0005:  Gain = 32
+0x0006:  Gain = 64
+0x0007:  Gain = 128"
+Configuration Register 0,CONF0,0x0000,0x0000,0,PGA_BYPASS,0x0000,R/W,"Disables and bypasses the internal low-noise PGA. Disabling the PGA reduces overall power consumption and allows the commonmode voltage range (VCM) to span from AVSS - 0.1 V to AVDD + 0.1 V. The PGA can only be disabled for gains 1, 2, and 4. The PGA is always enabled for gain settings 8 to 128, regardless of the PGA_BYPASS setting.","0x0000: PGA enabled (default)
+0x0001: PGA disabled and bypassed"
+Configuration Register 1,CONF1,0x0000,0x0001,7..5,DR[2:0],0x0000,R/W,"Data rate
+These bits control the data rate setting depending on the selected operating
+mode. Table 18 lists the bit settings for normal, duty-cycle, and turbo mode.","0x0000: 20 SPS (NORMAL), 5 SPS (DUTY CYCLE), 40 SPS (TURBO)
+0x0001: 45 SPS (NORMAL), 11.25 SPS (DUTY CYCLE), 90 SPS (TURBO)
+0x0002: 90 SPS (NORMAL), 22.5 SPS (DUTY CYCLE), 180 SPS (TURBO)
+0x0003: 175 SPS (NORMAL), 44 SPS (DUTY CYCLE), 350 SPS (TURBO)
+0x0004: 330 SPS (NORMAL), 82.5 SPS (DUTY CYCLE), 660 SPS (TURBO)
+0x0005: 600 SPS (NORMAL), 150 SPS (DUTY CYCLE), 1200 SPS (TURBO)
+0x0006: 1000 SPS (NORMAL), 250 SPS (DUTY CYCLE), 2000 SPS (TURBO)
+0x0007: RESERVED"
+Configuration Register 1,CONF1,0x0000,0x0001,4..3,MODE[1:0],0x0000,R/W,Operating mode. These bits control the operating mode the device operates in.,"0x0000:  Normal mode (256-kHz modulator clock, default)
+0x0001:  Duty-cycle mode (internal duty cycle of 1:4)
+0x0002:  Turbo mode (512-kHz modulator clock)
+0x0003:  Reserved"
+Configuration Register 1,CONF1,0x0000,0x0001,2,CM,0x0000,R/W,Conversion mode. This bit sets the conversion mode for the device.,"0x0000: Single-shot mode (default)
+0x0001: Continuous conversion mode"
+Configuration Register 1,CONF1,0x0000,0x0001,1,TS,0x0000,R/W,"Temperature sensor mode
+This bit enables the internal temperature sensor and puts the device in
+temperature sensor mode.
+The settings of configuration register 0 have no effect and the device uses the
+internal reference for measurement when temperature sensor mode is enabled.","0x0000:  Disables temperature sensor (default)
+0x0001:  Enables temperature sensor"
+Configuration Register 1,CONF1,0x0000,0x0001,0,BCS,0x0000,R/W,"Burn-out current sources. This bit controls the 10-μA, burn-out current sources. The burn-out current sources can be used to detect sensor faults such as wire breaks and shorted sensors.","0x0000: Current sources off (default)
+0x0001: Current sources on"
+Configuration Register 2,CONF2,0x0000,0x0002,7..6,VREF[1:0],0x0000,R/W,Voltage reference selection. These bits select the voltage reference source that is used for the conversion.,"0x0000:  Internal 2.048-V reference selected (default)
+0x0001:  External reference selected using dedicated REFP0 and REFN0 inputs
+0x0002:  External reference selected using AIN0/REFP1 and AIN3/REFN1 inputs
+0x0003:  Analog supply (AVDD - AVSS) used as reference"
+Configuration Register 2,CONF2,0x0000,0x0002,5..4,50/60[1:0],0x0000,R/W,"FIR filter configuration
+These bits configure the filter coefficients for the internal FIR filter.
+Only use these bits together with the 20-SPS setting in normal mode and the 5-
+SPS setting in duty-cycle mode. Set to 00 for all other data rates.
+
+","0x0000:  No 50-Hz or 60-Hz rejection (default)
+0x0001:  Simultaneous 50-Hz and 60-Hz rejection
+0x0002:  50-Hz rejection only
+0x0003:  60-Hz rejection only"
+Configuration Register 2,CONF2,0x0000,0x0002,3,PSW,0x0000,R/W,Low-side power switch configuration. This bit configures the behavior of the low-side switch connected between AIN3/REFN1 and AVSS.,"0x0000:  Switch is always open (default)
+0x0001:  Switch automatically closes when the START/SYNC command is sent and opens when the POWERDOWN command is issued"
+Configuration Register 2,CONF2,0x0000,0x0002,2..0,IDAC[2:0],0x0000,R/W,"IDAC current setting
+These bits set the current for both IDAC1 and IDAC2 excitation current sources.
+","0x0000: Off (default)
+0x0001: 10 μA
+0x0002: 50 μA
+0x0003: 100 μA
+0x0004: 250 μA
+0x0005: 500 μA
+0x0006: 1000 μA
+0x0007: 1500 μA"
+Configuration Register 3,CONF3,0x0000,0x0003,7..5,I1MUX[2:0],0x0000,R/W,IDAC1 routing configuration.  These bits select the channel where IDAC1 is routed to.,"0x0000:  IDAC1 disabled (default)
+0x0001:  IDAC1 connected to AIN0/REFP1
+0x0002:  IDAC1 connected to AIN1
+0x0003:  IDAC1 connected to AIN2
+0x0004:  IDAC1 connected to AIN3/REFN1
+0x0005:  IDAC1 connected to REFP0
+0x0006:  IDAC2 connected to REFN0
+0x0007:  Reserved"
+Configuration Register 3,CONF3,0x0000,0x0003,4..2,I2MUX[2:0],0x0000,R/W,IDAC2 routing configuration. These bits select the channel where IDAC2 is routed to.,"0x0000:  IDAC2 disabled (default)
+0x0001:  IDAC2 connected to AIN0/REFP1
+0x0002:  IDAC2 connected to AIN1
+0x0003:  IDAC2 connected to AIN2
+0x0004:  IDAC2 connected to AIN3/REFN1
+0x0005:  IDAC2 connected to REFP0
+0x0006:  IDAC2 connected to REFN0
+0x0007:  Reserved"
+Configuration Register 3,CONF3,0x0000,0x0003,1,DRDYM,0x0000,R/W,"DRDY mode
+This bit controls the behavior of the DOUT/DRDY pin when new data are ready.","0x0000: Only the dedicated DRDY pin is used to indicate when data are ready (default)
+0x0001: Data ready is indicated simultaneously on DOUT/DRDY and DRDY"
+Configuration Register 3,CONF3,0x0000,0x0003,0,RESERVED,0x0000,R/W,Reserved - Always write 0,"0x0000: MUST BE WRITTEN 0
+0x0001: ILLEGAL VALUE"

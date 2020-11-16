@@ -51,7 +51,7 @@ REG_VALUE = "Register Value"
 def load_regmap(fp):
     """ Returns a panda DataFrame with the register and bitfield definition """
     if exists(fp):
-        df = pd.read_csv(fp)
+        df = pd.read_csv(fp, encoding="utf-8")
     else:
         log_msg = f"regmap path {fp} does not exist"
         logging.error(log_msg)
@@ -73,7 +73,7 @@ def load_regmap(fp):
 
 def load_regdump(fp):
     """ load register dump from csv file formatted in 2 columns REG_ADD | REG_VAL """
-    df = pd.read_csv(fp)
+    df = pd.read_csv(fp, encoding="utf-8")
     if not REG_ADD in df.columns:
         log_msg = f"{REG_ADD} needded for processing and not found in columns"
         logging.error(log_msg)
@@ -105,11 +105,15 @@ def bf(x):
             raise
 
     if str(x[BF_NUMBER]).find("..")>0:
-        min = int(x[BF_NUMBER].split("..")[1])
-        max = int(x[BF_NUMBER].split("..")[0])
-        mask = (1<<max) -(1<<min)
+        #Example
+        #BF=3..1 => min_bit =1 , max_bit = 3
+        #mask = 14 = 0xE
+        #(1<<4) - (1<<1)= 16 - 2 =14
+        min_bit = int(x[BF_NUMBER].split("..")[1])
+        max_bit = int(x[BF_NUMBER].split("..")[0])
+        mask = (1<<(max_bit+1)) -(1<<(min_bit))
         res= mask & reg_val
-        res = res>>min
+        res = res>>min_bit
         res = "{:04x}".format(res).upper()
         res = "0x"+res
     else:
@@ -293,7 +297,7 @@ def df_to_css_js_html(df, html_fp):
     </html>.
     '''
     # OUTPUT AN HTML FILE
-    with open(html_fp, 'w') as f:
+    with open(html_fp, 'w',encoding="utf-8") as f:
         #get the html code for the table from pandas
         html_table = df.to_html(classes='mystyle',index=False,escape=False)
         #load it for formtting and styling in with lxml
