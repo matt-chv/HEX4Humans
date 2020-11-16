@@ -274,6 +274,7 @@ def df_to_css_js_html(df, html_fp):
     #considered using Django/Jinja2 but this would be overkill so far
     html_string = '''<html>
     <head><title>Hex 4 Humans</title></head>
+    <link rel="author" href="https://raw.githubusercontent.com/matt-chv/HEX4Humans/master/humans.txt" />
     <style>{table_fix_header_css}</style>
     <style>{page_css}</style>
     <style>{html_table_css}</style>
