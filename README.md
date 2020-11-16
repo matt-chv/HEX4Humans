@@ -12,6 +12,13 @@ Generates html file with following features:
 * ability in the html file to hide/show bitfields with values equal to reset values.
 * ability in the html file to hide/show bitfields with values equal between different dumps.
 
+## OVERVIEW
+
+| Address | Bit Field Range | Bit Field Enumerations | Bit Field Reset Value | REGISTER from: dump.csv | Meaning |
+0x000F: Reserved 	0x0000 	0x003E 	0x0003 	AINP = AIN1, AINN = AIN2
+0x0000| 7..4 	| <ul><li>0x0000: AINP = AIN0, AINN = AIN1 (default)</li><li>0x0001: AINP = AIN0, AINN = AIN2</li><li>0x0002: AINP = AIN0, AINN = AIN3</li><li>0x0003: AINP = AIN1, AINN = AIN2</li><li>0x0004: AINP = AIN1, AINN = AIN3</li><li>...</li></ul> | 0x003E | 0x0003 | AINP = AIN1, AINN = AIN2 |
+| ... | ... | ... | ... | ... | ... |
+
 ## Installation and usage
 
 ## USAGE
