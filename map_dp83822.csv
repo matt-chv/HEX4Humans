@@ -1,0 +1,1851 @@
+Register Long Name,Register Short Name,Register Page,Register Address,Bit Field Number,Bit Field Name,Bit Field Reset Value,Bit Field Access,Bit Field Description,Bit Field Enumerations
+,BMCR,,0x0000,15,Reset,0x0000,RW/SC,"PHY Software Reset:
+1 = Initiate software Reset / Reset in Progress
+0 = Normal Operation
+Writing a 1 to this bit resets the PHY PCS registers. When the reset operation is done, this bit is cleared to 0 automatically. PHY Vendor Specific registers will not be cleared.","0x0001: Initiate software Reset / Reset in Progress
+0x0000: Normal Operation"
+,BMCR,,0x0000,14,MII Loopback,0x0000,RW,"MII Loopback:
+1 = MII Loopback enabled
+0 = Normal Operation
+When MII loopback mode is activated, the transmitted data presented on MII TXD is looped back to MII RXD internally.","0x0001: MII Loopback enabled
+0x0000: Normal Operation"
+,BMCR,,0x0000,13,Speed Selection,0x0001,RW/Strap,"Speed Select:
+1 = 100 Mbps
+0 = 10 Mbps
+When Auto-Negotiation is disabled (bit[12] = 0 in Register 0x0000), writing to this bit allows the port speed to be selected.","0x0001: 100 Mbps
+0x0000: 10 Mbps"
+,BMCR,,0x0000,12,Auto-Negotiation Enable,0x0001,RW/Strap,"Auto-Negotiation Enable:
+1 = Enable Auto-Negotiation
+0 = Disable Auto-Negotiation
+If  Auto-Negotiation  is  disabled,  bit[8]  and  bit[13]  of  this  register determine the port speed and duplex mode.","0x0001: Enable Auto-Negotiation
+0x0000: Disable Auto-Negotiation"
+,BMCR,,0x0000,11,IEEE Power Down,0x0000,RW,"Power Down:
+1 = IEEE Power Down
+0 = Normal Operation
+The PHY is powered down after this bit is set. Only register access is enabled during this power down condition. To control the power down mechanism, this bit is OR'ed with the input from the INT/PWDN_N pin. When the active low INT/PWDN_N is asserted, this bit is set.","0x0001: IEEE Power Down
+0x0000: Normal Operation"
+,BMCR,,0x0000,10,Isolate,0x0000,RW,"Isolate:
+1 = Isolates the port from the MII with the exception of the SMI
+0 = Normal Operation","0x0001: Isolates the port from the MII with the exception of the SMI
+0x0000: Normal Operation"
+,BMCR,,0x0000,9,Restart Auto-Negotiation,0x0000,RW/SC,"Restart Auto-Negotiation:
+1 = Restarts Auto-Negotiation
+0 = Normal Operation
+If Auto-Negotiation is disabled (bit[12] = 0), bit[9] is ignored. This bit is self-clearing and will return a value of 1 until Auto-Negotiation is initiated,   whereupon   it   will   self-clear.   Operation   of   the   Auto- Negotiation  process  is  not  affected  by  the  management  entity clearing this bit.","0x0001: Restarts Auto-Negotiation
+0x0000: Normal Operation"
+,BMCR,,0x0000,8,Duplex Mode,0x0001,RW/Strap,"Duplex Mode:
+1 = Full-Duplex
+0 = Half-Duplex
+When Auto-Negotiation is disabled, writing to this bit allows the port
+Duplex capability to be selected.","0x0001: Full-Duplex
+0x0000: Half-Duplex"
+,BMCR,,0x0000,7,Collision Test,0x0000,RW,"Collision Test:
+1 = Enable COL Signal Test
+0 = Normal Operation
+When set, this bit causes the COL signal to be asserted in response to the assertion of TX_EN within 512 bit times. The COL signal is de- asserted within 4 bit times in response to the de-assertion to TX_EN.","0x0001: Enable COL Signal Test
+0x0000: Normal Operation"
+,BMCR,,0x0000,6..0,Reserved,0x0000,RO,Reserved,
+,BMSR,,0x0001,15,100Base-T4,0x0000,RO,"100Base-T4 Capable:
+This protocol is not available. Always reads as 0.",
+,BMSR,,0x0001,14,100Base-TX Full-Duplex,0x0001,RO,"100Base-TX Full-Duplex Capable:
+1 = Device able to perform Full-Duplex 100Base-TX
+0 = Device not able to perform Full-Duplex 100Base-TX","0x0001: Device able to perform Full-Duplex 100Base-TX
+0x0000: Device not able to perform Full-Duplex 100Base-TX"
+,BMSR,,0x0001,13,100Base-TX Half-Duplex,0x0001,RO,"100Base-TX Half-Duplex Capable:
+1 = Device able to perform Half-Duplex 100Base-TX
+0 = Device not able to perform Half-Duplex 100Base-TX","0x0001: Device able to perform Half-Duplex 100Base-TX
+0x0000: Device not able to perform Half-Duplex 100Base-TX"
+,BMSR,,0x0001,12,10Base-Te Full-Duplex,0x0001,RO,"10Base-Te Full-Duplex Capable:
+1 = Device able to perform Full-Duplex 10Base-Te
+0 = Device not able to perform Full-Duplex 10Base-Te","0x0001: Device able to perform Full-Duplex 10Base-Te
+0x0000: Device not able to perform Full-Duplex 10Base-Te"
+,BMSR,,0x0001,11,10Base-Te Half-Duplex,0x0001,RO,"10Base-Te Half-Duplex Capable:
+1 = Device able to perform Half-Duplex 10Base-Te
+0 = Device not able to perform Half-Duplex 10Base-Te","0x0001: Device able to perform Half-Duplex 10Base-Te
+0x0000: Device not able to perform Half-Duplex 10Base-Te"
+,BMSR,,0x0001,10..7,Reserved,0x0000,RO,Reserved,
+,BMSR,,0x0001,6,SMI Preamble Suppression,0x0001,RO,"Preamble Suppression Capable:
+1 = Device able to perform SMI transaction with preamble suppressed
+0 = Device not able to perform SMI transaction with preamble suppressed
+If this bit is set to 1, 32-bits of preamble needed only once after reset, invalid opcode or invalid turnaround.","0x0001: Device able to perform SMI transaction with preamble suppressed
+0x0000: Device not able to perform SMI transaction with preamble suppressed"
+,BMSR,,0x0001,5,Auto-Negotiation Complete,0x0000,RO,"Auto-Negotiation Complete:
+1 = Auto-Negotiation process completed
+0 = Auto Negotiation process not completed (either still in process, disabled or reset)","0x0001: Auto-Negotiation process completed
+0x0000: Auto Negotiation process not completed (either still in process, disabled or reset)"
+,BMSR,,0x0001,4,Remote Fault,0x0000,RO/LH,"Remote Fault:
+1 = Remote fault condition detected
+0 = No remote fault condition detected
+Far End Fault indication or notification from Link Partner of Remote
+Fault. This bit is cleared on read or reset.","0x0001: Remote fault condition detected
+0x0000: No remote fault condition detected"
+,BMSR,,0x0001,3,Auto-Negotiation Ability,0x0001,RO,"Auto-Negotiation Ability:
+1 = Device is able to perform Auto-Negotiation
+0 = Device is not able to perform Auto-Negotiation","0x0001: Device is able to perform Auto-Negotiation
+0x0000: Device is not able to perform Auto-Negotiation"
+,BMSR,,0x0001,2,Link Status,0x0000,RO/LL,"Link Status:
+1 = Valid link established (for either 10 Mbps or 100 Mbps operation)
+0 = Link not established","0x0001: Valid link established (for either 10 Mbps or 100 Mbps operation)
+0x0000: Link not established"
+,BMSR,,0x0001,1,Jabber Detect,0x0000,RO/LH,"Jabber Detect:
+1 = Jabber condition detected
+0 = No jabber condition detected
+This bit only has meaning for 10Base-Te operation.","0x0001: Jabber condition detected
+0x0000: No jabber condition detected"
+,BMSR,,0x0001,0,Extended Capability,0x0001,RO,"Extended Capability:
+1 = Extended register capabilities
+0 = Basic register set capabilities only","0x0001: Extended register capabilities
+0x0000: Basic register set capabilities only"
+,PHYIDR1,,0x0002,15..0,"Organizationally Unique
+Identifier Bits 21:6",0x2000,RO,,
+,PHYIDR2,,0x0003,15..10,"Organizationally Unique
+Identifier Bits 5:0",0x0028,RO,,
+,PHYIDR2,,0x0003,9..4,Model Number,0x0024,RO,"Vendor Model Number:
+The six bits of vendor model number are mapped from bits [9] to [4]",
+,PHYIDR2,,0x0003,3..0,Revision Number,0x0000,RO,"Model Revision Number:
+Four bits of the vendor model revision number are mapped from bits
+[3:0]. This field is incremented for all major device changes.",
+,ANAR,,0x0004,15,Next Page,0x0000,RW,"Next Page Indication:
+1 = Next Page Transfer desired
+0 = Next Page Transfer not desired","0x0001: Next Page Transfer desired
+0x0000: Next Page Transfer not desired"
+,ANAR,,0x0004,14,Reserved,0x0000,RO,Reserved,
+,ANAR,,0x0004,13,Remote Fault,0x0000,RW,"Remote Fault:
+1 = Advertises that this device has detected a Remote Fault
+0 = No Remote Fault detected","0x0001: Advertises that this device has detected a Remote Fault
+0x0000: No Remote Fault detected"
+,ANAR,,0x0004,12,Reserved,0x0000,RO,Reserved,
+,ANAR,,0x0004,11,Asymmetric Pause,0x0000,RW,"Asymmetric Pause Support For Full-Duplex Links:
+1 = Advertise asymmetric pause ability
+0 = Do not advertise asymmetric pause ability","0x0001: Advertise asymmetric pause ability
+0x0000: Do not advertise asymmetric pause ability"
+,ANAR,,0x0004,10,Pause,0x0000,RW,"Pause Support for Full-Duplex Links:
+1 = Advertise pause ability
+0 = Do not advertise pause ability","0x0001: Advertise pause ability
+0x0000: Do not advertise pause ability"
+,ANAR,,0x0004,9,100Base-T4,0x0000,RO,"100Base-T4 Support:
+1 = Advertise 100Base-T4 ability
+0 = Do not advertise 100Base-T4 ability","0x0001: Advertise 100Base-T4 ability
+0x0000: Do not advertise 100Base-T4 ability"
+,ANAR,,0x0004,8,100Base-TX Full-Duplex,0x0001,RW/Strap,"100Base-TX Full-Duplex Support:
+1 = Advertise 100Base-TX Full-Duplex ability
+0 = Do not advertise 100Base-TX Full-Duplex ability","0x0001: Advertise 100Base-TX Full-Duplex ability
+0x0000: Do not advertise 100Base-TX Full-Duplex ability"
+,ANAR,,0x0004,7,100Base-TX Half-Duplex,0x0001,RW/Strap,"100Base-TX Half-Duplex Support:
+1 = Advertise 100Base-TX Half-Duplex ability
+0 = Do not advertise 100Base-TX Half-Duplex ability","0x0001: Advertise 100Base-TX Half-Duplex ability
+0x0000: Do not advertise 100Base-TX Half-Duplex ability"
+,ANAR,,0x0004,6,10Base-Te Full-Duplex,0x0001,RW/Strap,"10Base-Te Full-Duplex Support:
+1 = Advertise 10Base-Te Full-Duplex ability
+0 = Do not advertise 10Base-Te Full-Duplex ability","0x0001: Advertise 10Base-Te Full-Duplex ability
+0x0000: Do not advertise 10Base-Te Full-Duplex ability"
+,ANAR,,0x0004,5,10Base-Te Half-Duplex,0x0001,RW/Strap,"10Base-Te Half-Duplex Support:
+1 = Advertise 10Base-Te Half-Duplex ability
+0 = Do not advertise 10Base-Te Half-Duplex ability","0x0001: Advertise 10Base-Te Half-Duplex ability
+0x0000: Do not advertise 10Base-Te Half-Duplex ability"
+,ANAR,,0x0004,4..0,Selector Field,0x0001,RW,"Protocol Selection Bits:
+Technology selector field (IEEE802.3u <00001>)",
+,ANLPAR,,0x0005,15,Next Page,0x0000,RO,"Next Page Indication:
+1 = Link partner desires Next Page Transfer
+0 = Link partner does not desire Next Page Transfer","0x0001: Link partner desires Next Page Transfer
+0x0000: Link partner does not desire Next Page Transfer"
+,ANLPAR,,0x0005,14,Acknowledge,0x0000,RO,"Acknowledge:
+1 = Link partner acknowledges reception of link code word
+0 = Link partner does not acknowledge reception of link code word","0x0001: Link partner acknowledges reception of link code word
+0x0000: Link partner does not acknowledge reception of link code word"
+,ANLPAR,,0x0005,13,Remote Fault,0x0000,RO,"Remote Fault:
+1 = Link partner advertises remote fault event detection
+0 = Link partner does not advertise remote fault event detection","0x0001: Link partner advertises remote fault event detection
+0x0000: Link partner does not advertise remote fault event detection"
+,ANLPAR,,0x0005,12,Reserved,0x0000,RO,Reserved,
+,ANLPAR,,0x0005,11,Asymmetric Pause,0x0000,RO,"Asymmetric Pause:
+1 = Link partner advertises asymmetric pause ability
+0 = Link partner does not advertise asymmetric pause ability","0x0001: Link partner advertises asymmetric pause ability
+0x0000: Link partner does not advertise asymmetric pause ability"
+,ANLPAR,,0x0005,10,Pause,0x0000,RO,"Pause:
+1 = Link partner advertises pause ability
+0 = Link partner does not advertise pause ability","0x0001: Link partner advertises pause ability
+0x0000: Link partner does not advertise pause ability"
+,ANLPAR,,0x0005,9,100Base-T4,0x0000,RO,"100Base-T4 Support:
+1 = Link partner advertises 100Base-T4 ability
+0 = Link partner does not advertise 100Base-T4 ability","0x0001: Link partner advertises 100Base-T4 ability
+0x0000: Link partner does not advertise 100Base-T4 ability"
+,ANLPAR,,0x0005,8,100Base-TX Full-Duplex,0x0000,RO,"100Base-TX Full-Duplex Support:
+1 = Link partner advertises 100Base-TX Full-Duplex ability
+0 = Link partner does not advertise 100Base-TX Full-Duplex ability","0x0001: Link partner advertises 100Base-TX Full-Duplex ability
+0x0000: Link partner does not advertise 100Base-TX Full-Duplex ability"
+,ANLPAR,,0x0005,7,100Base-TX Half-Duplex,0x0000,RO,"100Base-TX Half-Duplex Support:
+1 = Link partner advertises 100Base-TX Half-Duplex ability
+0 = Link partner does not advertise 100Base-TX Half-Duplex ability","0x0001: Link partner advertises 100Base-TX Half-Duplex ability
+0x0000: Link partner does not advertise 100Base-TX Half-Duplex ability"
+,ANLPAR,,0x0005,6,10Base-Te Full-Duplex,0x0000,RO,"10Base-Te Full-Duplex Support:
+1 = Link partner advertises 10Base-Te Full-Duplex ability
+0 = Link partner does not advertise 10Base-Te Full-Duplex ability","0x0001: Link partner advertises 10Base-Te Full-Duplex ability
+0x0000: Link partner does not advertise 10Base-Te Full-Duplex ability"
+,ANLPAR,,0x0005,5,10Base-Te Half-Duplex,0x0000,RO,"10Base-Te Half-Duplex Support:
+1 = Link partner advertises 10Base-Te Half-Duplex ability
+0 = Link partner does not advertise 10Base-Te Half-Duplex ability","0x0001: Link partner advertises 10Base-Te Half-Duplex ability
+0x0000: Link partner does not advertise 10Base-Te Half-Duplex ability"
+,ANLPAR,,0x0005,4..0,Selector Field,0x0000,RO,"Protocol Selection Bits:
+Technology selector field (IEEE802.3 <00001>)",
+,ANER,,0x0006,15..5,Reserved,0x0000,RO,Reserved,
+,ANER,,0x0006,4,Parallel Detection Fault,0x0000,RO/ LH,"Parallel Detection Fault:
+1 = A fault has been detected during the parallel detection process
+0 = No fault detected","0x0001: A fault has been detected during the parallel detection process
+0x0000: No fault detected"
+,ANER,,0x0006,3,Link Partner Next Page Able,0x0000,RO,"Link Partner Next Page Ability:
+1 = Link partner is able to exchange next pages
+0 = Link partner is not able to exchange next pages","0x0001: Link partner is able to exchange next pages
+0x0000: Link partner is not able to exchange next pages"
+,ANER,,0x0006,2,Local Device Next Page Able,0x0001,RO,"Next Page Ability:
+1 = Local device is able to exchange next pages
+0 = Local device is not able to exchange next pages","0x0001: Local device is able to exchange next pages
+0x0000: Local device is not able to exchange next pages"
+,ANER,,0x0006,1,Page Received,0x0000,RO/LH,"Link Code Word Page Received:
+1 = A new page has been received
+0 = A new page has not been received","0x0001: A new page has been received
+0x0000: A new page has not been received"
+,ANER,,0x0006,0,"Link Partner Auto-Negotiation
+Able",0x0000,RO,"Link Partner Auto-Negotiation Ability:
+1 = Link partner supports Auto-Negotiation
+0 = Link partner does not support Auto-Negotiation","0x0001: Link partner supports Auto-Negotiation
+0x0000: Link partner does not support Auto-Negotiation"
+,ANNPTR,,0x0007,15,Next Page,0x0000,RW,"Next Page Indication:
+1 = Advertise desire to send additional next pages
+0 = Do not advertise desire to send additional next pages","0x0001: Advertise desire to send additional next pages
+0x0000: Do not advertise desire to send additional next pages"
+,ANNPTR,,0x0007,14,Reserved,0x0000,RO,Reserved,
+,ANNPTR,,0x0007,13,Message Page,0x0001,RW,"Message Page:
+1 = Current page is a message page
+0 = Current page is an unformatted page","0x0001: Current page is a message page
+0x0000: Current page is an unformatted page"
+,ANNPTR,,0x0007,12,Acknowledge 2,0x0000,RW,"Acknowledge2:
+1 = Will comply with message
+0 = Cannot comply with message
+Acknowledge2 is  used  by  the next page  function to indicate that
+Local Device has the ability to comply with the message received.","0x0001: Will comply with message
+0x0000: Cannot comply with message"
+,ANNPTR,,0x0007,11,Toggle,0x0000,RO,"Toggle:
+1 = Toggle bit in previously transmitted Link Code Word was 0
+0 = Toggle bit in previously transmitted Link Code Word was 1
+Toggle is used by the Arbiitration function within Auto-Negotiation to synchronize with the Link Parnter during Next Page exchange. This bit always takes the opposite value of the Toggle bit in the previously exchanged Link Code Word.","0x0001: Toggle bit in previously transmitted Link Code Word was 0
+0x0000: Toggle bit in previously transmitted Link Code Word was 1"
+,ANNPTR,,0x0007,10..0,CODE,0x0001,RW,"This field represents the code field of the next page transmission. If the Message Page bit is set (bit [13] of this register), then the code is interpreted as a Message Page, as defined in annex 28C of IEEE
+802.3u. Otherwise, the code is interperated as an Unformatted Page, and the interpretation is application specific.
+The default value of the CODE represents a Null Page as defined in
+Annex 28C of IEEE 802.3u.",
+,ANLNPTR,,0x0008,15,Next Page,0x0000,RO,"Next Page Indication:
+1 = Advertise desire to send additional next pages
+0 = Do not advertise desire to send additional next pages","0x0001: Advertise desire to send additional next pages
+0x0000: Do not advertise desire to send additional next pages"
+,ANLNPTR,,0x0008,14,Acknowledge,0x0000,RO,"Acknowledge:
+1 = Link partner acknowledges reception of link code word
+0 = Link partner does not acknowledge reception of link code work","0x0001: Link partner acknowledges reception of link code word
+0x0000: Link partner does not acknowledge reception of link code work"
+,ANLNPTR,,0x0008,13,Message Page,0x0000,RO,"Message Page:
+1 = Current page is a message page
+0 = Current page is an unformatted page","0x0001: Current page is a message page
+0x0000: Current page is an unformatted page"
+,ANLNPTR,,0x0008,12,Acknowledge 2,0x0000,RO,"Acknowledge2:
+1 = Will comply with message
+0 = Cannot comply with message
+Acknowledge2 is  used  by  the next page  function to indicate that
+Local Device has the ability to comply with the message received.","0x0001: Will comply with message
+0x0000: Cannot comply with message"
+,ANLNPTR,,0x0008,11,Toggle,0x0000,RO,"Toggle:
+1 = Toggle bit in previously transmitted Link Code Word was 0
+0 = Toggle bit in previously transmitted Link Code Word was 1
+Toggle is used by the Arbiitration function within Auto-Negotiation to synchronize with the Link Parnter during Next Page exchange. This bit always takes the opposite value of the Toggle bit in the previously exchanged Link Code Word.","0x0001: Toggle bit in previously transmitted Link Code Word was 0
+0x0000: Toggle bit in previously transmitted Link Code Word was 1"
+,ANLNPTR,,0x0008,10..0,Message/ Unformatted Field,0x0001,RO,"This field represents the code field of the next page transmission. If the Message Page bit is set (bit 13 of this register), then the code is interpreted as a Message Page, as defined in annex 28C of IEEE
+802.3u. Otherwise, the code is interperated as an Unformatted Page, and the interpretation is application specific.
+The default value of the CODE represents a Null Page as defined in
+Annex 28C of IEEE 802.3u.",
+,CR1,,0x0009,15..10,Reserved,0x0000,RO,Reserved,
+,CR1,,0x0009,9,RMII Enhanced Mode,0x0000,RW,"RMII Enhanced Mode:
+1 = Enable RMII Enhanced Mode
+0 = RMII operated in normal mode
+In normal RMII mode, if the line is not idle, CRS_DV goes high. As soon as the False Carrier is detected, RX_ER is asserted and RXD is set to ""2"" (0010). This situation remains for the duration of the receive event. While in enhanced mode, CRS_DV is disqualified and de- asserted when the False Carrier is detected. This status also remains for the duration of the receive event. In addition, in normal mode, the start of the packet is intact. Each symbol error is indicatied by setting RX_ER high. The data on RXD is replaced with ""1"" starting with the first symbol error. While in enhanced mode, the CRS_DV is de- asserted with the first symbol error.","0x0001: Enable RMII Enhanced Mode
+0x0000: RMII operated in normal mode"
+,CR1,,0x0009,8,TDR Auto-Run,0x0000,RW,"TDR Auto-Run at Link Down:
+1 = Enable execution of TDR procedure after link down event
+0 = Disable automatic execution of TDR","0x0001: Enable execution of TDR procedure after link down event
+0x0000: Disable automatic execution of TDR"
+,CR1,,0x0009,7,Link Loss Recovery,0x0000,RW,"Link Loss Recovery:
+1 = Enable Link Loss Recovery mechanism
+0 = Normal Link Loss operation
+This mode allows recovery from short interference and continue to hold the link up for a few additional mSec until the short interference is gone and the signal is OK. Under Normal Link Loss operation, Link status will go down approximately 250?s from signal loss.","0x0001: Enable Link Loss Recovery mechanism
+0x0000: Normal Link Loss operation"
+,CR1,,0x0009,6,Fast Auto MDIX,0x0000,RW,"Fast Auto-MDIX:
+1 = Enable Fast Auto-MDIX
+0 = Normal Auto-MDIX
+If  both link  partners are  configured to work  in  Force 100Base-TX mode (Auto-Negotiation disabled), this mode enables Automatic MDI/MDIX resolution in a shortened time.","0x0001: Enable Fast Auto-MDIX
+0x0000: Normal Auto-MDIX"
+,CR1,,0x0009,5,Robust Auto MDIX,0x0000,RW,"Robust Auto-MDIX:
+1 = Enable Robust Auto-MDIX
+0 = Disable Auto-MDIX
+If link partners are configured for operational modes that are not supported by normal Auto-MDIX, Robust Auto-MDIX allows MDI/MDIX resolution and prevents deadlock.
+When the DP83822 is strapped for 100 Mbps operation with Auto- MDIX capabilities, Robust Auto-MDIX will be automatically set to aid in MDI/MDIX resolution and deadlock prevention.","0x0001: Enable Robust Auto-MDIX
+0x0000: Disable Auto-MDIX"
+,CR1,,0x0009,4,Fast Auto-Negotiation Enable,0x0000,RW,"Fast Auto-Negotiation Enable:
+1 = Enable Fast Auto-Negotiation
+0 = Disable Fast Auto-Negotiation
+The PHY Auto-Negotiaties using timer setting according to Fast Auto- Negotiation Select bits (bits[3:2] in this register).","0x0001: Enable Fast Auto-Negotiation
+0x0000: Disable Fast Auto-Negotiation"
+,CR1,,0x0009,3..2,Fast Auto-Negotiation Select,0x0000,RW,"Fast Auto-Negotiation Select Bits:
+Adjusting these bits reduces the time it takes to Auto-Negotiate between two PHYs. In Fast Auto-Negotiation, both PHYs should be set to the same configuration. These 2 bits define the duration for each state of the Auto-Negotiation process according to the table above. The new duration time must be enabled by setting ""Fast Auto Negotiation Enable"" (bit [4] of this register). Note: Using this mode in cases where both link partners are not configured to the same Fast- Autonegotiation configuration might produce scenarios with unexpected behavior. Fast Auto Negotiation Select : Setting:<00>, Break Link Timer 80, Link Fail Inhibit timer 50, Auto negotiation wait timer #; Setting: <01>, 120, 75, # Setting: <10>,240, 150, #; Setting <11>: NA, NA,NA",
+,CR1,,0x0009,1,Fast RX_DV Detection,0x0000,RW,"Fast RX_DV Detection:
+1 = Enable Fast RX_DV detection
+0 = Diable Fast RX_DV detection
+When Fast RX_DV is enabled, RX_DV will assert high on receive packet due to detection of the /J/ symbol only. If a consecutive /K/ does not appear, RX_ER is generated. In normal mode, RX_DV will only be asserted after detection of /JK/.","0x0001: Enable Fast RX_DV detection
+0x0000: Diable Fast RX_DV detection"
+,CR1,,0x0009,0,Reserved,0x0000,RO,Reserved,
+,CR2,,0x000A,15,"100Base-TX Force Far-End
+Link drop",0x0000,RW,"100Base-TX Force Far-End Link Drop:
+Writing a 1 asserts the 100Base-TX Force Far-End link drop mode. In this mode (only valid for 100 Mbps), the PHY disables the TX upon link drop to allow the far-end peer to drop its link as well, thus
+allowing both link partners to be aware of the system link failure. This mode exceeds the standard definition of force 100 Mbps.",
+,CR2,,0x000A,14,100Base-FX Enable,0x0000,RW/Strap,"100Base-FX Enable:
+1 = 100Base-FX mode enabled
+0 = 100Base-FX mode disabled","0x0001: 100Base-FX mode enabled
+0x0000: 100Base-FX mode disabled"
+,CR2,,0x000A,13..7,Reserved,0x0002,RW,Reserved,
+,CR2,,0x000A,6,Fast Link-Up in Parallel Detect,0x0000,RW,"Fast Link-Up in Parallel Detect Mode:
+1 = Enable Fast Link-Up time during Paralled Detection
+0 = Normal Parallel Detection Link establishment
+In Fast Auto MDIX and in Robust Auto-MDIX modes (bit[6] and bit[5]
+in register CR1), this bit is automatically set.","0x0001: Enable Fast Link-Up time during Paralled Detection
+0x0000: Normal Parallel Detection Link establishment"
+,CR2,,0x000A,5,Extended Full-Duplex Ability,0x0000,RW,"Extended Full-Duplex Ability:
+1 = Enable Extended Full-Duplex Ability
+0 = Diable Extended Full-Duplex Ability
+In Extended Full-Duplex ability, when the PHY is set to Auto- Negotiation or Force 100Base-TX and the link partner is operated in Force 100Base-TX, the link is always Full-Duplex. When disabled, the decision to work in Full-Duplex or Half-Duplex mode follows IEEE specification.","0x0001: Enable Extended Full-Duplex Ability
+0x0000: Diable Extended Full-Duplex Ability"
+,CR2,,0x000A,4,Enhanced LED Link,0x0000,RW,"Enhanced LED Link:
+1 = LED ON only when link is 100Base-TX Full-Duplex mode
+0 = LED ON when link is established
+In Enhanced LED Link mode, TX/RX BLINK on activity is disabled for this LED pin. LED will only indicate LINK for established 100Base-TX Full-Duplex links.","0x0001: LED ON only when link is 100Base-TX Full-Duplex mode
+0x0000: LED ON when link is established"
+,CR2,,0x000A,3,Isolate MII in 100Base-TX Half- Duplex or 10Base-Te,0x0000,RW,"Isolate MII:
+1 = Isolate MII Enabled
+0 = Normal MII output operation
+In Isolate MII, MII outputs are isolated when Half-Duplex link established for 100Base-TX or when Half-Duplex or Full-Duplex link established for 10Base-Te.","0x0001: Isolate MII Enabled
+0x0000: Normal MII output operation"
+,CR2,,0x000A,2,RX_ER During IDLE,0x0001,RW,"Detection of Receive Symbol Error During IDLE State:
+1 = Enable detection of Receive symbol error during IDLE state
+0 = Disable detection of Receive symbol error during IDLE state","0x0001: Enable detection of Receive symbol error during IDLE state
+0x0000: Disable detection of Receive symbol error during IDLE state"
+,CR2,,0x000A,1,Odd-Nibble Detection Disable,0x0000,RW,"Detection of Transmit Error:
+1 = Disable detection of transmit error in odd-nibble boundary
+0 = Enable detection of transmit error in odd-nibble boundary
+Detection of odd-nibble will extend TX_EN by one additional TX_CLK cycle and behaves as if TX_ER were asserted during that additional cycle","0x0001: Disable detection of transmit error in odd-nibble boundary
+0x0000: Enable detection of transmit error in odd-nibble boundary"
+,CR2,,0x000A,0,RMII Receive Clock,0x0000,RW,"RMII Receive Clock:
+1 = RMII Data (RXD[1:0]) is sampled and referenced to RX_CLK
+0 = RMII Data (RXD[1:0]) is sampled and referenced to XI","0x0001: RMII Data (RXD[1:0]) is sampled and referenced to RX_CLK
+0x0000: RMII Data (RXD[1:0]) is sampled and referenced to XI"
+,CR3,,0x000B,15..11,Reserved,0x0002,RW,Reserved,
+,CR3,,0x000B,10,"Descrambler Fast Link Down
+Mode",0x0000,RW,"Descrambler Fast Link Drop:
+1 = Drop the link on descrambler link loss
+0 = Do not drop the link on descrambler link loss
+This option can be enabled in parallel to the other fast link down modes in bits[3:0].","0x0001: Drop the link on descrambler link loss
+0x0000: Do not drop the link on descrambler link loss"
+,CR3,,0x000B,9..7,Reserved,0x0000,RW,Reserved,
+,CR3,,0x000B,6,Polarity Swap,0x0000,RW,"Polarity Swap:
+1 = Inverted polarity on both pairs: TD+ and TD-, RD+ and RD-
+0 = Normal polarity
+Port Mirror Function:
+To enable port mirroring, set this bit and bit [5] high.","0x0001: Inverted polarity on both pairs: TD+ and TD-, RD+ and RD-
+0x0000: Normal polarity"
+,CR3,,0x000B,5,MDI/MDIX Swap,0x0000,RW,"MDI/MDIX Swap:
+1 = Swap MDI pairs (Receive on TD pair, Transmit on RD pair)
+0 = MDI pairs normal (Receive on RD pair, Transmit on TD pair)
+Port Mirror Function:
+To enable port mirroring, set this bit and bit[6] high.","0x0001: Swap MDI pairs (Receive on TD pair, Transmit on RD pair)
+0x0000: MDI pairs normal (Receive on RD pair, Transmit on TD pair)"
+,CR3,,0x000B,4,Reserved,0x0000,RW,Reserved,
+,CR3,,0x000B,3..0,Fast Link Down Mode,0x0000,RW,"Fast Link Down Modes:
+Bit 3 Drop the link based on RX Error count of the MII interface. When a predefined number of 32 RX Error occurences in a 10?s interval is reached, the link will be dropped.
+Bit 2 Drop the link based on MLT3 Error count (Violation of the
+MLT3 coding in the DSP output). When a predefined number of 20
+MLT3 Error occurences in a 10?s interval is reached, the link will be dropped.
+Bit  1  Drop  the  link  based  on  Low  SNR  Threshold.  When  a predefined number of 20 Threshold crossing occurences in a 10?s interval is reached, the link will be dropped.
+Bit 0 Drop the link based on Signal/Energy Loss indication. When the Energy detector indicates Energy Loss, the link will be dropped. Typical reaction time is 10?s.
+The Fast Link Down function is an OR of all 5 options (bit[10] and bits[3:0]), the designer can enable any combination of these conditions.",
+,REGCR,,0x000D,15..14,Extended Register Command,0x0000,RW,"Extended Register Command:
+00 = Address
+01 = Data, no post increment
+10 = Data, post increment on read and write
+11 = Data, post increment on write only","0x0000: Address
+0x0001: Data, no post increment
+0x0002: Data, post increment on read and write
+0x0003: Data, post increment on write only"
+,REGCR,,0x000D,13..5,Reserved,0x0000,RO,Reserved,
+,REGCR,,0x000D,4..0,DEVAD,0x0000,RW,"Device Address:
+Bits[4:0] are the device address, DEVAD, that directs any accesses
+of ADDAR register (0x000E) to the appropriate MMD. Specifically, the DP83822 uses the vendor specific DEVAD [4:0] = ""11111"" for accesses to registers 0x04D1 and lower. For MMD3 access, the DEVAD[4:0] = '00011'. For MMD7 access, the DEVAD[4:0] = '00111'. All accesses through registers REGCR and ADDAR should use the DEVAD for either MMD, MMD3 or MMD7. Transactions with other DEVAD are ignored.",
+,ADDAR,,0x000E,15..0,Address/Data,0x0000,RW,"If REGCR register bits[15:14] = '00', holds the MMD DEVAD's address register, otherwise holds the MMD DEVAD's data.",
+,FLDS,,0x000F,15..9,Reserved,0x0000,RO,Reserved,
+,FLDS,,0x000F,8..4,Fast Link Down Status,0x0000,RO/LH,"Fast Link Down Status:
+1 0000 = Descrambler Loss Sync
+0 1000 = RX Errors
+0 0100 = MLT3 Errors
+0 0010 = SNR Level
+0 0001 = Signal/Energy Lost
+Status Registers that latch high each time a given Fast Link Down mode is activated and causes a link drop (assuming the modes were enabled)",
+,FLDS,,0x000F,3..0,Reserved,0x0000,RO,Reserved,
+,PHYSTS,,0x0010,15,Reserved,0x0000,RO,Reserved,
+,PHYSTS,,0x0010,14,MDI/MDIX Mode,0x0000,RO,"MDI/MDIX Mode Status:
+1 = MDI Pairs swapped (Receive on TD pair, Transmit on RD pair)
+0 = MDI Pairs normal (Receive on RD pair, Transmit on TD pair)","0x0001: MDI Pairs swapped (Receive on TD pair, Transmit on RD pair)
+0x0000: MDI Pairs normal (Receive on RD pair, Transmit on TD pair)"
+,PHYSTS,,0x0010,13,Receive Error Latch,0x0000,RO/LH,"Receive Error Latch:
+1 = Receive error event has occurred
+0 = No receive error event has occurred
+Receive error event has occured since last read of RECR register (address 0x0015). This bit will be cleared upon a read of the RECR register.","0x0001: Receive error event has occurred
+0x0000: No receive error event has occurred"
+,PHYSTS,,0x0010,12,Polarity Status,0x0000,RO/LH,"Polarity Status:
+1 = Inverted Polarity detected
+0 = Correct Polarity detected
+This bit is a duplication of bit[4] in the 10BTSCR register (address
+0x001A).  This  bit  will  be  cleared  upon  a  read  of  the  10BTSCR
+register, but not upon a read of the PHYSTS register.","0x0001: Inverted Polarity detected
+0x0000: Correct Polarity detected"
+,PHYSTS,,0x0010,11,False Carrier Sense Latch,0x0000,RO/LH,"False Carrier Sense Latch:
+1 = False Carrier event has occurred
+0 = No False Carrier event has occurred
+False Carrier event has occurred since last read of FCSCR register (address 0x0014). This bit will be cleared upon a read of the FCSR register.","0x0001: False Carrier event has occurred
+0x0000: No False Carrier event has occurred"
+,PHYSTS,,0x0010,10,Signal Detect,0x0000,RO/LL,"Signal Detect:
+Active high 100Base-TX unconditional Signal Detect indication from
+PMD
+Note: During EEE_LPI the value of this register bit should be ignored",
+,PHYSTS,,0x0010,9,Descrambler Lock,0x0000,RO/LL,"Descrambler Lock:
+Active high 100Base-TX Descrambler Lock indication from PMD
+Note: During EEE_LPI the value of this register bit should be ignored",
+,PHYSTS,,0x0010,8,Page Received,0x0000,RO,"Link Code Word Page Received:
+1 = A new Link Code Word Page has been received
+0 = Link Code Word Page has not been received
+This bit is a duplicate of Page Received (bit[1]) in the ANER register and it is cleared on read of the ANER register (address 0x0006).","0x0001: A new Link Code Word Page has been received
+0x0000: Link Code Word Page has not been received"
+,PHYSTS,,0x0010,7,MII Interrupt,0x0000,RO/LH,"MII Interrupt Pending:
+1 = Indicates that an internal interrupt is pending
+0 = No interrupt pending
+Interrupt source can be determined by reading the MISR register
+(0x0012). Reading the MISR will clear this interrupt bit indication.","0x0001: Indicates that an internal interrupt is pending
+0x0000: No interrupt pending"
+,PHYSTS,,0x0010,6,Remote Fault,0x0000,RO,"Remote Fault:
+1 = Remote Fault condition detected
+0 = No Remote Fault condition detected
+Fault criteria: notification from link partner of Remote Fault via Auto- Negotiation. Cleared on read of BMSR register (address 0x0001) or by reset.","0x0001: Remote Fault condition detected
+0x0000: No Remote Fault condition detected"
+,PHYSTS,,0x0010,5,Jabber Detect,0x0000,RO,"Jabber Detection:
+1 = Jabber condition detected
+0 = No Jabber This bit is only for 10 Mbps operation.
+This bit is a duplicate of the Jabber Detect bit in the BMSR register (address 0x0001) and will not be cleared upon a read of the PHYSTS register.","0x0001: Jabber condition detected
+0x0000: No Jabber This bit is only for 10 Mbps operation."
+,PHYSTS,,0x0010,4,Auto-Negotiation Status,0x0000,RO,"Auto-Negotiation Status:
+1 = Auto-Negotiation complete
+0 = Auto-Negotiation not complete","0x0001: Auto-Negotiation complete
+0x0000: Auto-Negotiation not complete"
+,PHYSTS,,0x0010,3,MII Loopback Status,0x0000,RO,"MII Loopback Status:
+1 = Loopback enabled
+0 = Normal operation","0x0001: Loopback enabled
+0x0000: Normal operation"
+,PHYSTS,,0x0010,2,Duplex Status,0x0000,RO,"Duplex Status:
+1 = Full-Duplex mode
+0 = Half-Duplex mode","0x0001: Full-Duplex mode
+0x0000: Half-Duplex mode"
+,PHYSTS,,0x0010,1,Speed Status,0x0000,RO,"Speed Status:
+1 = 10 Mbps mode
+0 = 100 Mbps mode","0x0001: 10 Mbps mode
+0x0000: 100 Mbps mode"
+,PHYSTS,,0x0010,0,Link Status,0x0000,RO,"Link Status:
+1 = Valid link established (for either 10 Mbps or 100 Mbps)
+0 = No link established
+This bit is duplicated from the Link Status bit in the BMSR register (address 0x0001) and will not be cleared upon a read of the PHYSTS register.","0x0001: Valid link established (for either 10 Mbps or 100 Mbps)
+0x0000: No link established"
+,PHYSCR,,0x0011,15,Disable PLL,0x0000,RW,"Disable PLL:
+1 = Disable internal clocks circuitry
+0 = Normal operation
+Note: clock circuitry can be disabled only in IEEE power down mode.","0x0001: Disable internal clocks circuitry
+0x0000: Normal operation"
+,PHYSCR,,0x0011,14,Power Save Mode Enable,0x0000,RW,"Power Save Mode Enable:
+1 = Enable power save modes
+0 = Normal operation","0x0001: Enable power save modes
+0x0000: Normal operation"
+,PHYSCR,,0x0011,13..12,Power Save Modes : Power Mode : <00> ,0x0000,RW,"Power Saving Modes Selection Field:
+Power Save Mode Enable (bit[14]) must be set to '1' for power save modes to be enabled. Power Mode: <00> Normal, Normal operation Mode, PHY is fully fuctional;; <01> Reserved, Reserved;<10> Active Sleep,Low Power Active Energy Saving mode that shuts down all internal circuitry besides SMI and energy detect functionalities. In this mode the PHY sends NLP every 1.4 seconds to wake up link partner. Automatic power-up is done when link partner is detected; <11>, Passive Sleep, Low Power Passive Energy Saving mode that shuts down all internal circuitry besides SMI and energy detect functionalities. Automatic power-up is done when link partner is detected.",
+,PHYSCR,,0x0011,11,Scrambler Bypass,0x0000,RW,"Scrambler Bypass:
+1 = Scrambler bypass enabled
+0 = Scrambler bypass disabled","0x0001: Scrambler bypass enabled
+0x0000: Scrambler bypass disabled"
+,PHYSCR,,0x0011,10,Reserved,0x0000,RW,Reserved,
+,PHYSCR,,0x0011,9..8,Loopback FIFO Depth,0x0001,RW,"Far-End Loopback FIFO Depth:
+00 = 4 nibbles FIFO
+01 = 5 nibbles FIFO
+10 = 6 nibbles FIFO
+11 = 8 nibbles FIFO
+This FIFO is used to adjust RX (receive) clock rate to TX clock rate. FIFO depth needs to be set based on expected maximum packet size and clock accuracy. Default value sets to 5 nibbles.","0x0000: 4 nibbles FIFO
+0x0001: 5 nibbles FIFO
+0x0002: 6 nibbles FIFO
+0x0003: 8 nibbles FIFO"
+,PHYSCR,,0x0011,7..5,Reserved,0x0000,RO,Reserved,
+,PHYSCR,,0x0011,4,COL Full-Duplex Enable,0x0000,RW,"Collision in Full-Duplex Mode:
+1 = Enable Collision generation signaling in Full-Duplex mode
+0 = Disable Collision in Full-Duplex mode
+Note: When in Half-Duplex mode, Collision will always be active.","0x0001: Enable Collision generation signaling in Full-Duplex mode
+0x0000: Disable Collision in Full-Duplex mode"
+,PHYSCR,,0x0011,3,Interrupt Polarity,0x0001,RW,"Interrupt Polarity:
+1 = Normal operation is 1 logic and during interrupt is 0 logic
+0 = Normal operation is 0 logic and during interrupt is 1 logic","0x0001: Normal operation is 1 logic and during interrupt is 0 logic
+0x0000: Normal operation is 0 logic and during interrupt is 1 logic"
+,PHYSCR,,0x0011,2,Test Interrupt,0x0000,RW,"Test Interrupt:
+1 = Generate an interrupt
+0 = Do not generate interrupt
+Forces the PHY to generate an interrupt to facilitate interrupt testing. Interrupts will continue to be generated as long as this bit remains set.","0x0001: Generate an interrupt
+0x0000: Do not generate interrupt"
+,PHYSCR,,0x0011,1,Interrupt Enable,0x0000,RW,"Interrupt Enable:
+1 = Enable event based interrupts
+0 = Disable event based interrupts
+Enable interrupt dependent on the event enables in the MISR register
+(address 0x0012).","0x0001: Enable event based interrupts
+0x0000: Disable event based interrupts"
+,PHYSCR,,0x0011,0,Interrupt Output Enable,0x0000,RW,"Interrupt Output Enable:
+1 = INT/PWDN_N is an interrupt output
+0 = INT/PWDN_N is a Power Down pin
+Enable  active  low  interrupt  events  via  the  INT/PWDN_N  pin  by configuring the INT/PWDN_N pin as an output.","0x0001: INT/PWDN_N is an interrupt output
+0x0000: INT/PWDN_N is a Power Down pin"
+,MISR1,,0x0012,15,Link Quality Interrupt,0x0000,RO/LH,"Change of Link Quality Status Interrupt:
+1 = Change of link quality when link is ON
+0 = Link quality is Good","0x0001: Change of link quality when link is ON
+0x0000: Link quality is Good"
+,MISR1,,0x0012,14,Energy Detect Interrupt,0x0000,RO/LH,"Change of Energy Detection Status Interrupt:
+1 = Change of energy detected
+0 = No change of energy detected","0x0001: Change of energy detected
+0x0000: No change of energy detected"
+,MISR1,,0x0012,13,Link Status Changed Interrupt,0x0000,RO/LH,"Change of Link Status Interrupt:
+1 = Change of link status interrupt is pending
+0 = No change of link status","0x0001: Change of link status interrupt is pending
+0x0000: No change of link status"
+,MISR1,,0x0012,12,Speed Changed Interrupt,0x0000,RO/LH,"Change of Speed Status Interrupt:
+1 = Change of speed status interrupt is pending
+0 = No change of speed status","0x0001: Change of speed status interrupt is pending
+0x0000: No change of speed status"
+,MISR1,,0x0012,11,"Duplex Mode Changed
+Interrupt",0x0000,RO/LH,"Change of Duplex Status Interrupt:
+1 = Change of duplex status interrupt is pending
+0 = No change of duplex status","0x0001: Change of duplex status interrupt is pending
+0x0000: No change of duplex status"
+,MISR1,,0x0012,10,"Auto-Negotiation Completed
+Interrupt",0x0000,RO/LH,"Auto-Negotiation Complete Interrupt:
+1 = Auto-Negotiation complete interrupt is pending
+0 = No Auto-Negotiation complete event is pending","0x0001: Auto-Negotiation complete interrupt is pending
+0x0000: No Auto-Negotiation complete event is pending"
+,MISR1,,0x0012,9,"False Carrier Counter Half-Full
+Interrupt",0x0000,RO/LH,"False Carrier Counter Half-Full Interrupt:
+1 = False Carrier HF interrupt is pending
+0 = False Carrier HF event is not pending
+False Carrier counter (Register FCSCR, address 0x0014) exceeds half-full interrupt is pending.","0x0001: False Carrier HF interrupt is pending
+0x0000: False Carrier HF event is not pending"
+,MISR1,,0x0012,8,"Receive Error Counter Half-Full
+Interrupt",0x0000,RO/LH,"Receiver Error Counter Half-Full Interrupt:
+1 = Receive Error HF interrupt is pending
+0 = Receive Error HF event is not pending
+Receiver Error counter (Register RECR, address 0x0015) exceeds half-full interrupt is pending.","0x0001: Receive Error HF interrupt is pending
+0x0000: Receive Error HF event is not pending"
+,MISR1,,0x0012,7,Link Quality Interrupt Enable,0x0000,RW,Enable interrupt on change of link quality,
+,MISR1,,0x0012,6,Energy Detect Interrupt Enable,0x0000,RW,Enable interrupt on change of energy detection,
+,MISR1,,0x0012,5,Link Status Changed Enable,0x0000,RW,Enable interrupt on change of link status,
+,MISR1,,0x0012,4,"Speed Changed Interrupt
+Enable",0x0000,RW,Enable Interrupt on change of speed status,
+,MISR1,,0x0012,3,"Duplex Mode Changed
+Interrupt Enable",0x0000,RW,Enable Interrupt on change of duplex status,
+,MISR1,,0x0012,2,"Auto-Negotiation Completed
+Enable",0x0000,RW,Enable Interrupt on Auto-negotiation complete event,
+,MISR1,,0x0012,1,False Carrier HF Enable,0x0000,RW,Enable Interrupt on False Carrier Counter Register half-full event,
+,MISR1,,0x0012,0,Receive Error HF Enable,0x0000,RW,Enable Interrupt on Receive Error Counter Register half-full event,
+,MISR2,,0x0013,15,EEE Error Interrupt,0x0000,RO/LH,"Energy Efficient Ethernet Error Interrupt:
+1 = EEE error has occurred
+0 = EEE error has not occurred","0x0001: EEE error has occurred
+0x0000: EEE error has not occurred"
+,MISR2,,0x0013,14,Auto-Negotiation Error Interrupt,0x0000,RO/LH,"Auto-Negotiation Error Interrupt:
+1 = Auto-Negotiation error interrupt is pending
+0 = No Auto-Negotiation error event pending","0x0001: Auto-Negotiation error interrupt is pending
+0x0000: No Auto-Negotiation error event pending"
+,MISR2,,0x0013,13,Page Received Interrupt,0x0000,RO/LH,"Page Receiver Interrupt:
+1 = Page has been received
+0 = Page has not been received","0x0001: Page has been received
+0x0000: Page has not been received"
+,MISR2,,0x0013,12,"Loopback FIFO OF/UF Event
+Interrupt",0x0000,RO/LH,"Loopback FIFO Overflow/Underflow Event Interrupt:
+1 = FIFO Overflow/Underflow event interrupt pending
+0 = No FIFO Overflow/Underflow event pending","0x0001: FIFO Overflow/Underflow event interrupt pending
+0x0000: No FIFO Overflow/Underflow event pending"
+,MISR2,,0x0013,11,"MDI Crossover Change
+Interrupt",0x0000,RO/LH,"MDI/MDIX Crossover Status Change Interrupt:
+1 = MDI crossover status changed interrupt is pending
+0 = MDI crossover status has not changed","0x0001: MDI crossover status changed interrupt is pending
+0x0000: MDI crossover status has not changed"
+,MISR2,,0x0013,10,Sleep Mode Interrupt,0x0000,RO/LH,"Sleep Mode Event Interrupt:
+1 = Sleep mode event interrupt is pending
+0 = No Sleep mode event pending","0x0001: Sleep mode event interrupt is pending
+0x0000: No Sleep mode event pending"
+,MISR2,,0x0013,9,Polarity Changed Interrupt / WoL Packet Received Interrupt,0x0000,RO/LH,"Polarity Change Interrupt / WoL Packet Received Interrupt:
+1 = Data polarity interrupt pending / WoL packet was recieved
+0 = No Data polarity pending / No WoL packet received","0x0001: Data polarity interrupt pending / WoL packet was recieved
+0x0000: No Data polarity pending / No WoL packet received"
+,MISR2,,0x0013,8,Jabber Detect Interrupt,0x0000,RO/LH,"Jabber Detect Event Interrupt:
+1 = Jabber detect event interrupt pending
+0 = No Jabber detect event pending","0x0001: Jabber detect event interrupt pending
+0x0000: No Jabber detect event pending"
+,MISR2,,0x0013,7,EEE Error Interrupt Enable,0x0000,RW,Enable interrupt on EEE Error,
+,MISR2,,0x0013,6,"Auto-Negotiation Error Interrupt
+Enable",0x0000,RW,Enable Interrupt on Auto-Negotiation error event,
+,MISR2,,0x0013,5,"Page Received Interrupt
+Enable",0x0000,RW,Enable Interrupt on page receive event,
+,MISR2,,0x0013,4,Loopback FIFO OF/UF Enable,0x0000,RW,Enable Interrupt on loopback FIFO Overflow/Underflow event,
+,MISR2,,0x0013,3,MDI Crossover Change Enable,0x0000,RW,Enable Interrupt on change of MDI/X status,
+,MISR2,,0x0013,2,Sleep Mode Event Enable,0x0000,RW,Enable Interrupt on sleep mode event,
+,MISR2,,0x0013,1,"Polarity Changed / WoL Packet
+Enable",0x0000,RW,Enable Interrupt on change of polarity status,
+,MISR2,,0x0013,0,Jabber Detect Enable,0x0000,RW,Enable Interrupt on Jabber detection event,
+,FCSCR,,0x0014,15..8,Reserved,0x0000,RO,Reserved,
+,FCSCR,,0x0014,7..0,False Carrier Event Counter,0x0000,RO/COR,"False Carrier Event Counter:
+This 8-bit counter increments on every false carrier event. This counter stops when it reaches its maximum count (FFh). When the counter exceeds half-full (7Fh), an interrupt event is generated. This register is cleared on read.",
+,RECR,,0x0015,15..0,Receive Error Counter,0x0000,RO/COR,"RX_ER Counter:
+When a valid carrier is presented (only while RXDV is set), and there is at least one occurrence of an invalid data symbol, this 16-bit counter increments for each receive error detected. The RX_ER counter does not count in MII loopback mode. The counter stops
+when it reaches its maximum count (FFh). When the counter exceeds half-full (7Fh), an interrupt is generated. This register is cleared on read.",
+,BISCR,,0x0016,15,Reserved,0x0000,RO,Reserved,
+,BISCR,,0x0016,14,BIST Error Counter Mode,0x0000,RW,"BIST Error Counter Mode:
+1 = Continuous mode
+0 = Single mode
+Continuous  mode,  when  the  BIST  Error  counter  reaches  its  max value, a pulse is generated and the counter starts counting from zero again. When in Single mode, if the BIST Error Counter reaches its max value, PRBS checker will stop counting.","0x0001: Continuous mode
+0x0000: Single mode"
+,BISCR,,0x0016,13,PRBS Checker,0x0000,RW,"PRBS Checker:
+1 = PRBS Checker Enabled
+0 = PRBS Checker Disabled
+When PRBS checker  is  enabled, DP83822 will  check  PRBS data received.","0x0001: PRBS Checker Enabled
+0x0000: PRBS Checker Disabled"
+,BISCR,,0x0016,12,Packet Generation Enable,0x0000,RW,"Packet Generation Enable:
+1 = Enable packet generator with PRBS data
+0 = Disable packet generator","0x0001: Enable packet generator with PRBS data
+0x0000: Disable packet generator"
+,BISCR,,0x0016,11,PRBS Checker Lock/Sync,0x0000,RO,"PRBS Checker Lock/Sync Indication:
+1 = PRBS checker is locked and synced on received bit stream
+0 = PRBS checker is not locked","0x0001: PRBS checker is locked and synced on received bit stream
+0x0000: PRBS checker is not locked"
+,BISCR,,0x0016,10,PRBS Checker Sync Loss,0x0000,RO/LH,"PRBS Checker Sync Loss Indication:
+1 = PRBS checker has lost sync
+0 = PRBS checker has not lost sync","0x0001: PRBS checker has lost sync
+0x0000: PRBS checker has not lost sync"
+,BISCR,,0x0016,9,Packet Generator Status,0x0000,RO,"Packet Generation Status Indication:
+1 = Packet Generator is active and generating packets
+0 = Packet Generator is off","0x0001: Packet Generator is active and generating packets
+0x0000: Packet Generator is off"
+,BISCR,,0x0016,8,Power Mode,0x0001,RO,"Sleep Mode Indication:
+1 = Indicates that the PHY is in normal power mode
+0 = Indicates that the PHY is in one of the sleep modes","0x0001: Indicates that the PHY is in normal power mode
+0x0000: Indicates that the PHY is in one of the sleep modes"
+,BISCR,,0x0016,7,Reserved,0x0000,RO,Reserved,
+,BISCR,,0x0016,6,Transmit in MII Loopback,0x0000,RW,"Transmit Data in MII Loopback Mode (valid only at 100 Mbps):
+1 = Enable transmission
+0 = Disable transmission
+When enabled, data received from the MAC on the TX pins will be routed to the MDI in parallel to the MII loopback (to RX pins). This bit may be set only in MII Loopback mode - setting bit[14] in in BMCR register (address 0x0000). When disabled, data from the MAC is not transmitted to the MDI.","0x0001: Enable transmission
+0x0000: Disable transmission"
+,BISCR,,0x0016,5,Reserved,0x0000,RO,Reserved,
+,BISCR,,0x0016,4..0,Loopback Mode,0x0000,RW,"Loopback Mode Select:
+The PHY provides several options for loopback that test and verify various functional blocks within the PHY. Enabling loopback mode allows in-circuit testing of the DP83822 digital and analog data paths
+Near-end Loopback
+00001 = PCS Input Loopback
+00010 = PCS Output Loopback
+00100 = Digital Loopback
+01000 = Analog Loopback (requires 100-? termination)
+Far-end Loopback
+10000 = Reverse Loopback","0x0001: PCS Input Loopback
+0x0002: PCS Output Loopback
+0x0004: Digital Loopback
+0x0008: Analog Loopback (requires 100-? termination)
+0x0010: Reverse Loopback"
+,RCSR,,0x0017,15..13,Reserved,0x0000,RO,Reserved,
+,RCSR,,0x0017,12,RGMII RX Clock Shift,0x0000,RW,"RGMII RX Clock Shift:
+1 = Receive path internal clock shift is enabled
+0 = Receive path internal clock shift is disabled
+When enabled, receive path internal clock (RX_CLK) is delayed by
+3.5ns relative to recieve data. When disabled, data and clock are in align mode.","0x0001: Receive path internal clock shift is enabled
+0x0000: Receive path internal clock shift is disabled"
+,RCSR,,0x0017,11,RGMII TX Clock Shift,0x0000,RW,"RGMII TX Clock Shift:
+1 = Transmit path internal clock shift is disabled
+0 = Transmit path internal clock shift is enabled
+When enabled, transmit path internal clock (TX_CLK) is delayed by
+3.5ns relative to transmit data.","0x0001: Transmit path internal clock shift is disabled
+0x0000: Transmit path internal clock shift is enabled"
+,RCSR,,0x0017,10,RGMII TX Synced,0x0000,RW,"RGMII TX Clock Sync:
+1 = PHY and MAC share same clock reference
+0 = PHY operates from same or independent clock source as MAC
+This mode, when enabled, reduces latency since both MAC and PHY are synchronized to the same clock source. This mode can also be used when enabling the PHY Clock Output by connecting the MAC to the PHY Output Clock.","0x0001: PHY and MAC share same clock reference
+0x0000: PHY operates from same or independent clock source as MAC"
+,RCSR,,0x0017,9,RGMII Mode,0x0000,RW/Strap,"RGMII Mode Enable:
+1 = Enable RGMII mode of operation
+0 = Mode determined by bit[5]","0x0001: Enable RGMII mode of operation
+0x0000: Mode determined by bit[5]"
+,RCSR,,0x0017,8,RMII TX Clock Shift,0x0000,RW,"RMII TX Clock Shift:
+1 = Transmit path internal clock shift is enabled
+0 = Transmit path internal clock shift is disabled","0x0001: Transmit path internal clock shift is enabled
+0x0000: Transmit path internal clock shift is disabled"
+,RCSR,,0x0017,7,RMII Clock Select,0x0000,RW/Strap,"RMII Reference Clock Select:
+Strap XI_50 determines the clock reference requirement.
+1 = 50-MHz clock reference, CMOS-level oscillator
+0 = 25-MHz clock reference, crystal or CMOS-level oscillator","0x0001: 50-MHz clock reference, CMOS-level oscillator
+0x0000: 25-MHz clock reference, crystal or CMOS-level oscillator"
+,RCSR,,0x0017,6,"RMII Recovered Clock Async
+FIFO Bypass",0x0000,RW,"RMII Recovered Clock Async FIFO Bypass:
+0 = Bypass Asynchronous FIFO
+1 = Normal operation
+When in RMII Recovered Clock mode, the asynchronous FIFO can be bypassed to reduce the receive path latency within the DP83822.
+50-MHz clock is outputted on RX_CLK when in Async fifo bypass","0x0000: Bypass Asynchronous FIFO
+0x0001: Normal operation"
+,RCSR,,0x0017,5,RMII Mode,0x0000,RW,"RMII Mode Enable:
+1 = Enable RMII mode of operation
+0 = Enable MII mode of operation","0x0001: Enable RMII mode of operation
+0x0000: Enable MII mode of operation"
+,RCSR,,0x0017,4,RMII Revision Select,0x0000,RW,"RMII Revision Select:
+1 = RMII revision 1.0
+0 = RMII revision 1.2
+RMII revision 1.0, CRS_DV will remain asserted until final data is transferred. CRS_DV will not toggle at the end of a packet.
+RMII revision  1.2,  CRS_DV will  toggle at  the  end  of  a  packet to indicate de-assertion of CRS.","0x0001: RMII revision 1.0
+0x0000: RMII revision 1.2"
+,RCSR,,0x0017,3,RMII Overflow Status,0x0000,RO/COR,"RX FIFO Overflow Status:
+1 = Overflow detected
+0 = Normal","0x0001: Overflow detected
+0x0000: Normal"
+,RCSR,,0x0017,2,RMII Underflow Status,0x0000,RO/COR,"RX FIFO Underflow Status:
+1 = Underflow detected
+0 = Normal","0x0001: Underflow detected
+0x0000: Normal"
+,RCSR,,0x0017,1..0,Receive Elasticity Buffer Size,0x0001,RW,"Receive Elasticity Buffer Size:
+This field controls the Receive Elasticity Buffer which allows for frequency variation tolerance between the 50-MHz RMII clock and the recovered data. The following values indicate the tolerance in bits for
+a single packet. The minimum setting allows for standard Ethernet frame sizes at ±50ppm accuracy. For greater frequency tolerance, the packet lengths may be scaled (for ±100ppm), divide the packet
+lengths by 2).
+00 = 14 bit tolerance (up to 16800 byte packets)
+01 = 2 bit tolerance (up to 2400 byte packets)
+10 = 6 bit tolerance (up to 7200 byte packets)
+11 = 10 bit tolerance (up to 12000 byte packets)","0x0000: 14 bit tolerance (up to 16800 byte packets)
+0x0001: 2 bit tolerance (up to 2400 byte packets)
+0x0002: 6 bit tolerance (up to 7200 byte packets)
+0x0003: 10 bit tolerance (up to 12000 byte packets)"
+,LEDCR,,0x0018,15..11,Reserved,0x0000,RO,Reserved,
+,LEDCR,,0x0018,10..9,Blink Rate,0x0002,RW,"LED_0 Blinking Rate (ON/OFF duration):
+00 = 20Hz (50 ms)
+01 = 10Hz (100 ms)
+10 = 5Hz (200 ms)
+11 = 2Hz (500 ms)","0x0000: 20Hz (50 ms)
+0x0001: 10Hz (100 ms)
+0x0002: 5Hz (200 ms)
+0x0003: 2Hz (500 ms)"
+,LEDCR,,0x0018,8,Reserved,0x0000,RW,Reserved,
+,LEDCR,,0x0018,7,LED_0 Polarity,0x0000,RW/Strap,"LED_0 Link Polarity Setting:
+1 = Active High polarity setting
+0 = Active Low polarity setting
+LED_0 polarity defined by strapping value of this pin. This register allows for override of this strap value.","0x0001: Active High polarity setting
+0x0000: Active Low polarity setting"
+,LEDCR,,0x0018,6..5,Reserved,0x0000,RW,Reserved,
+,LEDCR,,0x0018,4,Drive LED_0,0x0000,RW,"Drive Link LED_0 Select:
+1 = Drive value of ON/OFF bit[1] onto LED_0 output pin
+0 = Normal operation","0x0001: Drive value of ON/OFF bit[1] onto LED_0 output pin
+0x0000: Normal operation"
+,LEDCR,,0x0018,3..2,Reserved,0x0000,RW,Reserved,
+,LEDCR,,0x0018,1,LED_0 ON/OFF Setting,0x0000,RW,Value to force LED_0 output,
+,LEDCR,,0x0018,0,Reserved,0x0000,RW,Reserved,
+,PHYCR,,0x0019,15,Auto MDI/X Enable,0x0000,RW/Strap,"Auto-MDIX Enable:
+1 = Enable Auto-Negotiation Auto-MDIX capability
+0 = Disable Auto-Negotiation Auto-MDIX capability","0x0001: Enable Auto-Negotiation Auto-MDIX capability
+0x0000: Disable Auto-Negotiation Auto-MDIX capability"
+,PHYCR,,0x0019,14,Force MDI/X,0x0000,RW,"Force MDIX:
+1 = Force MDI pairs to cross (MDIX)
+0 = Normal operation (MDI)
+When Force MDI/X is enabled, receive data is on the TD pair and transmit data is on the RD pair. When disabled, receive data is on the RD pair and transmit data is on the TD pair.","0x0001: Force MDI pairs to cross (MDIX)
+0x0000: Normal operation (MDI)"
+,PHYCR,,0x0019,13,Pause RX Status,0x0000,RO,"Pause Receive Negotiation Status:
+Indicates that pause receive should be enabled in the MAC. Based on bits[11:10] in ANAR register and bits[11:10] in ANLPAR register settings. The function shall be enabled according to IEEE 802.3
+Annex 28B Table 28B-3, ""Pause Resolution"", only if the Auto- Negotiation highest common denominator is a Full-Duplex technology.",
+,PHYCR,,0x0019,12,Pause TX Status,0x0000,RO,"Pause Transmit Negotiated Status:
+Indicates that pause should be enabled in the MAC. Based on bits[11:10] in ANAR register and bits[11:10] in ANLPAR register settings. This function shall be enabled according to IEEE 802.3
+Annex 28B Table 28B-3, ""Pause Resolution"", only if the Auto- Negotiation highest common denominator is a Full-Duplex technology.",
+,PHYCR,,0x0019,11,MII Link Status,0x0000,RO,"MII Link Status:
+1 = 100Base-TX Full-Duplex link is active
+0 = No active 100Base-TX Full-Duplex link","0x0001: 100Base-TX Full-Duplex link is active
+0x0000: No active 100Base-TX Full-Duplex link"
+,PHYCR,,0x0019,10..8,Reserved,0x0000,RO,Reserved,
+,PHYCR,,0x0019,7,Bypass LED Stretching,0x0000,RW,"Bypass LED Stretching:
+1 = Bypass LED stretching
+0 = Normal LED operation
+Set this bit to '1' to bypass the LED stretching, the LED reflects the internal value.","0x0001: Bypass LED stretching
+0x0000: Normal LED operation"
+,PHYCR,,0x0019,6,Reserved,0x0000,RW,,
+,PHYCR,,0x0019,5,LED Configuration,0x0001,RW/Strap,"Configuration 1.) LED Config = 1 LED_0 --> 'on' for Link, 'off' for no link 2.) LED Config = 0 LED_0--> 'on' for Link 'BLINK'for TX/RX activity",
+,PHYCR,,0x0019,4..0,PHY Address,0x0001,RO/Strap,"PHY Address:
+Strapping configuration for PHY Address",
+,10BTSCR,,0x001A,15..14,Reserved,0x0000,RO,Reserved,
+,10BTSCR,,0x001A,13,Receiver Threshold Enable,0x0000,RW,"Lower Receiver Threshold Enable:
+1 = Enable 10Base-Te lower receiver threshold
+0 = Normal 10Base-Te operation
+When enabled, receiver threshold is lowered to allow for operation with longer cables.","0x0001: Enable 10Base-Te lower receiver threshold
+0x0000: Normal 10Base-Te operation"
+,10BTSCR,,0x001A,12..9,Squelch,0x0000,RW,"Squelch Configuration:
+Used to set the Peak Squelch 'ON' threshold for the 10Base-Te receiver. Starting from 200mV to 600mV, step size of 50mV with some overlapping as shown below:
+0000 = 200mV
+0001 = 250mV
+0010 = 300mV
+0011 = 350mV
+0100 = 400mV
+0101 = 450mV
+0110 = 500mV
+0111 = 550mV
+1000 = 600mV","0x0000: 200mV
+0x0001: 250mV
+0x0002: 300mV
+0x0003: 350mV
+0x0004: 400mV
+0x0005: 450mV
+0x0006: 500mV
+0x0007: 550mV
+0x0008: 600mV"
+,10BTSCR,,0x001A,8,Reserved,0x0000,RW,Reserved,
+,10BTSCR,,0x001A,7,NLP Disable,0x0000,RW,"NLP Transmission Control:
+1 = Disable transmission of NLPs
+0 = Enable transmission of NLPs","0x0001: Disable transmission of NLPs
+0x0000: Enable transmission of NLPs"
+,10BTSCR,,0x001A,6..5,Reserved,0x0000,RO,Reserved,
+,10BTSCR,,0x001A,4,Polarity Status,0x0000,RO,"Polarity Status:
+1 = Inverted Polarity detected
+0 = Correct Polarity detected
+This bit is a duplication of bit[12] in the PHYSTS register (0x0010). Both bits will be cleared upon a read of 10BTSCR register, but not upon a read of the PHYSTS register.","0x0001: Inverted Polarity detected
+0x0000: Correct Polarity detected"
+,10BTSCR,,0x001A,3..1,Reserved,0x0000,RO,Reserved,
+,10BTSCR,,0x001A,0,Jabber Disable,0x0000,RW,"Jabber Disable:
+1 = Jabber function disabled
+0 = Jabber function enabled
+Note: This function is only applicable in 10Base-Te operation.","0x0001: Jabber function disabled
+0x0000: Jabber function enabled"
+,BICSR1,,0x001B,15..8,BIST Error Count,0x0000,RO,"BIST Error Count:
+Holds number of errored bytes received by the PRBS checker. Value in this register is locked and cleared when write is done to bit[15]. When BIST Error Counter Mode is set to '0', count stops on 0xFF (see register 0x0016)
+Note: Writing '1' to bit[15] will lock the counter's value for successive read operation and clear the BIST Error Counter.",
+,BICSR1,,0x001B,7..0,BIST IPG Length,0x007D,RW,"BIST IPG Length:
+Inter Packet Gap (IPG) Length defines the size of the gap (in bytes) between any 2 successive packets generated by the BIST. Default value is 0x7D (equal to 500 bytes).",
+,BICSR2,,0x001C,15..11,Reserved,0x0000,RO,Reserved,
+,BICSR2,,0x001C,10..0,BIST Packet Length,0x05FF,RW,"BIST Packet Length:
+Length of the generated BIST packets. The value of this register defines the size (in bytes) of every packet that is generated by the BIST. Default value is 0x5EE, which is equal to 1518 bytes.",
+,CDCR,,0x001E,15,Cable Diagnostic Start,0x0000,RW,"Cable Diagnostic Process Start:
+1 = Start cable measurement
+0 = Cable Diagnostic is disabled
+Diagnostic Start bit is cleared once Diagnostic Done indication bit is triggered.","0x0001: Start cable measurement
+0x0000: Cable Diagnostic is disabled"
+,CDCR,,0x001E,14..2,Reserved,0x0000,RO,Reserved,
+,CDCR,,0x001E,1,Cable Diagnostic Status,0x0000,RO,"Cable Diagnostic Process Done:
+1 = Indication that cable measurement process is complete
+0 = Cable Diagnostic had not completed","0x0001: Indication that cable measurement process is complete
+0x0000: Cable Diagnostic had not completed"
+,CDCR,,0x001E,0,Cable Diagnostic Test Fail,0x0000,RO,"Cable Diagnostic Process Fail:
+1 = Indication that cable measurement process failed
+0 = Cable Diagnostic has not failed","0x0001: Indication that cable measurement process failed
+0x0000: Cable Diagnostic has not failed"
+,CDCR,,0x001F,15,Software Reset,0x0000,RW/SC,"Software Reset:
+1 = Reset PHY
+0 = Normal Operation
+This bit is self cleared and has the same effect as Hardware reset pin.","0x0001: Reset PHY
+0x0000: Normal Operation"
+,CDCR,,0x001F,14,Digital Restart,0x0000,RW/SC,"Digital Restart:
+1 = Restart PHY
+0 = Normal Operation
+This bit is self cleared and resets all PHY digital circuitry except the registers.","0x0001: Restart PHY
+0x0000: Normal Operation"
+,CDCR,,0x001F,13..0,Reserved,0x0000,RW,Reserved,
+,MLEDCR,,0x0025,15..10,Reserved,0x0000,RW,Reserved,
+,MLEDCR,,0x0025,9,MLED Polarity Swap,0x0000,RW,"MLED Polarity Swap:
+The polarity of MLED depends on the routing configuration and the strap on COL pin. If the pin strap is Pull-Up then polarity is active low. If the pin strap is Pull-Down then polarity is active high.
+0 = Active Low (default when pin strapped HIGH)
+1 = Active High (default when pin strapped LOW)","0x0000: Active Low (default when pin strapped HIGH)
+0x0001: Active High (default when pin strapped LOW)"
+,MLEDCR,,0x0025,8..7,Reserved,0x0000,RW,Reserved,
+,MLEDCR,,0x0025,6..3,MLED Configuration (COL Pin),0x0000,RW,"MLED Configurations:
+000 0 = LINK OK
+000 1 = RX/TX Activity
+001 0 = TX Activity
+001 1 = RX Activity
+010 0 = Collision
+010 1 = Speed, High for 100Base-TX
+011 0 = Speed, High for 10Base-Te
+011 1 = Full-Duplex
+100 0 = LINK OK / BLINK on TX/RX Activity
+100 1 = Active Stretch Signal
+101 0 = MII LINK (100BT+FD)
+101 1 = LPI Mode (EEE)
+110 0 = TX/RX MII Error
+110 1 = Link Lost
+111 0 = Blink for PRBS error
+111 1 = Reserved
+Link Lost, LED remains ON until BMCR register (address 0x0001) is read.
+Blink for PRBS Errors, LED remains ON for single error and remains until BICSR1 register (address 0x001B) is cleared.",
+,MLEDCR,,0x0025,2,Reserved,0x0000,RW,Reserved,
+,MLEDCR,,0x0025,1..0,MLED Route to LED_0,0x0000,RW,"MLED Route to LED_0:
+00 = MLED routed to COL
+01 = Reserved
+10 = Reserved
+11 = MLED routed to LED_0","0x0000: MLED routed to COL
+0x0001: Reserved
+0x0002: Reserved
+0x0003: MLED routed to LED_0"
+,COMPT,,0x0027,15..5,Reserved,0x0000,RW,Reserved,
+,COMPT,,0x0027,4,"10Base-Te Test Patterns
+Enable",0x0000,RW,"10Base-Te Test Pattern Enable:
+1 = Enable 10Base-Te Test Patterns
+0 = Disable 10Base-Te Test Patterns","0x0001: Enable 10Base-Te Test Patterns
+0x0000: Disable 10Base-Te Test Patterns"
+,COMPT,,0x0027,3..0,Compliance Test Configuration,0x0000,RW,"Compliance Test Configuration Select:
+Bit[4] in Register 0x0027 = 1, Enables 10Base-Te Test Patterns. Bit[4] in Register 0x0428 = 1, Enables 100Base-TX Test Modes Bits[3:0] select the 10Base-Te test pattern, as follows:
+0000 = Single NLP
+0001 = Single Pulse 1
+0010 = Single Pulse 0
+0011 = Repetitive 1
+0100 = Repetitive 0
+0101 = Preamble (repetitive ‘10’)
+0110 = Single 1 followed by TP_IDLE
+0111 = Single 0 followed by TP_IDLE
+1000 = Repetitive ‘1001’ sequence
+1001 = Random 10Base-Te data
+1010 = TP_IDLE_00
+1011 = TP_IDLE_01
+1100 = TP_IDLE_10
+1101 = TP_IDLE_11
+100Base-TX Test Mode is determined by bits {[5] in register 0x0428, [3:0] in register 0x0027}. The bits determine the number of 0's to follow a '1'.
+0,0001 = Single '0' after a '1'
+0,0010 = Two '0' after a '1'
+0,0011 = Three '0' after a '1'
+0,0100 = Four '0' after a '1'
+0,0101 = Five '0' after a '1'
+0,0110 = Six '0' after a '1'
+0,0111 = Seven '0' after a '1'
+...
+1,1111 = Thirty one '0' after a '1'
+0,0000 = Clears the shift register
+Note 1: To reconfigure the 100Base-TX Test Mode, bit[4] must be cleared in register 0x0428 and then reset to '1' to configure the new pattern.
+Note 2: When performing 100Base-TX or 10Base-Te tests modes, the speed must be forced using the Basic Mode Control Register (BMCR), address 0x0000.","0x0000: Single NLP
+0x0001: Single Pulse 1
+0x0002: Single Pulse 0
+0x0003: Repetitive 1
+0x0004: Repetitive 0
+0x0005: Preamble (repetitive ‘10’)
+0x0006: Single 1 followed by TP_IDLE
+0x0007: Single 0 followed by TP_IDLE
+0x0008: Repetitive ‘1001’ sequence
+0x0009: Random 10Base-Te data
+0x000A: TP_IDLE_00
+0x000B: TP_IDLE_01
+0x000C: TP_IDLE_10
+0x000D: TP_IDLE_11"
+,PTPPSEL,,0x003E,15..7,Reserved,0x0000,RO,Reserved,
+,PTPPSEL,,0x003E,6..4,IEEE 1588 TX Pin Select,0x0000,RW,"IEEE 1588 TX Pin Select:
+Assigns transmit SFD pulse indication to pin selected by value
+001 = Reserved
+010 = Reserved
+011 = LED_0 Pin
+100 = CRS Pin
+101 = COL Pin
+110 = INT/PWDN_N Pin
+111 = No pulse output","0x0001: Reserved
+0x0002: Reserved
+0x0003: LED_0 Pin
+0x0004: CRS Pin
+0x0005: COL Pin
+0x0006: INT/PWDN_N Pin
+0x0007: No pulse output"
+,PTPPSEL,,0x003E,3,Reserved,0x0000,RO,Reserved,
+,PTPPSEL,,0x003E,2..0,IEEE 1588 RX Pin Select,0x0000,RW,"IEEE 1588 RX Pin Select:
+Assigns receive SFD pulse indication to pin selected by value
+001 = Reserved
+010 = Reserved
+011 = LED_0 Pin
+100 = CRS Pin
+101 = COL Pin
+110 = INT/PWDN_N Pin
+111 = No pulse output","0x0001: Reserved
+0x0002: Reserved
+0x0003: LED_0 Pin
+0x0004: CRS Pin
+0x0005: COL Pin
+0x0006: INT/PWDN_N Pin
+0x0007: No pulse output"
+,PTPCFG,,0x003F,15..13,PTP Transmit Timing,0x0005,RW,"PTP Transmit Timing:
+Set IEEE 1588 indication for TX path (8ns step)",
+,PTPCFG,,0x003F,12..10,PTP Receive Timing,0x0005,RW,"PTP Receive Timing:
+Set IEEE 1588 indication for RX path (8ns step)",
+,PTPCFG,,0x003F,9..8,TX Error Input Pin,0x0000,RW,"Configure TX Error Input Pin:
+00 = No TX Error
+01 = Reserved
+10 = Use INT/PWDN_N pin as TX error
+11 = Use COL pin as TX error","0x0000: No TX Error
+0x0001: Reserved
+0x0002: Use INT/PWDN_N pin as TX error
+0x0003: Use COL pin as TX error"
+,PTPCFG,,0x003F,7..0,Reserved,0x00FF,RW,Reserved,
+,TXCPSR,,0x0042,15..5,Reserved,0x0000,RO,Reserved,
+,TXCPSR,,0x0042,4,Phase Shift Enable,0x0000,RW/SC,"TX Clock Phase Shift Enable:
+1 = Perform Phase Shift to TX_CLK
+0 = No change in TX_CLK phase
+When enabled, TX_CLK phase shift is according to the value written to TX Clock Phase Shift Value (bits[4:0]).","0x0001: Perform Phase Shift to TX_CLK
+0x0000: No change in TX_CLK phase"
+,TXCPSR,,0x0042,3..0,Phase Shift Value,0x0000,RW,"TX Clock Phase Shift Value:
+The value of this register represents the current phase shift between Reference clock at XI and MII tramsmit clock at TX_CLK. Any different value that will be written to these bits will shift TX_CLK by 4 times the difference (in ns).
+Example: If the value of the register is 0x0002, writing 0x0009 to this register will shift TX_CLK by 28ns. (4 times 7ns)",
+,DFCCR1,,0x0106,15..0,Reserved,0xB0BB,RW,Reserved,
+,DFCCR2,,0x0107,15..0,Reserved,0x0605,RW,Reserved,
+,DSPCR,,0x010F,15..0,Reserved,0x0300,RW,Reserved,
+,DFECR,,0x0114,15..0,Reserved,0x400A,RW,Reserved,
+,AGCBCR,,0x0116,15..0,Reserved,0x014A,RW,Reserved,
+,DETR,,0x0126,15..0,Reserved,0x461B,RW,Reserved,
+,ALCDRR1,,0x0155,15,ALCD Start Test,0x0000,SC,"Active Link Cable Diagnostic Start:
+1 = Start ALCD test
+0 = Do not start ALCD test","0x0001: Start ALCD test
+0x0000: Do not start ALCD test"
+,ALCDRR1,,0x0155,14..13,Reserved,0x0000,RO,Reserved,
+,ALCDRR1,,0x0155,12,ALCD Test Status,0x0001,RO,"Active Link Cable Diagnostic Status:
+1 = ALCD is not complete
+0 = ALCD is complete","0x0001: ALCD is not complete
+0x0000: ALCD is complete"
+,ALCDRR1,,0x0155,11..4,ALCD Sum Out,0x00F4,RO,,
+,ALCDRR1,,0x0155,3..0,Reserved,0x0001,RW,Reserved,
+,CDSCR,,0x0170,15,Reserved,0x0000,RO,Reserved,
+,CDSCR,,0x0170,14,"Cable Diagnostic Cross
+Disable",0x0000,RW,"Cross TDR Diagnostic Mode:
+1 = Disable TDR Cross Mode
+0 = Enable TDR Cross Mode
+When enabled, the TDR mechanism is looking for reflection on the other pair to check for shorts between pairs.","0x0001: Disable TDR Cross Mode
+0x0000: Enable TDR Cross Mode"
+,CDSCR,,0x0170,13,Cable Diagnostic TD Bypass,0x0000,RW,"TD Diagnostic Bypass:
+1 = Bypass TD pair diagnostic
+0 = TDR is executed on TD pair
+When enabled, TDR on TD pair will not be executed.","0x0001: Bypass TD pair diagnostic
+0x0000: TDR is executed on TD pair"
+,CDSCR,,0x0170,12,Cable Diagnostic RD Bypass,0x0000,RW,"RD Diganostic Bypass:
+1= Bypass RD pair diagnostic
+0 = TDR is executed on RD pair
+When enabled, TDR on RD pair will not be executed.","0x0000: TDR is executed on RD pair"
+,CDSCR,,0x0170,11,Reserved,0x0001,RW,Reserved,
+,CDSCR,,0x0170,10..8,"Cable Diagnostic Average
+Cycles",0x0006,RW,"Number of TDR Cycles to Average:
+000 = 1 TDR cycle
+001 = 2 TDR cycles
+010 = 4 TDR cycles
+011 = 8 TDR cycles
+100 = 16 TDR cycles
+101 = 32 TDR cycles
+110 = 64 TDR cycles
+111 = Reserved","0x0000: 1 TDR cycle
+0x0001: 2 TDR cycles
+0x0002: 4 TDR cycles
+0x0003: 8 TDR cycles
+0x0004: 16 TDR cycles
+0x0005: 32 TDR cycles
+0x0006: 64 TDR cycles
+0x0007: Reserved"
+,CDSCR,,0x0170,7..0,Reserved,0x0052,RW,Reserved,
+,CDSCR2,,0x0171,15..4,Reserved,0x0C85,RW,Reserved,
+,CDSCR2,,0x0171,3..0,TDR Pulse Control,0x000C,RW,Configure expected self reflection in TDR,
+,CDSCR3,,0x0173,15..8,Cable Length Configuration,0x00FF,RW,Configure duration of listening to detect long cable reflections,
+,CDSCR3,,0x0173,7..0,Reserved,0x001E,RW,Reserved,
+,CDSCR4,,0x0177,15..13,Reserved,0x0000,RW,Reserved,
+,CDSCR4,,0x0177,12..8,Short Cables Threshold,0x0018,RW,Threshold to compensate for strong reflections in short cables,
+,CDSCR4,,0x0177,7..0,Reserved,0x009B,RW,Reserved,
+,CDLRR1,,0x0180,15..8,TD Peak Location 2,0x0000,RO,Location of the Second peak discovered by the TDR mechanism on Transmit Channel (TD). The value of these bits need to be translated into distance from the PHY.,
+,CDLRR1,,0x0180,7..0,TD Peak Location 1,0x0000,RO,Location of the First peak discovered by the TDR mechanism on Transmit Channel (TD). The value of these bits need to be translated into distance from the PHY.,
+,CDLRR2,,0x0181,15..8,TD Peak Location 4,0x0000,RO,Location of the Fourth peak discovered by the TDR mechanism on Transmit Channel (TD). The value of these bits need to be translated into distance from the PHY.,
+,CDLRR2,,0x0181,7..0,TD Peak Location 3,0x0000,RO,Location of the Third peak discovered by the TDR mechanism on Transmit Channel (TD). The value of these bits need to be translated into distance from the PHY.,
+,CDLRR3,,0x0182,15..8,RD Peak Location 1,0x0000,RO,Location of the First peak discovered by the TDR mechanism on Receive Channel (RD). The value of these bits need to be translated into distance from the PHY.,
+,CDLRR3,,0x0182,7..0,TD Peak Location 5,0x0000,RO,Location of the Fifth peak discovered by the TDR mechanism on Transmit Channel (TD). The value of these bits need to be translated into distance from the PHY.,
+,CDLRR4,,0x0183,15..8,RD Peak Location 3,0x0000,RO,Location of the Third peak discovered by the TDR mechanism on Receive Channel (RD). The value of these bits need to be translated into distance from the PHY.,
+,CDLRR4,,0x0183,7..0,RD Peak Location 2,0x0000,RO,Location of the Second peak discovered by the TDR mechanism on Receive Channel (RD). The value of these bits need to be translated into distance from the PHY.,
+,CDLRR5,,0x0184,15..8,RD Peak Location 5,0x0000,RO,Location of the Fifth peak discovered by the TDR mechanism on Receive Channel (RD). The value of these bits need to be translated into distance from the PHY.,
+,CDLRR5,,0x0184,7..0,RD Peak Location 4,0x0000,RO,Location of the Fourth peak discovered by the TDR mechanism on Receive Channel (RD). The value of these bits need to be translated into distance from the PHY.,
+,CDLAR1,,0x0185,15,Reserved,0x0000,RO,Reserved,
+,CDLAR1,,0x0185,14..8,TD Peak Amplitude 2,0x0000,RO,Amplitude of the Second peak discovered by the TDR mechanism on Transmit Channel (TD). The value of these bits is translated into type of cable fault and/or interference.,
+,CDLAR1,,0x0185,7,Reserved,0x0000,RO,Reserved,
+,CDLAR1,,0x0185,6..0,TD Peak Amplitude 1,0x0000,RO,Amplitude of the First peak discovered by the TDR mechanism on Transmit Channel (TD). The value of these bits is translated into type of cable fault and/or interference.,
+,CDLAR2,,0x0186,15,Reserved,0x0000,RO,Reserved,
+,CDLAR2,,0x0186,14..8,TD Peak Amplitude 4,0x0000,RO,Amplitude of the Fourth peak discovered by the TDR mechanism on Transmit Channel (TD). The value of these bits is translated into type of cable fault and/or interference.,
+,CDLAR2,,0x0186,7,Reserved,0x0000,RO,Reserved,
+,CDLAR2,,0x0186,6..0,TD Peak Amplitude 3,0x0000,RO,Amplitude of the Third peak discovered by the TDR mechanism on Transmit Channel (TD). The value of these bits is translated into type of cable fault and/or interference.,
+,CDLAR3,,0x0187,15,Reserved,0x0000,RO,Reserved,
+,CDLAR3,,0x0187,14..8,RD Peak Amplitude 1,0x0000,RO,Amplitude of the First peak discovered by the TDR mechanism on Receive Channel (RD). The value of these bits is translated into type of cable fault and/or interference.,
+,CDLAR3,,0x0187,7,Reserved,0x0000,RO,Reserved,
+,CDLAR3,,0x0187,6..0,TD Peak Amplitude 5,0x0000,RO,Amplitude of the Fifth peak discovered by the TDR mechanism on Transmit Channel (TD). The value of these bits is translated into type of cable fault and/or interference.,
+,CDLAR4,,0x0188,15,Reserved,0x0000,RO,Reserved,
+,CDLAR4,,0x0188,14..8,RD Peak Amplitude 3,0x0000,RO,Amplitude of the Third peak discovered by the TDR mechanism on Receive Channel (RD). The value of these bits is translated into type of cable fault and/or interference.,
+,CDLAR4,,0x0188,7,Reserved,0x0000,RO,Reserved,
+,CDLAR4,,0x0188,6..0,RD Peak Amplitude 2,0x0000,RO,Amplitude of the Second peak discovered by the TDR mechanism on Receive Channel (RD). The value of these bits is translated into type of cable fault and/or interference.,
+,CDLAR5,,0x0189,15,Reserved,0x0000,RO,Reserved,
+,CDLAR5,,0x0189,14..8,RD Peak Amplitude 5,0x0000,RO,Amplitude of the Fifth peak discovered by the TDR mechanism on Receive Channel (RD). The value of these bits is translated into type of cable fault and/or interference.,
+,CDLAR5,,0x0189,7,Reserved,0x0000,RO,Reserved,
+,CDLAR5,,0x0189,6..0,RD Peak Amplitude 4,0x0000,RO,Amplitude of the Fourth peak discovered by the TDR mechanism on Receive Channel (RD). The value of these bits is translated into type of cable fault and/or interference.,
+,CDLGR,,0x018A,15,TD Peak Polarity 5,0x0000,RO,"Polarity of the Fifth peak discovered by the TDR mechanism on
+Transmit Channel (TD).",
+,CDLGR,,0x018A,14,TD Peak Polarity 4,0x0000,RO,"Polarity of the Fourth peak discovered by the TDR mechanism on
+Transmit Channel (TD).",
+,CDLGR,,0x018A,13,TD Peak Polarity 3,0x0000,RO,"Polarity of the Third peak discovered by the TDR mechanism on
+Transmit Channel (TD).",
+,CDLGR,,0x018A,12,TD Peak Polarity 2,0x0000,RO,"Polarity of the Second peak discovered by the TDR mechanism on
+Transmit Channel (TD).",
+,CDLGR,,0x018A,11,TD Peak Polarity 1,0x0000,RO,"Polarity of the First peak discovered by the TDR mechanism on
+Transmit Channel (TD).",
+,CDLGR,,0x018A,10,RD Peak Polarity 5,0x0000,RO,"Polarity of the Fifth peak discovered by the TDR mechanism on
+Receive Channel (RD).",
+,CDLGR,,0x018A,9,RD Peak Polarity 4,0x0000,RO,"Polarity of the Fourth peak discovered by the TDR mechanism on
+Receive Channel (RD).",
+,CDLGR,,0x018A,8,RD Peak Polarity 3,0x0000,RO,"Polarity of the Third peak discovered by the TDR mechanism on
+Receive Channel (RD).",
+,CDLGR,,0x018A,7,RD Peak Polarity 2,0x0000,RO,"Polarity of the Second peak discovered by the TDR mechanism on
+Receive Channel (RD).",
+,CDLGR,,0x018A,6,RD Peak Polarity 1,0x0000,RO,"Polarity of the First peak discovered by the TDR mechanism on
+Receive Channel (RD).",
+,CDLGR,,0x018A,5,Cross Detect on TD,0x0000,RO,"Cross Reflections were detected on TD. Indicate on Short between
+TD and TD",
+,CDLGR,,0x018A,4,Cross Detect on RD,0x0000,RO,"Cross Reflections were detected on RD. Indicate on Short between
+TD and RD",
+,CDLGR,,0x018A,3,Above 5 TD Peaks,0x0000,RO,More than 5 reflections were detected on TD,
+,CDLGR,,0x018A,2,Above 5 RD Peaks,0x0000,RO,More than 5 reflections were detected on RD,
+,CDLGR,,0x018A,1..0,Reserved,0x0000,RO,Reserved,
+,ALCDRR2,,0x0215,15..4,Reserved,0x0000,RO,Reserved,
+,ALCDRR2,,0x0215,3..0,PGA Control,0x0003,RO,Control word to analog PGA,
+,ALCDRR3,,0x021D,15..12,Reserved,0x0000,RO,Reserved,
+,ALCDRR3,,0x021D,11..0,FAGC Accumulator,0x0600,RW,FAGC Accumulator,
+,LDCTRL,,0x0403,15..12,Reserved,0x0009,RW,Reserved,
+,LDCTRL,,0x0403,11..8,"100Base-FX Line Driver Swing
+Select",0x000F,RW,"100Base-FX Line Driver Swing Select (peak-to-peak):
+0000 = 0.533-V
+0001 = 0.567-V
+0010 = 0.600-V
+0011 = 0.633-V
+0100 = 0.667-V
+0101 = 0.700-V
+0110 = 0.733-V
+0111 = 0.767-V
+1000 = 0.800-V
+1001 = 0.833-V
+1010 = 0.867-V
+1011 = 0.900-V
+1100 = 0.933-V
+1101 = 0.976-V
+1110 = 1.000-V
+1111 = 1.033-V (Default Setting)","0x0000: 0.533-V
+0x0001: 0.567-V
+0x0002: 0.600-V
+0x0003: 0.633-V
+0x0004: 0.667-V
+0x0005: 0.700-V
+0x0006: 0.733-V
+0x0007: 0.767-V
+0x0008: 0.800-V
+0x0009: 0.833-V
+0x000A: 0.867-V
+0x000B: 0.900-V
+0x000C: 0.933-V
+0x000D: 0.976-V
+0x000E: 1.000-V
+0x000F: 1.033-V (Default Setting)"
+,LDCTRL,,0x0403,7..4,"100Base-TX Line Driver Swing
+Select",0x000C,RW,"100Base-TX Line Driver Swing Select (peak-to-peak):
+0000 = 1.600-V
+0001 = 1.633-V
+0010 = 1.667-V
+0011 = 1.700-V
+0100 = 1.733-V
+0101 = 1.767-V
+0110 = 1.800-V
+0111 = 1.833-V
+1000 = 1.867-V
+1001 = 1.900-V
+1010 = 1.933-V
+1011 = 1.967-V
+1100 = 2.000-V (Default Setting)
+1101 = 2.033-V
+1110 = 2.067-V
+1111 = 2.100-V","0x0000: 1.600-V
+0x0001: 1.633-V
+0x0002: 1.667-V
+0x0003: 1.700-V
+0x0004: 1.733-V
+0x0005: 1.767-V
+0x0006: 1.800-V
+0x0007: 1.833-V
+0x0008: 1.867-V
+0x0009: 1.900-V
+0x000A: 1.933-V
+0x000B: 1.967-V
+0x000C: 2.000-V (Default Setting)
+0x000D: 2.033-V
+0x000E: 2.067-V
+0x000F: 2.100-V"
+,LDCTRL,,0x0403,3..0,"10Base-Te Line Driver Swing
+Select",0x000F,RW,"10Base-Te Line Driver Swing Select:
+0000 = 3.200-V
+0001 = 3.233-V
+0010 = 3.267-V
+0011 = 3.300-V
+0100 = 3.333-V
+0101 = 3.367-V
+0110 =3.400-V
+0111 = 3.433-V
+1000 = 3.467-V
+1001 = 3.500-V
+1010 = 3.533-V
+1011 = 3.567-V
+1100 = 3.600-V
+1101 = 3.633-V
+1110 = 3.667-V
+1111 = 3.700-V (Default Setting)","0x0000: 3.200-V
+0x0001: 3.233-V
+0x0002: 3.267-V
+0x0003: 3.300-V
+0x0004: 3.333-V
+0x0005: 3.367-V
+0x0007: 3.433-V
+0x0008: 3.467-V
+0x0009: 3.500-V
+0x000A: 3.533-V
+0x000B: 3.567-V
+0x000C: 3.600-V
+0x000D: 3.633-V
+0x000E: 3.667-V
+0x000F: 3.700-V (Default Setting)"
+,LDCSEL,,0x0404,15..0,Line Driver Class Selection,0x0020,RW,"0x0020 : Reduced MLT-3 (Class B)
+0x0024 : To program full MLT-3 on both Tx+ and Tx– (Class A)",
+,DPDWN,,0x0428,15..6,Reserved,0x0000,RO,Reserved,
+,DPDWN,,0x0428,5,MSB 100Base-TX Idle Pattern,0x0000,RW,"MSB 100Base-TX Idle Pattern:
+100Base-TX Test Mode is determined by bits {[5] in register 0x0428, [3:0] in register 0x0027}. The bits determine the number of 0's to follow a '1'.
+0,0001 = Single '0' after a '1'
+0,0010 = Two '0' after a '1'
+0,0011 = Three '0' after a '1'
+0,0100 = Four '0' after a '1'
+0,0101 = Five '0' after a '1'
+0,0110 = Six '0' after a '1'
+0,0111 = Seven '0' after a '1' .
+..
+1,1111 = Thirty one '0' after a '1'
+0,0000 = Clears the shift register",
+,DPDWN,,0x0428,4,"100Base-TX Idle Pattern Test
+Mode",0x0000,RW,"100Base-TX Idle Pattern Test Mode:
+1 = 100Base-TX Idle Pattern Enable
+0 = Normal operation
+When enabled, 100Base-TX Idle Pattern is determined by bit[5] in register 0x0428 and bits[3:0] in register 0x0027.","0x0001: 100Base-TX Idle Pattern Enable
+0x0000: Normal operation"
+,DPDWN,,0x0428,3,Deep Power Down Speed,0x0000,RW,"Deep Power Down Speed Selection:
+1 = 50ms duration to exit Deep Power Down
+0 = 100ms duration to exit Deep Power Down","0x0001: 50ms duration to exit Deep Power Down
+0x0000: 100ms duration to exit Deep Power Down"
+,DPDWN,,0x0428,2,Deep Power Down Enable,0x0000,RW,"Deep Power Down Enable:
+1 = Deep Power Down activated
+0 = Normal operation
+Note: If set, the DP83822 enters into deep power down mode. Deep power down mode requires that IEEE Power Down be enabled first by either register access (set bit[11] = '1' in register 0x0000) or using INT/PWDN pin.","0x0001: Deep Power Down activated
+0x0000: Normal operation"
+,DPDWN,,0x0428,1..0,Reserved,0x0000,RW,Reserved,
+,GENCFG,,0x0456,15..4,Reserved,0x0000,RW,Reserved,
+,GENCFG,,0x0456,3,Min IPG Enable,0x0001,RW,"Min IPG Enable:
+1 = Enable Minimum Inter-Packet Gap (IPG is set to 120ns)
+0 = IPG set to 0.20?s
+Note:
+IPGs <200ns should only be used when operating with a MII MAC IF
+configuration.","0x0001: Enable Minimum Inter-Packet Gap (IPG is set to 120ns)
+0x0000: IPG set to 0.20?s"
+,GENCFG,,0x0456,2..0,Reserved,0x0000,RW,Reserved,
+,LEDCFG1,,0x0460,15..12,Reserved,0x0000,RO,Reserved,
+,LEDCFG1,,0x0460,11..8,LED_1 Control,0x0005,RW,"LED_1 Control:
+Selects the source for LED_1.
+0000 = LINK OK
+0001 = RX/TX Activity
+0010 = TX Activity
+0011 = RX Activity
+0100 = Collision
+0101 = Speed, High for 100Base-TX
+0110 = Speed, High for 10Base-Te
+0111 = Full-Duplex
+1000 = LINK OK / BLINK on TX/RX Activity
+1001 = Active Stretch Signal
+1010 = MII LINK (100BT+FD)
+1011 = LPI Mode (EEE)
+1100 = TX/RX MII Error
+1101 = Link Lost
+1110 = Blink for PRBS error
+1111 = Reserved
+Link Lost, LED remains ON until BMCR register (address 0x0001) is read.
+Blink for PRBS Errors, LED remains ON for single error and remains until BICSR1 register (address 0x001B) is cleared.","0x0000: LINK OK
+0x0001: RX/TX Activity
+0x0002: TX Activity
+0x0003: RX Activity
+0x0004: Collision
+0x0005: Speed, High for 100Base-TX
+0x0006: Speed, High for 10Base-Te
+0x0007: Full-Duplex
+0x0008: LINK OK / BLINK on TX/RX Activity
+0x0009: Active Stretch Signal
+0x000A: MII LINK (100BT+FD)
+0x000B: LPI Mode (EEE)
+0x000C: TX/RX MII Error
+0x000D: Link Lost
+0x000E: Blink for PRBS error
+0x000F: Reserved"
+,LEDCFG1,,0x0460,7..4,LED_3 Control (RX_D3),0x0005,RW,"LED_3 Control:
+Selects the source for RX_D3. Please reference bits[11:8] for list of sources.",
+,LEDCFG1,,0x0460,3..0,Reserved,0x0001,RW,Reserved,
+,IOCTRL,,0x0461,15..5,Reserved,0x0020,RW,Reserved,
+,IOCTRL,,0x0461,4..1,MAC Impedance Control,0x0008,RW,"MAC Impedance Control:
+MAC interface impedance control sets the series termination for the digital pins.
+0 000 = 99.25 ?
+0 001 = 91.13 ?
+0 010 = 84.24 ?
+0 011 = 78.31 ?
+0 100 = 73.17 ?
+0 101 = 68.65 ?
+0 110 = 64.66 ?
+0 111 = 61.11 ?
+1 000 = 58.07 ? (Default Setting)
+1 001 = 55.18 ?
+1 010 = 52.57 ?
+1 011 = 50.20 ?
+1 100 = 48.03 ?
+1 101 = 46.04 ?
+1 110 = 44.20 ?
+1 111 = 42.51 ?",
+,IOCTRL,,0x0461,0,Reserved,0x0000,RW,Reserved,
+,IOCTRL1,,0x0462,15,Reserved,0x0000,RO,Reserved,
+,IOCTRL1,,0x0462,14..12,RX_D3 / GPIO_3 Clock Source,0x0000,RW,"Clock Source:
+If RX_D3 is configured as a clock source from bits[10:8] the following field determines the reference
+000 = MAC IF Clock
+001 = XI Clock (Pass-Through Clock from XI pin)
+010 = Internal Reference Clock: 25-MHz
+011 = Reserved
+100 = RMII Master Mode Reference Clock: 50-MHz
+101 = Reserved
+110 = Free Running Clock: 125-MHz
+111 = Recovered Clock: 125-MHz
+MAC IF Clock: MII Mode the clock frequency is 25-MHz, RMII Mode the clock frequency is 50-MHz; RGMII Mode the clock frequency is
+25-MHz.
+RMII Master Mode Reference Clock: Identical to MAC IF Clock in
+RMII Master Mode.","0x0000: MAC IF Clock
+0x0001: XI Clock (Pass-Through Clock from XI pin)
+0x0002: Internal Reference Clock: 25-MHz
+0x0003: Reserved
+0x0004: RMII Master Mode Reference Clock: 50-MHz
+0x0005: Reserved
+0x0006: Free Running Clock: 125-MHz
+0x0007: Recovered Clock: 125-MHz"
+,IOCTRL1,,0x0462,11,Reserved,0x0000,RO,Reserved,
+,IOCTRL1,,0x0462,10..8,RX_D3 / GPIO_3 Control,0x0000,RW,"RX_D3 GPIO Configuration:
+000 = Normal operation
+001 = LED_3 (Default: Speed, High for 100Base-TX)
+010 = WoL
+011 = Clock reference according to bits[14:12]
+100 = IEEE 1588 TX Indication
+101 = IEEE 1588 RX Indication
+110 = Constant '0'
+111 = Constand '1'","0x0000: Normal operation
+0x0001: LED_3 (Default: Speed, High for 100Base-TX)
+0x0002: WoL
+0x0003: Clock reference according to bits[14:12]
+0x0004: IEEE 1588 TX Indication
+0x0005: IEEE 1588 RX Indication
+0x0006: Constant '0'
+0x0007: Constand '1'"
+,IOCTRL1,,0x0462,7,Reserved,0x0000,RO,Reserved,
+,IOCTRL1,,0x0462,6..4,LED_1 / GPIO_1 Clock Source,0x0000,RW,"Clock Source:
+If LED_1 is configured as a clock source from bits[2:0] the following field determines the reference
+000 = MAC IF Clock
+001 = XI Clock (Pass-Through Clock from XI pin)
+010 = Internal Reference Clock: 25-MHz
+011 = Reserved
+100 = RMII Master Mode Reference Clock: 50-MHz
+101 = Reserved
+110 = Free Running Clock: 125-MHz
+111 = Recovered Clock: 125-MHz
+MAC IF Clock: MII Mode the clock frequency is 25-MHz, RMII Mode the clock frequency is 50-MHz; RGMII Mode the clock frequency is
+25-MHz.
+RMII Master Mode Reference Clock: Identical to MAC IF Clock in
+RMII Master Mode.","0x0000: MAC IF Clock
+0x0001: XI Clock (Pass-Through Clock from XI pin)
+0x0002: Internal Reference Clock: 25-MHz
+0x0003: Reserved
+0x0004: RMII Master Mode Reference Clock: 50-MHz
+0x0005: Reserved
+0x0006: Free Running Clock: 125-MHz
+0x0007: Recovered Clock: 125-MHz"
+,IOCTRL1,,0x0462,3,Reserved,0x0000,RO,Reserved,
+,IOCTRL1,,0x0462,2..0,LED_1 / GPIO_1 Control,0x0000,RW,"LED_1 GPIO Configuration:
+000 = Tri-state
+001 = LED_1 (Default: Speed, High for 100Base-TX)
+010 = WoL
+011 = Clock reference according to bits[6:4]
+100 = IEEE 1588 TX Indication
+101 = IEEE 1588 RX Indication
+110 = Constant '0'
+111 = Constand '1'","0x0000: Tri-state
+0x0001: LED_1 (Default: Speed, High for 100Base-TX)
+0x0002: WoL
+0x0003: Clock reference according to bits[6:4]
+0x0004: IEEE 1588 TX Indication
+0x0005: IEEE 1588 RX Indication
+0x0006: Constant '0'
+0x0007: Constand '1'"
+,IOCTRL2,,0x0463,15..7,Reserved,0x0000,RO,Reserved,
+,IOCTRL2,,0x0463,6..4,COL / GPIO_2 Clock Source,0x0000,RW,"Clock Source:
+If COL is configured as a clock source from bits[2:0] the following field determines the reference
+000 = MAC IF Clock
+001 = XI Clock (Pass-Through Clock from XI pin)
+010 = Internal Reference Clock: 25-MHz
+011 = Reserved
+100 = RMII Master Mode Reference Clock: 50-MHz
+101 = Reserved
+110 = Free Running Clock: 125-MHz
+111 = Recovered Clock: 125-MHz
+MAC IF Clock: MII Mode the clock frequency is 25-MHz, RMII Mode the clock frequency is 50-MHz; RGMII Mode the clock frequency is
+25-MHz.
+RMII Master Mode Reference Clock: Identical to MAC IF Clock in
+RMII Master Mode.","0x0000: MAC IF Clock
+0x0001: XI Clock (Pass-Through Clock from XI pin)
+0x0002: Internal Reference Clock: 25-MHz
+0x0003: Reserved
+0x0004: RMII Master Mode Reference Clock: 50-MHz
+0x0005: Reserved
+0x0006: Free Running Clock: 125-MHz
+0x0007: Recovered Clock: 125-MHz"
+,IOCTRL2,,0x0463,3,Reserved,0x0000,RO,Reserved,
+,IOCTRL2,,0x0463,2..0,COL / GPIO_2 Control,0x0000,RW,"COL GPIO Configuration:
+000 = Normal operation
+001 = MLED (Register 0x0025)
+010 = WoL
+011 = Clock reference according to bits[6:4]
+100 = IEEE 1588 TX Indication
+101 = IEEE 1588 RX Indication
+110 = Constant '0'
+111 = Constand '1'","0x0000: Normal operation
+0x0001: MLED (Register 0x0025)
+0x0002: WoL
+0x0003: Clock reference according to bits[6:4]
+0x0004: IEEE 1588 TX Indication
+0x0005: IEEE 1588 RX Indication
+0x0006: Constant '0'
+0x0007: Constand '1'"
+,FIBER GENGCF,,0x0465,15..1,Reserved,0x7F80,RW,Reserved,
+,FIBER GENGCF,,0x0465,0,"100Base-FX Signal Detect
+Polarity",0x0000,RW,"100Base-FX Signal Detect Polarity:
+1 = Signal Detect is Active LOW
+0 = Signal Detect is Active HIGH
+When set to Active HIGH, Link drop will occur if SD pin senses a
+LOW state (SD = '0').
+When set to Active LOW, Link drop will occur if SD pin senses a
+HIGH state (SD = '1').
+Note: To enable 100Base-FX Signal Detection on LED_1 (pin #24), strap SD_EN = '1'","0x0001: Signal Detect is Active LOW
+0x0000: Signal Detect is Active HIGH"
+,SOR1,,0x0467,15..14,RX_D1 Strap Mode,0x0000,RO/Strap,"RX_D1 Strap Mode:
+00 = Mode 1
+01 = Mode 2
+10 = Mode 3
+11 = Mode 4
+Please  refer  to  the  strap  section in  the  datasheet for  information regarding PHY configuration.
+Note: Bit values ('00', '01', '10', '11') are just used to indicate the Strap Mode and do not reflect the same bit sequence that is defined in the strap section of the datasheet.","0x0000: Mode 1
+0x0001: Mode 2
+0x0002: Mode 3
+0x0003: Mode 4"
+,SOR1,,0x0467,13..12,RX_D0 Strap Mode,0x0000,RO/Strap,"RX_D0 Strap Mode:
+Use same reference as defined by bits[15:14] in this register.",
+,SOR1,,0x0467,11..10,COL Strap Mode,0x0003,RO/Strap,"COL Strap Mode:
+Use same reference as defined by bits[15:14] in this register.",
+,SOR1,,0x0467,9..8,RX_ER Strap Mode,0x0003,RO/Strap,"RX_ER Strap Mode:
+Use same reference as defined by bits[15:14] in this register.",
+,SOR1,,0x0467,7..6,CRS Strap Mode,0x0003,RO/Strap,"CRS Strap Mode:
+Use same reference as defined by bits[15:14] in this register.",
+,SOR1,,0x0467,5..4,RX_DV Strap Mode,0x0000,RO/Strap,"RX_DV Strap Mode:
+Use same reference as defined by bits[15:14] in this register.",
+,SOR1,,0x0467,3..2,Reserved,0x0000,RO,Reserved,
+,SOR1,,0x0467,1..0,LED_0 Strap Mode,0x0003,RO/Strap,"LED_0 Strap Mode:
+00 = Mode 1
+01 = Reserved
+10 = Reserved
+11 = Mode 4
+Please  refer  to  the  strap  section in  the  datasheet for  information regarding PHY configuration.
+Note: Bit values ('00', '01', '10', '11') are just used to indicate the Strap Mode and do not reflect the same bit sequence that is defined in the strap section of the datasheet.","0x0000: Mode 1
+0x0001: Reserved
+0x0002: Reserved
+0x0003: Mode 4"
+,SOR2,,0x0468,15..4,Reserved,0x0000,RO,Reserved,
+,SOR2,,0x0468,3..2,RX_D3 Strap Mode,0x0000,RO/Strap,"RX_D3 Strap Mode:
+Use same reference as defined by bits[15:14] in register 0x0467.",
+,SOR2,,0x0468,1..0,RX_D2 Strap Mode,0x0000,RO/Strap,"RX_D2 Strap Mode:
+Use same reference as defined by bits[15:14] in register 0x0467.",
+,LEDCFG2,,0x0469,15..11,Reserved,0x0000,RO,Reserved,
+,LEDCFG2,,0x0469,10,LED_1 Polarity,0x0000,RW,"LED_1 Polarity:
+1 = Active High
+0 = Active Low","0x0001: Active High
+0x0000: Active Low"
+,LEDCFG2,,0x0469,9,LED_1 Force Override Value,0x0000,RW,"LED_1 Force Override Value:
+1 = LED_1 forced High
+0 = LED_1 forced Low","0x0001: LED_1 forced High
+0x0000: LED_1 forced Low"
+,LEDCFG2,,0x0469,8,LED_1 Force Override Enable,0x0000,RW,"LED_1 Force Override Enable:
+1 = Enable Force Override
+0 = Disable Force Override
+When enabled, bit[9] in this register determines state of LED_1.","0x0001: Enable Force Override
+0x0000: Disable Force Override"
+,LEDCFG2,,0x0469,7,Reserved,0x0000,RO,Reserved,
+,LEDCFG2,,0x0469,6,LED_3 Polarity,0x0001,RW,"LED_3 Polarity:
+1 = Active High
+0 = Active Low","0x0001: Active High
+0x0000: Active Low"
+,LEDCFG2,,0x0469,5,LED_3 Force Override Value,0x0000,RW,"LED_3 Force Override Value:
+1 = RX_D3 forced High
+0 = RX_D3 forced Low","0x0001: RX_D3 forced High
+0x0000: RX_D3 forced Low"
+,LEDCFG2,,0x0469,4,LED_3 Force Override Enable,0x0000,RW,"LED_3 Force Override Enable:
+1 = Enable Force Override
+0 = Disable Force Override
+When enabled, bit[5] in this register determines state of RX_D3.","0x0001: Enable Force Override
+0x0000: Disable Force Override"
+,LEDCFG2,,0x0469,3..0,Reserved,0x0000,RO,Reserved,
+,RXFCFG,,0x04A0,15..14,Bit Nibble Swap,0x0000,RW,"Bit Nibble Swap:
+00 = Normal order, no swap (RXD[3:0])
+01 = Swap bits order (RXD[0:3])
+10 = Swap nibbles order (RXD[3:0] , RXD[7:4])
+11 = Swap bits order in each nibble (RXD[4:7] , RXD[0:3])","0x0000: Normal order, no swap (RXD[3:0])
+0x0001: Swap bits order (RXD[0:3])
+0x0002: Swap nibbles order (RXD[3:0] , RXD[7:4])
+0x0003: Swap bits order in each nibble (RXD[4:7] , RXD[0:3])"
+,RXFCFG,,0x04A0,13,SFD Byte,0x0000,RW,"SFD Byte Search:
+1 = SFD is 0x5D (i.e. Receive module searches for 0x5D)
+0 = SFD is 0xD5 (i.e. Receive module searches for 0xD5)","0x0001: SFD is 0x5D (i.e. Receive module searches for 0x5D)
+0x0000: SFD is 0xD5 (i.e. Receive module searches for 0xD5)"
+,RXFCFG,,0x04A0,12,CRC Gate,0x0001,RW,"CRC Gate:
+1 = Bad CRC gates Magic Packet and Pattern Indications
+0 = Bad CRC does not gate Magic Packet or Pattern Indications
+If Magic Packet has Bad CRC there will be no indication (status, interrupt, GPIO) when enabled.","0x0001: Bad CRC gates Magic Packet and Pattern Indications
+0x0000: Bad CRC does not gate Magic Packet or Pattern Indications"
+,RXFCFG,,0x04A0,11,"WoL Level Change Indication
+Clear",0x0000,W/SC,"WoL Level Change Indication Clear:
+If WoL Indication is set for Level change mode, this bit clears the level upon a write.",
+,RXFCFG,,0x04A0,10..9,WoL Pulse Indication Select,0x0000,RW,"WoL Pulse Indication Select:
+Only valid when WoL Indication is set for Pulse mode.
+00 = 8 clock cycles (of 125-MHz clock)
+01 = 16 clock cycles
+10 = 32 clock cycles
+11 = 64 clock cycles","0x0000: 8 clock cycles (of 125-MHz clock)
+0x0001: 16 clock cycles
+0x0002: 32 clock cycles
+0x0003: 64 clock cycles"
+,RXFCFG,,0x04A0,8,WoL Indication Select,0x0000,RW,"WoL Indication Select:
+1 = Level change mode
+0 = Pulse mode","0x0001: Level change mode
+0x0000: Pulse mode"
+,RXFCFG,,0x04A0,7,WoL Enable,0x0000,RW,"WoL Enable:
+1 = Enable Wake-on-LAN (WoL)
+0 = Normal operation","0x0001: Enable Wake-on-LAN (WoL)
+0x0000: Normal operation"
+,RXFCFG,,0x04A0,6,Bit Mask Flag,0x0000,RW,Bit Mask Flag,
+,RXFCFG,,0x04A0,5,Secure-ON Enable,0x0000,RW,Enable Secure-ON password for Magic Packets,
+,RXFCFG,,0x04A0,4..2,Reserved,0x0000,RW,Reserved,
+,RXFCFG,,0x04A0,1,WoL Pattern Enable,0x0000,RW,Enable Interrupt upon reception of packet with configured pattern,
+,RXFCFG,,0x04A0,0,WoL Magic Packet Enable,0x0000,RW,Enable Interrupt upon reception of Magic Packet,
+,RXFS,,0x04A1,15..13,Reserved,0x0000,RO,Reserved,
+,RXFS,,0x04A1,12,WoL Interrupt Source,0x0000,RW,"WoL Interrupt Source:
+Source of Interrupt for bit[1] of register 0x0013.
+1 = WoL Interrupt
+0 = Data Polarity Interrupt
+When enabling WoL, this bit is automatically set to WoL Interrupt.","0x0001: WoL Interrupt
+0x0000: Data Polarity Interrupt"
+,RXFS,,0x04A1,11..8,Reserved,0x0000,RO,Reserved,
+,RXFS,,0x04A1,7,SFD Error,0x0000,RO/LH/SC,"SFD Error:
+1 = Packet with SFD error
+0 = No SFD error","0x0001: Packet with SFD error
+0x0000: No SFD error"
+,RXFS,,0x04A1,6,Bad CRC,0x0000,RO/LH/SC,"Bad CRC:
+1 = Bad CRC was received
+0 = No bad CRC received","0x0001: Bad CRC was received
+0x0000: No bad CRC received"
+,RXFS,,0x04A1,5,Secure-On Hack Flag,0x0000,RO/LH/SC,"Secure-ON Hack Flag:
+1 = Invalid Password detected in Magic Packet
+0 = Valid Secure-ON Password","0x0001: Invalid Password detected in Magic Packet
+0x0000: Valid Secure-ON Password"
+,RXFS,,0x04A1,4..2,Reserved,0x0000,RO/LH/SC,Reserved,
+,RXFS,,0x04A1,1,WoL Pattern Status,0x0000,RO/LH/SC,"WoL Pattern Status:
+1 = Valid packet with configured pattern received
+0 = No valid packet with configured pattern received","0x0001: Valid packet with configured pattern received
+0x0000: No valid packet with configured pattern received"
+,RXFS,,0x04A1,0,WoL Magic Packet Status,0x0000,RO/LH/SC,"WoL Magic Packet Status:
+1 = Valid Magic Packet received
+0 = No valid Magic Packet received","0x0001: Valid Magic Packet received
+0x0000: No valid Magic Packet received"
+,RXFPMD1,,0x04A2,15..8,"MAC Destination Address Byte
+4",0x0000,RW,"Perfect Match Data:
+Configured for MAC Destination Address",
+,RXFPMD1,,0x04A2,7..0,"MAC Destination Address Byte
+5",0x0000,RW,"Perfect Match Data:
+Configured for MAC Destination Address",
+,RXFPMD2,,0x04A3,15..8,"MAC Destination Address Byte
+2",0x0000,RW,"Perfect Match Data:
+Configured for MAC Destination Address",
+,RXFPMD2,,0x04A3,7..0,"MAC Destination Address Byte
+3",0x0000,RW,"Perfect Match Data:
+Configured for MAC Destination Address",
+,RXFPMD3,,0x04A4,15..8,"MAC Destination Address Byte
+0",0x0000,RW,"Perfect Match Data:
+Configured for MAC Destination Address",
+,RXFPMD3,,0x04A4,7..0,"MAC Destination Address Byte
+1",0x0000,RW,"Perfect Match Data:
+Configured for MAC Destination Address",
+,RXFSOP1,,0x04A5,15..8,Secure-ON Password Byte 1,0x0000,RW,"Secure-ON Password Select:
+Secure-ON password for Magic Packets",
+,RXFSOP1,,0x04A5,7..0,Secure-ON Password Byte 0,0x0000,RW,"Secure-ON Password Select:
+Secure-ON password for Magic Packets",
+,RXFSOP2,,0x04A6,15..8,Secure-ON Password Byte 3,0x0000,RW,"Secure-ON Password Select:
+Secure-ON password for Magic Packets",
+,RXFSOP2,,0x04A6,7..0,Secure-ON Password Byte 2,0x0000,RW,"Secure-ON Password Select:
+Secure-ON password for Magic Packets",
+,RXFSOP3,,0x04A7,15..8,Secure-ON Password Byte 5,0x0000,RW,"Secure-ON Password Select:
+Secure-ON password for Magic Packets",
+,RXFSOP3,,0x04A7,7..0,Secure-ON Password Byte 4,0x0000,RW,"Secure-ON Password Select:
+Secure-ON password for Magic Packets",
+,RXFPAT1,,0x04A8,15..8,Pattern Byte 1,0x0000,RW,"Pattern Configuration:
+Configures byte 1 of the pattern",
+,RXFPAT1,,0x04A8,7..0,Pattern Byte 0,0x0000,RW,"Pattern Configuration:
+Configures byte 0 of the pattern",
+,RXFPAT2,,0x04A9,15..8,Pattern Byte 3,0x0000,RW,"Pattern Configuration:
+Configures byte 3 of the pattern",
+,RXFPAT2,,0x04A9,7..0,Pattern Byte 2,0x0000,RW,"Pattern Configuration:
+Configures byte 2 of the pattern",
+,RXFPAT3,,0x04AA,15..8,Pattern Byte 5,0x0000,RW,"Pattern Configuration:
+Configures byte 5 of the pattern",
+,RXFPAT3,,0x04AA,7..0,Pattern Byte 4,0x0000,RW,"Pattern Configuration:
+Configures byte 4 of the pattern",
+,RXFPAT4,,0x04AB,15..8,Pattern Byte 7,0x0000,RW,"Pattern Configuration:
+Configures byte 7 of the pattern",
+,RXFPAT4,,0x04AB,7..0,Pattern Byte 6,0x0000,RW,"Pattern Configuration:
+Configures byte 6 of the pattern",
+,RXFPAT5,,0x04AC,15..8,Pattern Byte 9,0x0000,RW,"Pattern Configuration:
+Configures byte 9 of the pattern",
+,RXFPAT5,,0x04AC,7..0,Pattern Byte 8,0x0000,RW,"Pattern Configuration:
+Configures byte 8 of the pattern",
+,RXFPAT6,,0x04AD,15..8,Pattern Byte 11,0x0000,RW,"Pattern Configuration:
+Configures byte 11 of the pattern",
+,RXFPAT6,,0x04AD,7..0,Pattern Byte 10,0x0000,RW,"Pattern Configuration:
+Configures byte 10 of the pattern",
+,RXFPAT7,,0x04AE,15..8,Pattern Byte 13,0x0000,RW,"Pattern Configuration:
+Configures byte 13 of the pattern",
+,RXFPAT7,,0x04AE,7..0,Pattern Byte 12,0x0000,RW,"Pattern Configuration:
+Configures byte 12 of the pattern",
+,RXFPAT8,,0x04Af,15..8,Pattern Byte 15,0x0000,RW,"Pattern Configuration:
+Configures byte 15 of the pattern",
+,RXFPAT8,,0x04Af,7..0,Pattern Byte 14,0x0000,RW,"Pattern Configuration:
+Configures byte 14 of the pattern",
+,RXFPAT9,,0x04B0,15..8,Pattern Byte 17,0x0000,RW,"Pattern Configuration:
+Configures byte 17 of the pattern",
+,RXFPAT9,,0x04B0,7..0,Pattern Byte 16,0x0000,RW,"Pattern Configuration:
+Configures byte 16 of the pattern",
+,RXFPAT10,,0x04B1,15..8,Pattern Byte 19,0x0000,RW,"Pattern Configuration:
+Configures byte 19 of the pattern",
+,RXFPAT10,,0x04B1,7..0,Pattern Byte 18,0x0000,RW,"Pattern Configuration:
+Configures byte 18 of the pattern",
+,RXFPAT11,,0x04B2,15..8,Pattern Byte 21,0x0000,RW,"Pattern Configuration:
+Configures byte 21 of the pattern",
+,RXFPAT11,,0x04B2,7..0,Pattern Byte 20,0x0000,RW,"Pattern Configuration:
+Configures byte 20 of the pattern",
+,RXFPAT12,,0x04B3,15..8,Pattern Byte 23,0x0000,RW,"Pattern Configuration:
+Configures byte 23 of the pattern",
+,RXFPAT12,,0x04B3,7..0,Pattern Byte 22,0x0000,RW,"Pattern Configuration:
+Configures byte 22 of the pattern",
+,RXFPAT13,,0x04B4,15..8,Pattern Byte 25,0x0000,RW,"Pattern Configuration:
+Configures byte 25 of the pattern",
+,RXFPAT13,,0x04B4,7..0,Pattern Byte 24,0x0000,RW,"Pattern Configuration:
+Configures byte 24 of the pattern",
+,RXFPAT14,,0x04B5,15..8,Pattern Byte 27,0x0000,RW,"Pattern Configuration:
+Configures byte 27 of the pattern",
+,RXFPAT14,,0x04B5,7..0,Pattern Byte 26,0x0000,RW,"Pattern Configuration:
+Configures byte 26 of the pattern",
+,RXFPAT15,,0x04B6,15..8,Pattern Byte 29,0x0000,RW,"Pattern Configuration:
+Configures byte 29 of the pattern",
+,RXFPAT15,,0x04B6,7..0,Pattern Byte 28,0x0000,RW,"Pattern Configuration:
+Configures byte 28 of the pattern",
+,RXFPAT16,,0x04B7,15..8,Pattern Byte 31,0x0000,RW,"Pattern Configuration:
+Configures byte 31 of the pattern",
+,RXFPAT16,,0x04B7,7..0,Pattern Byte 30,0x0000,RW,"Pattern Configuration:
+Configures byte 30 of the pattern",
+,RXFPAT17,,0x04B8,15..8,Pattern Byte 33,0x0000,RW,"Pattern Configuration:
+Configures byte 33 of the pattern",
+,RXFPAT17,,0x04B8,7..0,Pattern Byte 32,0x0000,RW,"Pattern Configuration:
+Configures byte 32 of the pattern",
+,RXFPAT18,,0x04B9,15..8,Pattern Byte 35,0x0000,RW,"Pattern Configuration:
+Configures byte 35 of the pattern",
+,RXFPAT18,,0x04B9,7..0,Pattern Byte 34,0x0000,RW,"Pattern Configuration:
+Configures byte 34 of the pattern",
+,RXFPAT19,,0x04BA,15..8,Pattern Byte 37,0x0000,RW,"Pattern Configuration:
+Configures byte 37 of the pattern",
+,RXFPAT19,,0x04BA,7..0,Pattern Byte 36,0x0000,RW,"Pattern Configuration:
+Configures byte 36 of the pattern",
+,RXFPAT20,,0x04BB,15..8,Pattern Byte 39,0x0000,RW,"Pattern Configuration:
+Configures byte 39 of the pattern",
+,RXFPAT20,,0x04BB,7..0,Pattern Byte 38,0x0000,RW,"Pattern Configuration:
+Configures byte 38 of the pattern",
+,RXFPAT21,,0x04BC,15..8,Pattern Byte 41,0x0000,RW,"Pattern Configuration:
+Configures byte 41 of the pattern",
+,RXFPAT21,,0x04BC,7..0,Pattern Byte 40,0x0000,RW,"Pattern Configuration:
+Configures byte 40 of the pattern",
+,RXFPAT22,,0x04BD,15..8,Pattern Byte 43,0x0000,RW,"Pattern Configuration:
+Configures byte 43 of the pattern",
+,RXFPAT22,,0x04BD,7..0,Pattern Byte 42,0x0000,RW,"Pattern Configuration:
+Configures byte 42 of the pattern",
+,RXFPAT23,,0x04BE,15..8,Pattern Byte 45,0x0000,RW,"Pattern Configuration:
+Configures byte 45 of the pattern",
+,RXFPAT23,,0x04BE,7..0,Pattern Byte 44,0x0000,RW,"Pattern Configuration:
+Configures byte 44 of the pattern",
+,RXFPAT24,,0x04BF,15..8,Pattern Byte 47,0x0000,RW,"Pattern Configuration:
+Configures byte 47 of the pattern",
+,RXFPAT24,,0x04BF,7..0,Pattern Byte 46,0x0000,RW,"Pattern Configuration:
+Configures byte 46 of the pattern",
+,RXFPAT25,,0x04C0,15..8,Pattern Byte 49,0x0000,RW,"Pattern Configuration:
+Configures byte 49 of the pattern",
+,RXFPAT25,,0x04C0,7..0,Pattern Byte 48,0x0000,RW,"Pattern Configuration:
+Configures byte 48 of the pattern",
+,RXFPAT26,,0x04C1,15..8,Pattern Byte 51,0x0000,RW,"Pattern Configuration:
+Configures byte 51 of the pattern",
+,RXFPAT26,,0x04C1,7..0,Pattern Byte 50,0x0000,RW,"Pattern Configuration:
+Configures byte 50 of the pattern",
+,RXFPAT27,,0x04C2,15..8,Pattern Byte 53,0x0000,RW,"Pattern Configuration:
+Configures byte 53 of the pattern",
+,RXFPAT27,,0x04C2,7..0,Pattern Byte 52,0x0000,RW,"Pattern Configuration:
+Configures byte 52 of the pattern",
+,RXFPAT28,,0x04C3,15..8,Pattern Byte 55,0x0000,RW,"Pattern Configuration:
+Configures byte 55 of the pattern",
+,RXFPAT28,,0x04C3,7..0,Pattern Byte 54,0x0000,RW,"Pattern Configuration:
+Configures byte 54 of the pattern",
+,RXFPAT29,,0x04C4,15..8,Pattern Byte 57,0x0000,RW,"Pattern Configuration:
+Configures byte 57 of the pattern",
+,RXFPAT29,,0x04C4,7..0,Pattern Byte 56,0x0000,RW,"Pattern Configuration:
+Configures byte 56 of the pattern",
+,RXFPAT30,,0x04C5,15..8,Pattern Byte 59,0x0000,RW,"Pattern Configuration:
+Configures byte 59 of the pattern",
+,RXFPAT30,,0x04C5,7..0,Pattern Byte 58,0x0000,RW,"Pattern Configuration:
+Configures byte 58 of the pattern",
+,RXFPAT31,,0x04C6,15..8,Pattern Byte 61,0x0000,RW,"Pattern Configuration:
+Configures byte 61 of the pattern",
+,RXFPAT31,,0x04C6,7..0,Pattern Byte 60,0x0000,RW,"Pattern Configuration:
+Configures byte 60 of the pattern",
+,RXFPAT32,,0x04C7,15..8,Pattern Byte 63,0x0000,RW,"Pattern Configuration:
+Configures byte 63 of the pattern",
+,RXFPAT32,,0x04C7,7..0,Pattern Byte 62,0x0000,RW,"Pattern Configuration:
+Configures byte 62 of the pattern",
+,RXFPBM1,,0x04C8,15..0,Mask Bytes 0 to 15,0x0000,RW,Pattern Byte Mask Configuration: Configures masks for bytes 0 to 15. For each byte '1' means it is masked.,
+,RXFPBM2,,0x04C9,15..0,Mask Bytes 16 to 31,0x0000,RW,Pattern Byte Mask Configuration: Configures masks for bytes 16 to 31. For each byte '1' means it is masked.,
+,RXFPBM3,,0x04CA,15..0,Mask Bytes 32 to 47,0x0000,RW,Pattern Byte Mask Configuration: Configures masks for bytes 32 to 47. For each byte '1' means it is masked.,
+,RXFPBM4,,0x04CB,15..0,Mask Bytes 48 to 63,0x0000,RW,Pattern Byte Mask Configuration: Configures masks for bytes 48 to 63. For each byte '1' means it is masked.,
+,RXFPATC,,0x04CC,15..6,Reserved,0x0000,RO,Reserved,
+,RXFPATC,,0x04CC,5..0,Pattern Start Point,0x000C,RW,"Pattern Start Point:
+Number of bytes after SFD where comparison begins on RX packets to the configured pattern.
+00000 = Start compare on 1st byte after SFD
+00001 = Start compare on 2nd byte after SFD
+...
+01100 = Start compare on 13th byte (Default)
+Default setting is 0xC, which means the pattern comparision will begin after source and destination addresses since they are each 6 bytes.","0x0000: Start compare on 1st byte after SFD
+0x0001: Start compare on 2nd byte after SFD
+0x000C: Start compare on 13th byte (Default)"
+,EEECFG2,,0x04D0,15,Reserved,0x0000,RO,Reserved,
+,EEECFG2,,0x04D0,14,TX_ER for LPI Request,0x0000,RW,"TX_ER for LPI Request:
+1 = TX_ER used for LPI Request
+0 = TX_ER not used for LPI Request","0x0001: TX_ER used for LPI Request
+0x0000: TX_ER not used for LPI Request"
+,EEECFG2,,0x04D0,13..7,Reserved,0x0006,RO,Reserved,
+,EEECFG2,,0x04D0,6..5,TX_ER Pin Select,0x0000,RW,"TX_ER Pin Select:
+00 = No Pin Selected
+01 = INT/PWDN
+10 = COL/GPIO
+11 = No Pin Selected","0x0000: No Pin Selected
+0x0001: INT/PWDN
+0x0002: COL/GPIO
+0x0003: No Pin Selected"
+,EEECFG2,,0x04D0,4..0,Reserved,0x0002,RO,Reserved,
+,EEECFG3,,0x04D1,15..4,Reserved,0x0018,RW,Reserved,
+,EEECFG3,,0x04D1,3,EEE Capabilities Bypass,0x0001,RW,"EEE Advertise Bypass:
+1 = Bit [0] determines EEE Auto-Negotiation Abilities
+0 = MMD3 and MMD7 determine EEE Auto-Negotiation Abilities
+Allows  for  EEE  Advertisment  during  Auto-Negotiation to  be determined by bit[0] in register 0x04D1 rather than the Next Page Registers (Register 0x003C and Register 0x003D in MMD7).","0x0001: Bit [0] determines EEE Auto-Negotiation Abilities
+0x0000: MMD3 and MMD7 determine EEE Auto-Negotiation Abilities"
+,EEECFG3,,0x04D1,2,EEE Next Page Disable,0x0000,RW,"EEE Next Page Disable:
+1 = Reception of EEE Next Pages is disabled
+0 = Reception of EEE Next Pages is enabled","0x0001: Reception of EEE Next Pages is disabled
+0x0000: Reception of EEE Next Pages is enabled"
+,EEECFG3,,0x04D1,1,EEE RX Path Shutdown,0x0001,RW,"EEE RX Path Shutdown:
+1= Enable shutdown of Analog RX path at LPI_Quiet
+0 = Analog RX path is active during LPI_Quiet",0x0000: Analog RX path is active during LPI_Quiet
+,EEECFG3,,0x04D1,0,EEE Capabilities Enable,0x0000,RW/Strap,"EEE Capabilities Enable:
+1 = PHY supports EEE capabilities
+0 = PHY does not support EEE
+When enabled, Auto-Negotiation will negotiate to EEE as defined by register 0x003C and register 0x003D in MMD7.
+When  disabled,  register  0x0014  in  MMD3,  register  0x003C  and register 0x003D in MMD7 are ignored.","0x0001: PHY supports EEE capabilities
+0x0000: PHY does not support EEE"
+,TLBCR1,,0x04D4,15..0,Reserved,0x7220,RW,Reserved,
+,TLBCR2,,0x04D5,15..0,Reserved,0xFBC1,RW,Reserved,
+,TLBCR3,,0x04D6,15..0,Reserved,0x01C1,RW,Reserved,
+,MMD3_PCS_CTRL_1,,0x3000,15,PCS Reset,0x0000,RW/SC,"PCS Reset:
+1 = Soft Reset of MMD3, MMD7 and PCS registers
+0 = Normal operation
+Reset clears MMD3, MMD7 and PCS registers. Reset does not clear
+Vendor Specific Registers (DEVAD = 31).","0x0001: Soft Reset of MMD3, MMD7 and PCS registers
+0x0000: Normal operation"
+,MMD3_PCS_CTRL_1,,0x3000,14..11,Reserved,0x0000,RO,Reserved,
+,MMD3_PCS_CTRL_1,,0x3000,10,RX Clock Stoppable,0x0000,RW,"RX Clock Stoppable:
+1 = Receive Clock stoppable during LPI
+0 = Receive Clock not stoppable","0x0001: Receive Clock stoppable during LPI
+0x0000: Receive Clock not stoppable"
+,MMD3_PCS_CTRL_1,,0x3000,9..0,Reserved,0x0000,RO,Reserved,
+,MMD3_PCS_STATUS_1,, 0x3001 ,15..12,Reserved,0x0000,RO,Reserved,
+,MMD3_PCS_STATUS_1,, 0x3001 ,11,TX LPI Received,0x0000,RO,"TX LPI Received:
+1 = TX PCS has received LPI
+0 = LPI not received","0x0001: TX PCS has received LPI
+0x0000: LPI not received"
+,MMD3_PCS_STATUS_1,, 0x3001 ,10,RX LPI Received,0x0000,RO,"RX LPI Received:
+1 = RX PCS has received LPI
+0 = LPI not received","0x0001: RX PCS has received LPI
+0x0000: LPI not received"
+,MMD3_PCS_STATUS_1,, 0x3001 ,9,TX LPI Indication,0x0000,RO,"TX LPI Indication:
+1 = TX PCS is currently receiving LPI
+0 = TX PCS is not currently receiving LPI","0x0001: TX PCS is currently receiving LPI
+0x0000: TX PCS is not currently receiving LPI"
+,MMD3_PCS_STATUS_1,, 0x3001 ,8,RX LPI Indication,0x0000,RO,"RX LPI Indication:
+1 = RX PCS is currently receiving LPI
+0 = RX PCS is not currenly receiving LPI","0x0001: RX PCS is currently receiving LPI
+0x0000: RX PCS is not currenly receiving LPI"
+,MMD3_PCS_STATUS_1,, 0x3001 ,7,Reserved,0x0000,RO,Reserved,
+,MMD3_PCS_STATUS_1,, 0x3001 ,6,TX Clock Stoppable,0x0000,RO,"TX Clock Stoppable:
+1 = MAC may stop clock during LPI
+0 = TX Clock is not stoppable","0x0001: MAC may stop clock during LPI
+0x0000: TX Clock is not stoppable"
+,MMD3_PCS_STATUS_1,, 0x3001 ,5..0,Reserved,0x0000,RO,Reserved,
+,MMD3_EEE_CAPABILITY,,0x3014,15..3,Reserved,0x0000,RO,Reserved,
+,MMD3_EEE_CAPABILITY,,0x3014,2,EEE 1Gbps Enable,0x0000,RO,"EEE 1Gbps Enable:
+1 = EEE is supported for 1000Base-T
+0 = EEE is not supported for 1000Base-T","0x0001: EEE is supported for 1000Base-T
+0x0000: EEE is not supported for 1000Base-T"
+,MMD3_EEE_CAPABILITY,,0x3014,1,EEE 100Mbps Enable,0x0000,RO,"EEE 100Mbps Enable:
+1 = EEE is supported for 100Base-TX
+0 = EEE is not supported for 100Base-TX","0x0001: EEE is supported for 100Base-TX
+0x0000: EEE is not supported for 100Base-TX"
+,MMD3_EEE_CAPABILITY,,0x3014,0,Reserved,0x0000,RO,Reserved,
+,MMD3_WAKE_ERR_CNT,,0x3016,15..0,EEE Wake Error Counter,0x0000,RO/LH,"EEE Wake Error Counter:
+This register counts the wake time faults where the PHY fails to complete its normal wake sequence within the time required for the specific PHY type.
+This counter is cleared after a read and holds at all ones in the case of overflow. PCS Reset also clears this register.",
+,MMD7_EEE_ADVERTISEMENT,,0x703C ,15..2,Reserved,0x0000,RO,Reserved,
+,MMD7_EEE_ADVERTISEMENT,,0x703C ,1,Advertise 100Base-TX EEE,0x0001,RW,"Advertise 100Base-TX EEE:
+1 = Energy Efficient Ethernet is advertised for 100Base-TX
+0 = Energy Efficient Ethernet is not advertised","0x0001: Energy Efficient Ethernet is advertised for 100Base-TX
+0x0000: Energy Efficient Ethernet is not advertised"
+,MMD7_EEE_ADVERTISEMENT,,0x703C ,0,Reserved,0x0000,RO,Reserved,
+,MMD7_EEE_LP_ABILITY,,0x703D ,15..2,Reserved,0x0000,RO,Reserved,
+,MMD7_EEE_LP_ABILITY,,0x703D ,1,Link Partner EEE Capability,0x0000,RO,"Link Partner EEE Capability:
+1 = Link Partner is advertising EEE capability for 100Base-TX
+0 = Link Partner is not advertising EEE capability for 100Base-TX","0x0001: Link Partner is advertising EEE capability for 100Base-TX
+0x0000: Link Partner is not advertising EEE capability for 100Base-TX"
+,MMD7_EEE_LP_ABILITY,,0x703D ,0,Reserved,0x0000,RO,Reserved,
